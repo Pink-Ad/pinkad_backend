@@ -46,7 +46,10 @@ class AreaController extends Controller
     }
     public function areaApi(Request $request)
     {
-        $area = Area::where('city_id',$request->city_id)->where('status',1)->get();
+        $area = Area::where('city_id',$request->city_id)
+        ->where('status',1)
+        ->orderBy('name', 'asc')
+        ->get();
         return $area;
     }
 }

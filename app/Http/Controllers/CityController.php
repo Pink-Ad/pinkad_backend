@@ -51,7 +51,10 @@ class CityController extends Controller
     }
     public function cityListApi(Request $request)
     {
-        $city = City::with('province')->where('status',1)->get();
+        $city = City::with('province')
+        ->where('status',1)
+        ->orderBy('name', 'asc')
+        ->get();
         return $city;
     }
 }

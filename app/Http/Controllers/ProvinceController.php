@@ -41,7 +41,10 @@ class ProvinceController extends Controller
     }
     public function provinceApi()
     {
-        $province = Province::where('status',1)->get();
-        return $province;
+        $provinces = Province::where('status', 1)
+        ->orderBy('name', 'asc') 
+        ->get();
+    
+       return $provinces;
     }
 }

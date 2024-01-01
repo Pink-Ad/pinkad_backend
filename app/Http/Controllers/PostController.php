@@ -235,4 +235,18 @@ class PostController extends Controller
         }
         return redirect()->back();
     }
+
+
+    public function filterpostsbanner(Request $request)
+{
+    $categoryId = $request->input('category_id');
+    $areaId = $request->input('area_id');
+
+    $filteredPosts = Post::where('category_id', $categoryId)
+                         ->where('area', $areaId)
+                         ->whereNotNull('banner')
+                         ->get();
+
+    return response()->json(['filtered_banner_posts' => $filteredPosts]);
+}
 }

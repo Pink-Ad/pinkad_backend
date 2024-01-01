@@ -162,21 +162,21 @@ class AuthController extends Controller
     {
         //  dd($request->all());
         try {
-            $request->validate([
-                'name' => 'required|string|max:255',
-                'email' => 'required|string|email|max:255|unique:users',
-                'password' => 'required|string|min:6',
-                'role' => 'required|numeric|In:2,3',
-                'phone' => 'required|string',
-                'area_id' => 'required|numeric|exists:area,id',
-
-                // 'whatsapp' => 'required|string',
-
-                // 'faecbook_page' => 'required|string',
-                // 'insta_page' => 'required|string',
-                // 'web_url' => 'required|string',
-            ]);
+        
             if ($request->role == 2) {
+
+                $request->validate([
+                    'name' => 'required|string|max:255',
+                    'email' => 'required|string|email|max:255|unique:users',
+                    'password' => 'required|string|min:6',
+                    'role' => 'required|numeric|In:2,3',
+                    'phone' => 'required|string',
+                    'area_id' => 'required|numeric|exists:area,id',
+                    // 'whatsapp' => 'required|string',
+                    // 'faecbook_page' => 'required|string',
+                    // 'insta_page' => 'required|string',
+                    // 'web_url' => 'required|string',
+                ]);
                 $request->validate([
 
                     'isFeatured' => 'required|string',
@@ -197,15 +197,28 @@ class AuthController extends Controller
                     ]);
                 }
             }
-            $user = User::create([
+            if ($request->role == 2) {
+               $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
                 'role' => $request->role,
             ]);
-            $credentials = $request->only('email', 'password');
-            $token = auth('api')->attempt($credentials);
+           }
+            else{
+                $user = User::create([
+                'name' => 'guest',
+                'email' => 'guest@email.com',
+                "password" => Hash::make("12345678"),
+                'role' => 3,
+                ]);
+                
+            }
+            
+           
             if ($request->role == 2) {
+                $credentials = $request->only('email', 'password');
+                $token = auth('api')->attempt($credentials);
                 $NEW_SELLER = Seller::latest()->first();
                 if (empty($NEW_SELLER)) {
                     $expNum[1] = 0;
@@ -272,10 +285,13 @@ class AuthController extends Controller
                 $shop->area = $request->area_id;
                 $shop->save();
             }
-            if ($request->role == 3) {
+            else {
+               
+                $token = 'guest_token';
+                
                 $customer = new Customer();
                 $customer->user_id = $user->id;
-                $customer->area_id = $request->area_id;
+                $customer->area_id = '1';
 
                 if ($request->has('business_name') && $request->business_name) {
                     $customer->business_name = $request->business_name;
