@@ -59,10 +59,16 @@ class CustomerController extends Controller
     {
         // dd($request->all());
         $user = User::create([
+            //  for user mode
             "name" => $request->first_name." ".$request->last_name,
             "email" => $request->email,
             "role" => 3,
             "password" => Hash::make("12345678"),
+            // for guest mode
+            // "name" => 'guest',
+            // "email" => 'guest@email.com',
+            // "role" => 3,
+            // "password" => Hash::make("12345678"),
         ]);
         $customer = new Customer();
         $customer->user_id = $user->id;
