@@ -75,7 +75,11 @@ class PostController extends Controller
                 foreach ($request->shop_id as $row) {
                     $data['shop_id'] = $row;
                     $data['status'] = 2;
+                    // 
                     $offer = Post::create($data);
+                    $offer->offer_link = 'https://www.pinkad.pk/offer?id='.$offer->id;
+                    $offer->save();
+                    // 
                     if ($request->has('subcat_id')) {
                         foreach ($request->subcat_id as $item) {
                             $offer_data['offer_id'] = $offer->id;
@@ -242,11 +246,21 @@ class PostController extends Controller
     $categoryId = $request->input('category_id');
     $areaId = $request->input('area_id');
 
+// Check if both category_id and area_id are provided
+if ($categoryId && $areaId) {
     $filteredPosts = Post::where('category_id', $categoryId)
                          ->where('area', $areaId)
                          ->whereNotNull('banner')
                          ->get();
 
     return response()->json(['filtered_banner_posts' => $filteredPosts]);
+} elseif (!$categoryId) {
+    // Category ID not provided, return error
+    return response()->json(['error' => 'Category ID is required.'], 400);
+} elseif (!$areaId) {
+    // Area ID not provided, return error
+    return response()->json(['error' => 'Area ID is required.'], 400);
+}
+
 }
 }

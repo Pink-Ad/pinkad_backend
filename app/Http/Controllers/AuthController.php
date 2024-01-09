@@ -271,6 +271,10 @@ class AuthController extends Controller
                     $seller->coverimage = $this->seller_logo($request->coverimage);
                 }
                 $seller->save();
+                // 
+                $seller->seller_link = 'https://www.pinkad.pk/seller?id='.$seller->id;
+                $seller->save();
+                // 
                 $data['seller_id'] = $seller->id;
                 $data['name'] = $request->name;
                 $data['area'] = $request->area_id;
@@ -317,16 +321,16 @@ class AuthController extends Controller
                 }
                 $customer->save();
             }
-            // $verify_token =  $this->generateRandomString(100);
-            // $data1 = array();
-            // $data1['verify_token'] = "http://ms-hostingladz.com/DigitalBrand/email/verify/" . $request->email . "/" . $verify_token;
-            // $cmd = DB::connection('mysql')->table('users')
-            //     ->where('email', $request->email)
-            //     ->update(['remember_token' => $verify_token, 'updated_at' => Carbon::now()]);
-            // $data1['email'] = $request->email;
-            // Mail::send('admin.pages.email.forgot-pass', ['data' => $data1], function ($message)use($data1) {
-            //     $message->to($data1['email'], 'Email Verification')->subject('Verify Your Email');
-            // });
+            $verify_token =  $this->generateRandomString(100);
+            $data1 = array();
+            $data1['verify_token'] = "http://ms-hostingladz.com/DigitalBrand/email/verify/" . $request->email . "/" . $verify_token;
+            $cmd = DB::connection('mysql')->table('users')
+                ->where('email', $request->email)
+                ->update(['remember_token' => $verify_token, 'updated_at' => Carbon::now()]);
+            $data1['email'] = $request->email;
+            Mail::send('admin.pages.email.signup_verification', ['data' => $data1], function ($message)use($data1) {
+                $message->to($data1['email'], 'Email Verification')->subject('Verify Your Email');
+            });
 
             return response()->json([
                 'status' => 'success',
