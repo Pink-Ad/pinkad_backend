@@ -149,21 +149,24 @@
                                                                                     <div class="p-4">
                                                                                         <div class="form-row border-bottom mb-4" >
                                                                                             <div class="col-md-6 mb-3">
-                                                                                                <label for="name1">Name: {{ $row->user->name }}</label>
+                                                                                                <label for="name1">{{ $row->user->name }}</label>
                                                                                             </div>
                                                                                             <div class="col-md-6 mb-3">
-                                                                                                <label for="title1">Phone: {{ $row->phone }} </label>
+                                                                                                <label for="title1">Whatsapp: {{ $row->whatsapp }} </label>
                                                                                             </div>
                                                                                             <div class="col-md-6 mb-3">
-                                                                                                <label for="phone1">CNIC: 42201-4501150-3 </label>
+                                                                                                <label for="phone1">Facebook: {{ $row->faecbook_page }} </label>
                                                                                             </div>
                                                                                             <div class="col-md-6 mb-3">
-                                                                                                <label for="phone1">Email: {{ $row->user->email }}</label>
+                                                                                                <label for="phone1">Instagram: {{ $row->insta_page }} </label>
+                                                                                            </div>
+                                                                                            <div class="col-md-6 mb-3">
+                                                                                                <label for="phone1">Website: {{ $row->web_url }} </label>
                                                                                             </div>
                                                                                             <div class="col-md-12 mb-3">
                                                                                                 <label for="phone1">Address: {{ $row->business_address }}</label>
                                                                                             </div>
-                                                                                            <div class="col-md-4 mb-3">
+                                                                                            <!-- <div class="col-md-4 mb-3">
                                                                                                 <label class="">Age: 21</label>
                                                                                             </div>
                                                                                             <div class="col-md-4 mb-3">
@@ -174,7 +177,7 @@
                                                                                             </div>
                                                                                             <div class="col-md-4 mb-3">
                                                                                                 <label class="">Marital Status: Single</label>
-                                                                                            </div>
+                                                                                            </div> -->
                                                                                         </div>
                                                                                         <h5 class="">Account Details</h5>
                                                                                         <div class="form-row">
