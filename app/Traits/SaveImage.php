@@ -111,8 +111,8 @@ trait SaveImage
         $filenamenew = date('Y-m-d') . "_." . $numb . "_." . $extension;
 
         // Set the desired width and height
-        $width = 1048; // Replace with your desired width
-        $height = 1048; // Replace with your desired height
+        $width = 1080; // Replace with your desired width
+        $height = 1080; // Replace with your desired height
 
         // Resize the image
         $resizedImage = Image::make($img)->resize($width, $height);

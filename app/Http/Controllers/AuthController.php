@@ -288,6 +288,16 @@ class AuthController extends Controller
                 $shop = Shop::create($data);
                 $shop->area = $request->area_id;
                 $shop->save();
+                $response = [
+                    'status' => 'success',
+                    'message' => 'User created successfully',
+                    'seller_link' => $seller->seller_link,
+                    'user' => $user,
+                    'authorisation' => [
+                        'token' => $token,
+                        'type' => 'bearer',
+                    ]
+                ];
             }
             else {
                
@@ -320,6 +330,15 @@ class AuthController extends Controller
                     $customer->web_url = $request->web_url;
                 }
                 $customer->save();
+                $response = [
+                    'status' => 'success',
+                    'message' => 'Guest  created successfully',
+                    'user' => $user,
+                    'authorisation' => [
+                        'token' => $token,
+                        'type' => 'bearer',
+                    ]
+                ];
             }
             $verify_token =  $this->generateRandomString(100);
             $data1 = array();
@@ -332,15 +351,6 @@ class AuthController extends Controller
                 $message->to($data1['email'], 'Email Verification')->subject('Verify Your Email');
             });
 
-            return response()->json([
-                'status' => 'success',
-                'message' => 'User created successfully',
-                'user' => $user,
-                'authorisation' => [
-                    'token' => $token,
-                    'type' => 'bearer',
-                ]
-            ]);
         } catch (Exception $ex) {
             return response()->json([
                 'status' => 'error',

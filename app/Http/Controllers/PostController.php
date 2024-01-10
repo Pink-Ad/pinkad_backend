@@ -101,7 +101,7 @@ class PostController extends Controller
                 // $graphNode = $response->getGraphNode();
                 // dd($graphNode);
 
-                return response()->json(['message' => "Offer created Successfully..."]);
+                return response()->json(['message' => 'Offer created successfully', 'offer_link' => $offer->offer_link]);
             } else {
                 return response()->json(['error' => "You've to make the shop first..."]);
             }
@@ -263,4 +263,19 @@ if ($categoryId && $areaId) {
 }
 
 }
+public function getPostsBySeller(Request $request)
+{
+    try {
+        $seller_id = $request->seller_id;
+        $seller_posts = Post::whereHas('shop', function ($query) use ($seller_id) {
+            $query->where('seller_id', $seller_id);
+        })->get();
+
+        return response()->json(['seller_posts' => $seller_posts]);
+    } catch (\Exception $ex) {
+        return response()->json(['error' => $ex->getMessage()], 500);
+    }
+}
+
+
 }
