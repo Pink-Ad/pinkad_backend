@@ -61,6 +61,7 @@ class PostController extends Controller
 
                 // 'IsFeature' => 'required|In:0,1',
                 'area' => 'required|numeric|exists:area,id',
+                'subarea_id' => 'array',
             ]);
             if (auth('api')->user()->seller->shop != null) {
                 $banner = $this->post_banner($request->banner);
@@ -85,6 +86,13 @@ class PostController extends Controller
                             $offer_data['offer_id'] = $offer->id;
                             $offer_data['subcat_id'] = $item;
                             OfferSubcatPivot::create($offer_data);
+                        }
+                    }
+                    if ($request->has('subarea_id')) {
+                        foreach ($request->subarea_id as $item) {
+                            $offer_area['offer_id'] = $offer->id;
+                            $offer_area['subarea_id'] = $item;
+                            OfferSubareaPivot::create($offer_area);
                         }
                     }
                 }
