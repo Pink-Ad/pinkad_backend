@@ -285,7 +285,7 @@ class AuthController extends Controller
             elseif ($request->role == 3) {
                 $customer = new Customer();
                 $customer->user_id = $user->id;
-                // $customer->area_id =3;
+                $customer->area_id =1;
 
                 if ($request->has('business_name') && $request->business_name) {
                     $customer->business_name = $request->business_name;
