@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class OfferSubareaPivot extends Model
+class OfferareaPivot extends Model
 {
     use HasFactory;
-    protected $table = "OfferSubareaPivot";
+    protected $table = "offer_area_pivot";
     protected $fillable = [
         "offer_id",
         "area_id",

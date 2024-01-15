@@ -7,6 +7,7 @@ use App\Models\Seller;
 use App\Models\Shop;
 use App\Models\Area;
 use App\Models\OfferSubcatPivot;
+use App\Models\OfferareaPivot;
 use Exception;
 use Illuminate\Http\Request;
 use App\Traits\SaveImage;
@@ -61,7 +62,7 @@ class PostController extends Controller
 
                 // 'IsFeature' => 'required|In:0,1',
                 'area' => 'required|numeric|exists:area,id',
-                'subarea_id' => 'array',
+                'multiple_area' => 'array',
             ]);
             if (auth('api')->user()->seller->shop != null) {
                 $banner = $this->post_banner($request->banner);
@@ -78,8 +79,10 @@ class PostController extends Controller
                     $data['status'] = 2;
                     // 
                     $offer = Post::create($data);
-                    $offer->offer_link = 'https://www.pinkad.pk/offer?id='.$offer->id;
                     $offer->save();
+                    $offer->post_link = 'https://www.pinkad.pk/offer?id='.$offer->id;
+                    $offer->save();
+                  
                     // 
                     if ($request->has('subcat_id')) {
                         foreach ($request->subcat_id as $item) {
@@ -88,11 +91,11 @@ class PostController extends Controller
                             OfferSubcatPivot::create($offer_data);
                         }
                     }
-                    if ($request->has('subarea_id')) {
-                        foreach ($request->subarea_id as $item) {
+                    if ($request->has('multiple_area')) {
+                        foreach ($request->multiple_area as $items) {
                             $offer_area['offer_id'] = $offer->id;
-                            $offer_area['subarea_id'] = $item;
-                            OfferSubareaPivot::create($offer_area);
+                            $offer_area['area_id'] = $items;
+                            OfferareaPivot::create($offer_area);
                         }
                     }
                 }
@@ -109,7 +112,7 @@ class PostController extends Controller
                 // $graphNode = $response->getGraphNode();
                 // dd($graphNode);
 
-                return response()->json(['message' => 'Offer created successfully', 'offer_link' => $offer->offer_link]);
+                return response()->json(['message' => 'Offer created successfully', 'offer_link' => $offer->post_link]);
             } else {
                 return response()->json(['error' => "You've to make the shop first..."]);
             }
@@ -274,6 +277,11 @@ if ($categoryId && $areaId) {
 public function getPostsBySeller(Request $request)
 {
     try {
+        // Check if seller_id is present in the request
+        if (!$request->has('seller_id') || !$request->filled('seller_id')) {
+            return response()->json(['error' => 'Please select a seller'], 400);
+        }
+
         $seller_id = $request->seller_id;
         $seller_posts = Post::whereHas('shop', function ($query) use ($seller_id) {
             $query->where('seller_id', $seller_id);
@@ -284,6 +292,7 @@ public function getPostsBySeller(Request $request)
         return response()->json(['error' => $ex->getMessage()], 500);
     }
 }
+
 
 
 }

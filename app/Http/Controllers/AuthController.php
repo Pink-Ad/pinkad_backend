@@ -299,7 +299,7 @@ class AuthController extends Controller
                     ]
                 ];
             }
-            else {
+            else if ($request->role == 3) {
                
                 $token = 'guest_token';
                 
