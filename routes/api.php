@@ -45,7 +45,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 Route::get('delete/user', [SellerController::class, 'ApiDestroy']);
 
-
 Route::get('salesman/list', [SalesManController::class, 'sales_man_list']);
 Route::get('subcategory', [SubCatogoryController::class, 'subcategoryApi']);
 Route::get('category', [CategoryController::class, 'categoryApi']);
@@ -75,13 +74,12 @@ Route::post('offer/status', [PostController::class, 'change_status']);
 
 Route::post('feedback/store', [FeedBackController::class, 'store']);
 Route::get('tutorial/video', [VideoController::class, 'video_list']);
-
+Route::get('/seller/filter', [SellerController::class, 'filter_seller'])->name('seller.filter');
 
 
 Route::post('classify/image', [PostController::class, 'classify']);
 
 Route::get('shop/offer/{id}', [PostController::class, 'selleroffer']);
-
 
 Route::controller(AuthController::class)->group(function () {
     Route::post('seller/login', 'seller_login');
@@ -93,7 +91,6 @@ Route::controller(AuthController::class)->group(function () {
 });
 Route::middleware(['seller'])->group(function () {
     Route::post('seller/update', [SellerController::class, 'Apistore']);
-
     Route::post('create/shop', [ShopController::class, 'create_shop_api']);
     Route::get('list/shop', [ShopController::class, 'shop_list']);
     Route::post('create/offer', [PostController::class, 'create_offer_api']);

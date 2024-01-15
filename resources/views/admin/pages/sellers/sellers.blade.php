@@ -25,16 +25,14 @@
                                     <a href="{{ route('seller-management.create') }}" class="btn btn-primary btn-md font-weight-semibold btn-py-2 px-4">+ Add Seller</a>
                                 </div>
                                 <div class="col-8 col-lg-auto ms-auto ml-auto mb-3 mb-lg-0">
-{{--                                    <div class="d-flex align-items-lg-center flex-column flex-lg-row">--}}
-{{--                                        <label class="ws-nowrap me-3 mb-0">Filter By:</label>--}}
-{{--                                        <select class="form-control select-style-1 filter-by" name="filter-by">--}}
-{{--                                            <option value="all" selected>All</option>--}}
-{{--                                            <option value="1">ID</option>--}}
-{{--                                            <option value="2">Company Name</option>--}}
-{{--                                            <option value="3">Slug</option>--}}
-{{--                                            <option value="4">Parent Category</option>--}}
-{{--                                        </select>--}}
-{{--                                    </div>--}}
+                                    <div class="d-flex align-items-lg-center flex-column flex-lg-row">
+                                        <label class="ws-nowrap me-3 mb-0">Filter By:</label>
+                                        <select class="form-control select-style-1 filter-by" onchange="filterSeller()" id="sellerStatus" name="filter-by">
+                                            <option value="0" selected>All</option>
+                                            <option value="1">active</option>
+                                            <option value="2">inactive</option>
+                                        </select>
+                                  </div>
                                 </div>
                                 <div class="col-4 col-lg-auto ps-lg-1 mb-3 mb-lg-0">
 {{--                                    <div class="d-flex align-items-lg-center flex-column flex-lg-row">--}}
@@ -71,7 +69,7 @@
                                 <th width="30%">Action</th>
                             </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="sellerTable">
                                 @foreach ($seller as $key => $row)
                                     <tr>
                                         <td width="30"><input type="checkbox" name="checkboxRow1" class="checkbox-style-1 p-relative top-2" value="" /></td>
@@ -294,6 +292,37 @@
                 // var id = $('#changeSelect' + value).html(html);
             });
 
+        }
+        function filterSeller()
+        {
+            var filter_value=$('#sellerStatus').val();
+            $.ajax({
+                type: "GET",
+                url: '/seller/filter',
+                data: {
+                    val: filter_value
+                },
+                success: function(data){
+                    $("#sellerTable").remove();
+                    $.each(data, function (i, item) {
+                        var filterSellerData=
+                            '<tr>'+
+                                '<td>1</td>'+
+                                '<td>1</td>'+
+                                '<td>1</td>'+
+                                '<td>1</td>'+
+                                '<td>1</td>'+
+                                '<td>1</td>'+
+                                '<td>1</td>'+
+                                '<td>1</td>'+
+                            '</tr>';
+                        $('#sellerTable').append(filterSellerData);
+                    });
+                }, 
+                error: function(){
+                    alert("failure From php side!!! ");
+                }
+            });
         }
     </script>
 @stop

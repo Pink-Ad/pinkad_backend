@@ -32,11 +32,24 @@ class SellerController extends Controller
         ]);
         return $valid;
     }
-    public function index()
+
+    public function index(Request $request)
     {
+        $seller = null;
+        // if($request->val=="1"){
+        //     $seller = Seller::where('status', 1)->get();
+        // }
+        // else if($request->val=="2"){
+        //     $seller = Seller::where('status', 0)->get();
+        // }
+        // else if($request->val=="0"){
+        //     $seller = Seller::all();
+        // }
         $seller = Seller::all();
+
         return view('admin.pages.sellers.sellers', compact('seller'));
     }
+
     public function create()
     {
         // $seller = Seller::all();
@@ -257,6 +270,21 @@ class SellerController extends Controller
     public function all_selller_list()
     {
         $seller = Seller::with('user', 'shop')->orderBy('business_name')->get();
+        return $seller;
+    }
+
+    public function filter_seller(Request $request){
+        $seller= null;
+
+        if($request->val=="1"){
+            $seller = Seller::where('status', 1)->get();
+        }
+        else if($request->val=="2"){
+            $seller = Seller::where('status', 0)->get();
+        }
+        else if($request->val=="0"){
+            $seller = Seller::all();
+        }
         return $seller;
     }
 }
