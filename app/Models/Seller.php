@@ -33,4 +33,9 @@ class Seller extends Model
     {
         return $this->hasMany(Shop::class,'seller_id','id');
     }
+    public function shops()
+    {
+        return $this->hasMany(Shop::class);
+    }
+
 }

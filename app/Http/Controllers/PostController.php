@@ -271,7 +271,7 @@ if ($categoryId && $areaId) {
 } elseif (!$areaId) {
     // Area ID not provided, return error
     return response()->json(['error' => 'Area ID is required.'], 400);
-}
+}   
 
 }
 public function getPostsBySeller(Request $request)
