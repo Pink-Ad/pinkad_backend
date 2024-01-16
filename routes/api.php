@@ -99,3 +99,7 @@ Route::middleware(['seller'])->group(function () {
     Route::post('create/offer', [PostController::class, 'create_offer_api']);
     Route::post('create/banner', [BannerController::class, 'store']);
 });
+
+// filter banners 
+Route::get('filterpostsbanner', [PostController::class, 'filterpostsbanner']);
+Route::get('get_posts_by_seller', [PostController::class, 'getPostsBySeller']);

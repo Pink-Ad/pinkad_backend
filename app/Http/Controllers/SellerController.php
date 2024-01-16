@@ -154,6 +154,14 @@ class SellerController extends Controller
         // dd($request->all());
         $valid = $this->validator($request->all());
         if ($valid->valid()) {
+            // 
+            $user = User::find($request->user_id);
+            if ($user) {
+                $user->email = $request->email;; // Update user name or other fields
+                // ... other user fields ...
+                $user->save();
+            }
+            // 
             $check = Seller::where('user_id', $request->user_id)->first();
 
             if ($check == null) {

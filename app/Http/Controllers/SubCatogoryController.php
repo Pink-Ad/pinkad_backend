@@ -43,7 +43,15 @@ class SubCatogoryController extends Controller
     }
     public function subcategoryApi(Request $request)
     {
-        $category = SubCatogory::where('category_id',$request->cat_id)->where('status',1)->get();
-        return $category;
+        $query = SubCatogory::where('status', 1);
+    
+        if ($request->has('cat_id')) {
+            $query->where('category_id', $request->cat_id);
+        }
+    
+        $categories = $query->get();
+    
+        return $categories;
     }
+    
 }
