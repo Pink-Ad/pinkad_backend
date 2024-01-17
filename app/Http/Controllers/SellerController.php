@@ -277,7 +277,7 @@ class SellerController extends Controller
         }
         $area_id = $request->area_id;
         $sellers = Seller::whereHas('shops', function ($query) use ($area_id) {
-            $query->where('area', $area_id);
+            $query->whereIn('area', $area_id);
         })->with(['user', 'shops'])->get();
 
         return response()->json(['sellers' => $sellers]);
