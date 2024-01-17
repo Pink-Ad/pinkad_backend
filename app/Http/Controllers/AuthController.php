@@ -14,6 +14,9 @@ use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
+
+
 
 class AuthController extends Controller
 {
@@ -210,7 +213,7 @@ class AuthController extends Controller
                     'role' => 3,
                     ]);
                     // $credentials = $request->only('email', 'password');
-                    $token = 'guest';
+                    $token = Str::random(40);
             }
             if ($request->role == 2) {
                 $NEW_SELLER = Seller::latest()->first();
