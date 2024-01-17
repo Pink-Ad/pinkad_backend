@@ -252,28 +252,47 @@ class PostController extends Controller
     }
 
 
-    public function filterpostsbanner(Request $request)
+//     public function filterpostsbanner(Request $request)
+// {
+//     $categoryId = $request->input('category_id');
+//     $areaId = $request->input('area_id');
+
+// // Check if both category_id and area_id are provided
+// if ($categoryId && $areaId) {
+//     $filteredPosts = Post::where('category_id', $categoryId)
+//                          ->where('area', $areaId)
+//                          ->whereNotNull('banner')
+//                          ->get();
+
+//     return response()->json(['filtered_banner_posts' => $filteredPosts]);
+// } elseif (!$categoryId) {
+//     // Category ID not provided, return error
+//     return response()->json(['error' => 'Category ID is required.'], 400);
+// } elseif (!$areaId) {
+//     // Area ID not provided, return error
+//     return response()->json(['error' => 'Area ID is required.'], 400);
+// }   
+
+// }
+public function filterpostsbanner(Request $request)
 {
-    $categoryId = $request->input('category_id');
-    $areaId = $request->input('area_id');
+    $category_id = $request->input('category_id');
+    $area_id = $request->input('area_id');
 
-// Check if both category_id and area_id are provided
-if ($categoryId && $areaId) {
-    $filteredPosts = Post::where('category_id', $categoryId)
-                         ->where('area', $areaId)
-                         ->whereNotNull('banner')
-                         ->get();
+    if ($category_id && $area_id) {
+        $filteredPosts = Post::whereIn('category_id', $category_id)
+                             ->whereIn('area', $area_id)
+                             ->whereNotNull('banner')
+                             ->get();
 
-    return response()->json(['filtered_banner_posts' => $filteredPosts]);
-} elseif (!$categoryId) {
-    // Category ID not provided, return error
-    return response()->json(['error' => 'Category ID is required.'], 400);
-} elseif (!$areaId) {
-    // Area ID not provided, return error
-    return response()->json(['error' => 'Area ID is required.'], 400);
+        return response()->json(['filtered_banner_posts' => $filteredPosts]);
+    } elseif (!$category_id) {
+        return response()->json(['error' => 'Category IDs are required.'], 400);
+    } elseif (!$area_id) {
+        return response()->json(['error' => 'Area IDs are required.'], 400);
+    }
 }
 
-}
 public function getPostsBySeller(Request $request)
 {
     try {

@@ -267,4 +267,24 @@ class SellerController extends Controller
         $seller = Seller::with('user', 'shop')->orderBy('business_name')->get();
         return $seller;
     }
+    // 
+    public function getSellersByArea(Request $request)
+{
+    try {
+     
+        if (!$request->has('area_id') || !$request->filled('area_id')) {
+            return response()->json(['error' => 'Please provide an area ID'], 400);
+        }
+        $area_id = $request->area_id;
+        $sellers = Seller::whereHas('shops', function ($query) use ($area_id) {
+            $query->where('area', $area_id);
+        })->with(['user', 'shops'])->get();
+
+        return response()->json(['sellers' => $sellers]);
+    } catch (\Exception $ex) {
+        return response()->json(['error' => $ex->getMessage()], 500);
+    }
+}
+
+    // 
 }
