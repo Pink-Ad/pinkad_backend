@@ -271,11 +271,12 @@ class SellerController extends Controller
     public function getSellersByArea(Request $request)
 {
     try {
+        $area_id = $request->input('area_id');
      
-        if (!$request->has('area_id') || !$request->filled('area_id')) {
+        if (!$area_id) {
             return response()->json(['error' => 'Please provide an area ID'], 400);
         }
-        $area_id = $request->area_id;
+        // $area_id = $request->area_id;
         $sellers = Seller::whereHas('shops', function ($query) use ($area_id) {
             $query->whereIn('area', $area_id);
         })->with(['user', 'shops'])->get();
