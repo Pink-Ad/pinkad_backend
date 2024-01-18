@@ -34,21 +34,21 @@ class ForgotPasswordController extends Controller
 
     public function postEmail(Request $request)
     {
-        // $request->validate([
-        //     'email' => 'required|email|exists:users',
-        // ]);
+        $request->validate([
+            'email' => 'required|email|exists:users',
+        ]);
 
-        // // $token = Str::random(64);
         // $token = Str::random(64);
+        $token = Str::random(64);
 
-        // DB::table('password_resets')->insert(
-        //     ['email' => $request->email, 'token' => $token, 'created_at' => Carbon::now()]
-        // );
+        DB::table('password_resets')->insert(
+            ['email' => $request->email, 'token' => $token, 'created_at' => Carbon::now()]
+        );
 
-        // $check = Mail::send('admin.pages.email.forgot-pass', ['token' => $token], function ($message) use ($request) {
-        //     $message->to($request->email);
-        //     $message->subject('Reset Password Notification');
-        // });
+        $check = Mail::send('admin.pages.email.forgot-pass', ['token' => $token], function ($message) use ($request) {
+            $message->to($request->email);
+            $message->subject('Reset Password Notification');
+        });
         // // dd($check);
         // return response()->json(['success'=>"we have sent you the Email..."]);
         $this->validateEmail($request);
