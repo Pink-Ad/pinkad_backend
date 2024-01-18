@@ -38,7 +38,6 @@ class ForgotPasswordController extends Controller
             'email' => 'required|email|exists:users',
         ]);
 
-        // $token = Str::random(64);
         $token = Str::random(64);
 
         DB::table('password_resets')->insert(
@@ -50,7 +49,7 @@ class ForgotPasswordController extends Controller
             $message->subject('Reset Password Notification');
         });
         // // dd($check);
-        // return response()->json(['success'=>"we have sent you the Email..."]);
+        return response()->json(['success'=>"we have sent you the Email..."]);
         $this->validateEmail($request);
 
         // We will send the password reset link to this user. Once we have attempted
