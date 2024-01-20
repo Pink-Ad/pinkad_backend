@@ -75,6 +75,7 @@ Route::post('offer/status', [PostController::class, 'change_status']);
 Route::post('feedback/store', [FeedBackController::class, 'store']);
 Route::get('tutorial/video', [VideoController::class, 'video_list']);
 Route::get('/seller/filter', [SellerController::class, 'filter_seller'])->name('filter.seller');
+Route::get('/offer/filter', [PostController::class, 'filter_offer_status'])->name('filter.offers');
 
 Route::post('classify/image', [PostController::class, 'classify']);
 

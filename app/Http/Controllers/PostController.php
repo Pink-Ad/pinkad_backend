@@ -176,6 +176,7 @@ class PostController extends Controller
         $post = Post::with('shop', 'shop.seller', 'category', 'subcategory')->where('status', 1)->where('IsFeature', 1)->paginate(10);
         return $post;
     }
+
     public function insights(Request $request)
     {
         try {
@@ -251,6 +252,19 @@ class PostController extends Controller
         return redirect()->back();
     }
 
+    public function filter_offer_status(Request $request){
+        $post= null;
+        if($request->filter_id=="1"){
+            $post = Post::where('status',1)->get();
+        }
+        else if($request->filter_id=="2"){
+            $post = Post::where('status',0)->get();
+        }
+        else if($request->filter_id=="0"){
+            $post = Post::all();       
+        }
+        return view('admin.pages.offers.offers.index', compact('post'));
+    }
 
 //     public function filterpostsbanner(Request $request)
 // {

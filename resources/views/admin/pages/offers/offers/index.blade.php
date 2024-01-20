@@ -29,7 +29,18 @@
 
                                 </div>
                                 <div class="col-4 col-lg-auto ps-lg-1 mb-3 mb-lg-0">
-
+                                    <div class="col-8 col-lg-auto ms-auto ml-auto mb-3 mb-lg-0">
+                                        <form type="GET" action="{{ route('filter.offers') }}" class="d-flex align-items-lg-center flex-column flex-lg-row">
+                                            @csrf
+                                            <label class="ws-nowrap me-3 mb-0"><i class="bx bx-filter-alt" style="font-size:24px;color:#96207a"></i></label>
+                                            <select class="form-control select-style-1 filter-by" name="filter_id">
+                                                <option value="0" selected>All</option>
+                                                <option value="1">active</option>
+                                                <option value="2">inactive</option>
+                                            </select>
+                                            <button type="submit" class="ml-2 btn btn-primary">Filter Offers</button>
+                                        </form>
+                                    </div>
                                 </div>
                                 <div class="col-12 col-lg-auto ps-lg-1">
                                     <div class="search search-style-1 search-style-1-lg mx-lg-auto">
@@ -47,13 +58,9 @@
                             @csrf
                             <table class="table table-ecommerce-simple table-borderless table-striped mb-0"
                                 id="datatable-ecommerce-list" style="min-width: 640px;">
-
                                 <thead>
-
                                     <tr>
-                                        <th width="8%"><input type="checkbox" name="select_all"
-                                                class="select-all checkbox-style-1 p-relative top-2" value="" required/></th>
-                                        {{--                                <th width="5%">ID</th> --}}
+                                        <th width="8%"><input type="checkbox" name="select_all" class="select-all checkbox-style-1 p-relative top-2" value="" required/></th>
                                         <th width="10%">Shop</th>
                                         <th width="20%">Image</th>
                                         <th width="15%">Title</th>
