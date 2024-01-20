@@ -3,6 +3,8 @@
 namespace App\Traits;
 
 use Illuminate\Support\Str;
+use Intervention\Image\ImageManagerStatic as Image;
+
 
 trait SaveImage
 {
@@ -87,18 +89,45 @@ trait SaveImage
         return $filenamepath;
 
     }
+    // public function post_banner($image)
+    // {
+    //     $img = $image;
+    //     $number = rand(1,999);
+    //     $numb = $number / 7 ;
+    //     $extension      = $img->extension();
+    //     $filenamenew    = date('Y-m-d')."_.".$numb."_.".$extension;
+    //     $filenamepath   = 'image'.'/'.'offer/image/'.$filenamenew;
+    //     $filename       = $img->move(public_path('storage/image'.'/'.'offer/image/'),$filenamenew);
+    //     return $filenamepath;
+
+    // }
     public function post_banner($image)
-    {
+{
+    try {
         $img = $image;
-        $number = rand(1,999);
-        $numb = $number / 7 ;
-        $extension      = $img->extension();
-        $filenamenew    = date('Y-m-d')."_.".$numb."_.".$extension;
-        $filenamepath   = 'image'.'/'.'offer/image/'.$filenamenew;
-        $filename       = $img->move(public_path('storage/image'.'/'.'offer/image/'),$filenamenew);
+        $number = rand(1, 999);
+        $numb = $number / 7;
+        $extension = $img->extension();
+        $filenamenew = date('Y-m-d') . "_." . $numb . "_." . $extension;
+
+        // Set the desired width and height
+        $width = 1080; // Replace with your desired width
+        $height = 1080; // Replace with your desired height
+
+        // Resize the image
+        $resizedImage = Image::make($img)->resize($width, $height);
+
+        // Save the resized image to the destination
+        $filenamepath = 'image' . '/' . 'offer/image/' . $filenamenew;
+        $resizedImage->save(public_path('storage/' . $filenamepath));
+
         return $filenamepath;
 
+    } catch (\Exception $e) {
+        // Handle any exceptions that may occur during the process
+        return response()->json(['error' => $e->getMessage()], 500);
     }
+}
     public function serviceImage($image)
     {
         $img = $image;

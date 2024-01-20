@@ -157,6 +157,14 @@ class SellerController extends Controller
         // dd($request->all());
         $valid = $this->validator($request->all());
         if ($valid->valid()) {
+            // 
+            $user = User::find($request->user_id);
+            if ($user) {
+                $user->email = $request->email;; // Update user name or other fields
+                // ... other user fields ...
+                $user->save();
+            }
+            // 
             $check = Seller::where('user_id', $request->user_id)->first();
 
             if ($check == null) {
@@ -261,29 +269,5 @@ class SellerController extends Controller
     {
         $seller = Seller::with('user', 'shop')->orderBy('business_name')->get();
         return $seller;
-    }
-
-    public function filter_seller(Request $request){
-        $seller= null;
-
-        if($request->filter_id=="1"){
-            $seller = Seller::with('user', 'shop')
-            ->orderBy('business_name')
-            ->where('status',1)
-            ->get();
-            $seller = Seller::where('status', 1)->get();
-        }
-        else if($request->filter_id=="2"){
-            $seller = Seller::with('user', 'shop')
-            ->orderBy('business_name')
-            ->where('status',0)
-            ->get();
-        }
-        else if($request->filter_id=="0"){
-            $seller = Seller::with('user', 'shop')
-            ->orderBy('business_name')
-            ->get();        
-        }
-        return view('admin.pages.sellers.sellers', compact('seller'));
     }
 }

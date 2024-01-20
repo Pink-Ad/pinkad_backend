@@ -7,6 +7,7 @@ use App\Models\Seller;
 use App\Models\Shop;
 use App\Models\Area;
 use App\Models\OfferSubcatPivot;
+use App\Models\OfferareaPivot;
 use Exception;
 use Illuminate\Http\Request;
 use App\Traits\SaveImage;
@@ -61,6 +62,7 @@ class PostController extends Controller
 
                 // 'IsFeature' => 'required|In:0,1',
                 'area' => 'required|numeric|exists:area,id',
+                'multiple_area' => 'array',
             ]);
             if (auth('api')->user()->seller->shop != null) {
                 $banner = $this->post_banner($request->banner);
@@ -75,12 +77,25 @@ class PostController extends Controller
                 foreach ($request->shop_id as $row) {
                     $data['shop_id'] = $row;
                     $data['status'] = 2;
+                    // 
                     $offer = Post::create($data);
+                    $offer->save();
+                    $offer->post_link = 'https://www.pinkad.pk/offer?id='.$offer->id;
+                    $offer->save();
+                  
+                    // 
                     if ($request->has('subcat_id')) {
                         foreach ($request->subcat_id as $item) {
                             $offer_data['offer_id'] = $offer->id;
                             $offer_data['subcat_id'] = $item;
                             OfferSubcatPivot::create($offer_data);
+                        }
+                    }
+                    if ($request->has('multiple_area')) {
+                        foreach ($request->multiple_area as $items) {
+                            $offer_area['offer_id'] = $offer->id;
+                            $offer_area['area_id'] = $items;
+                            OfferareaPivot::create($offer_area);
                         }
                     }
                 }
@@ -97,7 +112,7 @@ class PostController extends Controller
                 // $graphNode = $response->getGraphNode();
                 // dd($graphNode);
 
-                return response()->json(['message' => "Offer created Successfully..."]);
+                return response()->json(['message' => 'Offer created successfully', 'offer_link' => $offer->post_link]);
             } else {
                 return response()->json(['error' => "You've to make the shop first..."]);
             }
@@ -235,4 +250,68 @@ class PostController extends Controller
         }
         return redirect()->back();
     }
+
+
+//     public function filterpostsbanner(Request $request)
+// {
+//     $categoryId = $request->input('category_id');
+//     $areaId = $request->input('area_id');
+
+// // Check if both category_id and area_id are provided
+// if ($categoryId && $areaId) {
+//     $filteredPosts = Post::where('category_id', $categoryId)
+//                          ->where('area', $areaId)
+//                          ->whereNotNull('banner')
+//                          ->get();
+
+//     return response()->json(['filtered_banner_posts' => $filteredPosts]);
+// } elseif (!$categoryId) {
+//     // Category ID not provided, return error
+//     return response()->json(['error' => 'Category ID is required.'], 400);
+// } elseif (!$areaId) {
+//     // Area ID not provided, return error
+//     return response()->json(['error' => 'Area ID is required.'], 400);
+// }   
+
+// }
+public function filterpostsbanner(Request $request)
+{
+    $category_id = $request->input('category_id');
+    $area_id = $request->input('area_id');
+
+    if ($category_id && $area_id) {
+        $filteredPosts = Post::whereIn('category_id', $category_id)
+                             ->whereIn('area', $area_id)
+                             ->whereNotNull('banner')
+                             ->get();
+
+        return response()->json(['filtered_banner_posts' => $filteredPosts]);
+    } elseif (!$category_id) {
+        return response()->json(['error' => 'Category IDs are required.'], 400);
+    } elseif (!$area_id) {
+        return response()->json(['error' => 'Area IDs are required.'], 400);
+    }
+}
+
+public function getPostsBySeller(Request $request)
+{
+    try {
+        // Check if seller_id is present in the request
+        if (!$request->has('seller_id') || !$request->filled('seller_id')) {
+            return response()->json(['error' => 'Please select a seller'], 400);
+        }
+
+        $seller_id = $request->seller_id;
+        $seller_posts = Post::whereHas('shop', function ($query) use ($seller_id) {
+            $query->where('seller_id', $seller_id);
+        })->get();
+
+        return response()->json(['seller_posts' => $seller_posts]);
+    } catch (\Exception $ex) {
+        return response()->json(['error' => $ex->getMessage()], 500);
+    }
+}
+
+
+
 }
