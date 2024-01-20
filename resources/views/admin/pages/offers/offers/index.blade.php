@@ -34,10 +34,10 @@
                                             @csrf
                                             <label class="ws-nowrap me-3 mb-0"><i class="bx bx-filter-alt" style="font-size:24px;color:#96207a"></i></label>
                                             <select class="form-control select-style-1 filter-by" name="filter_id">
-                                                <option value="0" selected>All</option>
                                                 <option value="1">active</option>
-                                                <option value="2">inactive</option>
-                                                <option value="3">rejected</option>
+                                                <option value="2">rejected</option>
+                                                <option value="0">inactive</option>
+                                                <option value="4" selected>All</option>
                                             </select>
                                             <button type="submit" class="ml-2 btn btn-primary">Filter Offers</button>
                                         </form>

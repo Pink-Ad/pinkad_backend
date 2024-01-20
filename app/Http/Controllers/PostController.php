@@ -258,12 +258,12 @@ class PostController extends Controller
             $post = Post::where('status',1)->get();
         }
         else if($request->filter_id=="2"){
-            $post = Post::where('status',0)->get();
-        }
-        else if($request->filter_id=="3"){
-            $post = Post::where('status',3)->get();
+            $post = Post::where('status',2)->get();
         }
         else if($request->filter_id=="0"){
+            $post = Post::where('status',0)->get();
+        }
+        else if($request->filter_id=="4"){
             $post = Post::all();       
         }
         return view('admin.pages.offers.offers.index', compact('post'));
