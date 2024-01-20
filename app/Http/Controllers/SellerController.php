@@ -36,17 +36,7 @@ class SellerController extends Controller
     public function index(Request $request)
     {
         $seller = null;
-        // if($request->val=="1"){
-        //     $seller = Seller::where('status', 1)->get();
-        // }
-        // else if($request->val=="2"){
-        //     $seller = Seller::where('status', 0)->get();
-        // }
-        // else if($request->val=="0"){
-        //     $seller = Seller::all();
-        // }
         $seller = Seller::all();
-
         return view('admin.pages.sellers.sellers', compact('seller'));
     }
 
@@ -276,15 +266,24 @@ class SellerController extends Controller
     public function filter_seller(Request $request){
         $seller= null;
 
-        // if($request->val=="1"){
-        //     $seller = Seller::where('status', 1)->get();
-        // }
-        // else if($request->val=="2"){
-        //     $seller = Seller::where('status', 0)->get();
-        // }
-        // else if($request->val=="0"){
-        //     $seller = Seller::all();
-        // }
-        return $seller;
+        if($request->filter_id=="1"){
+            $seller = Seller::with('user', 'shop')
+            ->orderBy('business_name')
+            ->where('status',1)
+            ->get();
+            $seller = Seller::where('status', 1)->get();
+        }
+        else if($request->filter_id=="2"){
+            $seller = Seller::with('user', 'shop')
+            ->orderBy('business_name')
+            ->where('status',0)
+            ->get();
+        }
+        else if($request->filter_id=="0"){
+            $seller = Seller::with('user', 'shop')
+            ->orderBy('business_name')
+            ->get();        
+        }
+        return view('admin.pages.sellers.sellers', compact('seller'));
     }
 }

@@ -25,14 +25,16 @@
                                     <a href="{{ route('seller-management.create') }}" class="btn btn-primary btn-md font-weight-semibold btn-py-2 px-4">+ Add Seller</a>
                                 </div>
                                 <div class="col-8 col-lg-auto ms-auto ml-auto mb-3 mb-lg-0">
-                                    <div class="d-flex align-items-lg-center flex-column flex-lg-row">
-                                        <label class="ws-nowrap me-3 mb-0">Filter By:</label>
-                                        <select class="form-control select-style-1 filter-by" onchange="filterSeller()" id="sellerStatus" name="filter-by">
+                                    <form type="GET" action="{{ route('filter.seller') }}" class="d-flex align-items-lg-center flex-column flex-lg-row">
+                                        @csrf
+                                        <label class="ws-nowrap me-3 mb-0"><i class="bx bx-filter-alt" style="font-size:24px;color:#96207a"></i></label>
+                                        <select class="form-control select-style-1 filter-by" name="filter_id">
                                             <option value="0" selected>All</option>
                                             <option value="1">active</option>
                                             <option value="2">inactive</option>
                                         </select>
-                                  </div>
+                                        <button type="submit" class="ml-2 btn btn-primary">Filter Sellers</button>
+                                    </form>
                                 </div>
                                 <div class="col-4 col-lg-auto ps-lg-1 mb-3 mb-lg-0">
 {{--                                    <div class="d-flex align-items-lg-center flex-column flex-lg-row">--}}
@@ -48,15 +50,14 @@
                                 <div class="col-12 col-lg-auto ps-lg-1">
                                     <div class="search search-style-1 search-style-1-lg mx-lg-auto">
                                         <div class="input-group">
-                                            <input type="text" class="search-term form-control" name="search-term" id="search-term" placeholder="Search Seller">
-                                            <button class="btn btn-default" type="submit"><i class="bx bx-search"></i></button>
+                                            <input type="text" class="search-term form-control" name="search-term" id="search-term" placeholder="Search Seller" style="border-radius:0px">
+                                            <button class="btn btn-default" type="submit" style="border-radius:0px"><i class="bx bx-search"></i></button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <table class="table table-ecommerce-simple table-borderless table-striped mb-0" id="datatable-ecommerce-list" style="min-width: 640px;">
-
                             <thead>
                             <tr>
                                 <th width="3%"><input type="checkbox" name="select-all" class="select-all checkbox-style-1 p-relative top-2" value="" /></th>
@@ -303,7 +304,22 @@
                     val: filter_value
                 },
                 success: function(data){
-                    console.log(data);
+                    $("#sellerTable tr").remove();
+                    $.each(data, function (i, item) {
+                        var filterSellerData=
+                            '<tr>'+
+                                '<td></td>'+
+                                '<td>'+item['SELL_ID']+'</td>'+
+                                '<td>Logo Here</td>'+
+                                '<td>'+item['business_name']+'</td>'+
+                                '<td>Email Here</td>'+
+                                '<td>'+item['whatsapp']+'</td>'+
+                                '<td>status here</td>'+
+                                '<td>Action Here</td>'+
+                            '</tr>'
+                        ;
+                        $("#sellerTable").append(filterSellerData);
+                    });
                 }, 
                 error: function(){
                     alert("failure From php side!!! ");
