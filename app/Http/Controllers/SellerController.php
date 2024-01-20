@@ -276,15 +276,15 @@ class SellerController extends Controller
     public function filter_seller(Request $request){
         $seller= null;
 
-        if($request->val=="1"){
-            $seller = Seller::where('status', 1)->get();
-        }
-        else if($request->val=="2"){
-            $seller = Seller::where('status', 0)->get();
-        }
-        else if($request->val=="0"){
-            $seller = Seller::all();
-        }
+        // if($request->val=="1"){
+        //     $seller = Seller::where('status', 1)->get();
+        // }
+        // else if($request->val=="2"){
+        //     $seller = Seller::where('status', 0)->get();
+        // }
+        // else if($request->val=="0"){
+        //     $seller = Seller::all();
+        // }
         return $seller;
     }
 }

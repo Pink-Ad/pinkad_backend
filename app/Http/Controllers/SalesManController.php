@@ -130,6 +130,7 @@ class SalesManController extends Controller
         $salesman->delete();
         return redirect()->back();
     }
+    
     public function change_status($id,$status)
     {
         $salesman = SaleMan::find($id);

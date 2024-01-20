@@ -297,27 +297,13 @@
         {
             var filter_value=$('#sellerStatus').val();
             $.ajax({
-                type: "GET",
+                type: 'GET',
                 url: '/seller/filter',
                 data: {
                     val: filter_value
                 },
                 success: function(data){
-                    $("#sellerTable").remove();
-                    $.each(data, function (i, item) {
-                        var filterSellerData=
-                            '<tr>'+
-                                '<td>1</td>'+
-                                '<td>1</td>'+
-                                '<td>1</td>'+
-                                '<td>1</td>'+
-                                '<td>1</td>'+
-                                '<td>1</td>'+
-                                '<td>1</td>'+
-                                '<td>1</td>'+
-                            '</tr>';
-                        $('#sellerTable').append(filterSellerData);
-                    });
+                    console.log(data);
                 }, 
                 error: function(){
                     alert("failure From php side!!! ");
