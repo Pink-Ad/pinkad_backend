@@ -270,4 +270,47 @@ class SellerController extends Controller
         $seller = Seller::with('user', 'shop')->orderBy('business_name')->get();
         return $seller;
     }
+    
+    public function filter_seller(Request $request){
+        $seller= null;
+
+        if($request->filter_id=="1"){
+            $seller = Seller::with('user', 'shop')
+            ->orderBy('business_name')
+            ->where('status',1)
+            ->get();
+            $seller = Seller::where('status', 1)->get();
+        }
+        else if($request->filter_id=="2"){
+            $seller = Seller::with('user', 'shop')
+            ->orderBy('business_name')
+            ->where('status',0)
+            ->get();
+        }
+        else if($request->filter_id=="0"){
+            $seller = Seller::with('user', 'shop')
+            ->orderBy('business_name')
+            ->get();        
+        }
+        return view('admin.pages.sellers.sellers', compact('seller'));
+    }
+
+    public function getSellersByArea(Request $request)
+    {
+        try {
+            $area_id = $request->input('area_id');
+     
+            if (!$area_id) {
+                return response()->json(['error' => 'Please provide an area ID'], 400);
+            }
+            // $area_id = $request->area_id;
+            $sellers = Seller::whereHas('shops', function ($query) use ($area_id) {
+                $query->whereIn('area', $area_id);
+            })->with(['user', 'shops'])->get();
+
+            return response()->json(['sellers' => $sellers]);
+        } catch (\Exception $ex) {
+            return response()->json(['error' => $ex->getMessage()], 500);
+        }
+    }
 }
