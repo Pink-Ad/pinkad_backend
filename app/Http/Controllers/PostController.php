@@ -260,6 +260,9 @@ class PostController extends Controller
         else if($request->filter_id=="2"){
             $post = Post::where('status',0)->get();
         }
+        else if($request->filter_id=="3"){
+            $post = Post::where('status',3)->get();
+        }
         else if($request->filter_id=="0"){
             $post = Post::all();       
         }

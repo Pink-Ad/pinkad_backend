@@ -37,6 +37,7 @@
                                                 <option value="0" selected>All</option>
                                                 <option value="1">active</option>
                                                 <option value="2">inactive</option>
+                                                <option value="3">rejected</option>
                                             </select>
                                             <button type="submit" class="ml-2 btn btn-primary">Filter Offers</button>
                                         </form>
