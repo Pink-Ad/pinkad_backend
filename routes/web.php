@@ -80,10 +80,10 @@ Route::get('/visitor/form', function () {
 
 // Sellers
 
-
  Route::get('/seller-shops/form', function () {
      return view('admin/pages/sellers/seller-shops/create');
  });
+ Route::get('/seller/filter', [SellerController::class, 'filter_seller'])->name('seller.filter');
 
 // -- Offers -- //
 

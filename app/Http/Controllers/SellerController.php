@@ -32,11 +32,14 @@ class SellerController extends Controller
         ]);
         return $valid;
     }
-    public function index()
+
+    public function index(Request $request)
     {
+        $seller = null;
         $seller = Seller::all();
         return view('admin.pages.sellers.sellers', compact('seller'));
     }
+
     public function create()
     {
         // $seller = Seller::all();
@@ -267,25 +270,4 @@ class SellerController extends Controller
         $seller = Seller::with('user', 'shop')->orderBy('business_name')->get();
         return $seller;
     }
-    // 
-    public function getSellersByArea(Request $request)
-{
-    try {
-        $area_id = $request->input('area_id');
-     
-        if (!$area_id) {
-            return response()->json(['error' => 'Please provide an area ID'], 400);
-        }
-        // $area_id = $request->area_id;
-        $sellers = Seller::whereHas('shops', function ($query) use ($area_id) {
-            $query->whereIn('area', $area_id);
-        })->with(['user', 'shops'])->get();
-
-        return response()->json(['sellers' => $sellers]);
-    } catch (\Exception $ex) {
-        return response()->json(['error' => $ex->getMessage()], 500);
-    }
-}
-
-    // 
 }
