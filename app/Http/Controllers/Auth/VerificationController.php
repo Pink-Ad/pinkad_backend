@@ -79,6 +79,7 @@ class VerificationController extends Controller
             ->update(['remember_token' => $verify_token, 'updated_at' => Carbon::now()]);
         $emailname = User::where('email', auth('api')->user()->email)->first();
         $data['email'] = auth('api')->user()->email;
+
         Mail::send('admin.pages.email.forgot-pass',['data'=> $data], function($message) {
             $message->to(auth('api')->user()->email, 'Email Verification')->subject
                ('Verify Your Email');

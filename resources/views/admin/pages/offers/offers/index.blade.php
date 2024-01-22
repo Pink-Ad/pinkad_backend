@@ -260,7 +260,7 @@
                                                     <select class="form-control select-style-1 bulk-action"  name="bulk_action"
                                                         style="min-width: 170px;" required>
                                                         <option value="" selected>Bulk Actions</option>
-                                                        <!-- <option value="delete">Delete</option> -->
+                                                        <option value="delete">Delete</option>
                                                         <option value="status-active">Active</option>
                                                         <option value="status-inactive">InActive</option>
                                                         <option value="status-reject">Reject</option>
