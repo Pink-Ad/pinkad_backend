@@ -16,7 +16,7 @@
                            {{ __('A fresh verification link has been sent to your email address.') }}
                        </div>
                    @endif
-                   <a href="{{$data['verify_token']}}">Click Here</a>.
+                   <!-- <a href="{{$data['verify_token']}}">Click Here</a>. -->
                </div>
            </div>
        </div>
