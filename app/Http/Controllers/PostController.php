@@ -246,7 +246,18 @@ class PostController extends Controller
                         $offer->save();
                     }
                 }
-
+            }
+            if($request->bulk_action == "status-reject")
+            {
+                if($request->has('offers'))
+                {
+                    foreach($request->offers as $row)
+                    {
+                        $offer = Post::find($row);
+                        $offer->status = 2;
+                        $offer->save();
+                    }
+                }
             }
         }
         return redirect()->back();

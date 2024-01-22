@@ -25,11 +25,9 @@
                                 {{-- <div class="col-12 col-lg-auto mb-3 mb-lg-0">
                                     <a href="/offers/form" class="btn btn-primary btn-md font-weight-semibold btn-py-2 px-4">+ Add Offer</a>
                                 </div> --}}
-                                <div class="col-8 col-lg-auto ms-auto ml-auto mb-3 mb-lg-0">
-
-                                </div>
-                                <div class="col-4 col-lg-auto ps-lg-1 mb-3 mb-lg-0">
-                                    <div class="col-8 col-lg-auto ms-auto ml-auto mb-3 mb-lg-0">
+                                
+                                <div class="col-6 col-lg-8 ps-lg-1 mb-3 mb-lg-0">
+                                    <div>
                                         <form type="GET" action="{{ route('filter.offers') }}" class="d-flex align-items-lg-center flex-column flex-lg-row">
                                             @csrf
                                             <label class="ws-nowrap me-3 mb-0"><i class="bx bx-filter-alt" style="font-size:24px;color:#96207a"></i></label>
@@ -43,11 +41,11 @@
                                         </form>
                                     </div>
                                 </div>
-                                <div class="col-12 col-lg-auto ps-lg-1">
+                                <div class="col-4 col-lg-auto ps-lg-1" >
                                     <div class="search search-style-1 search-style-1-lg mx-lg-auto">
-                                        <div class="input-group">
+                                        <div class="input-group" >
                                             <input type="text" class="search-term form-control" name="search-term"
-                                                id="search-term" placeholder="Search Offer">
+                                                id="search-term" placeholder="Search Offer" style="float:right">
                                             <button class="btn btn-default" type="submit"><i
                                                     class="bx bx-search"></i></button>
                                         </div>
@@ -264,6 +262,7 @@
                                                         <option value="" selected>Bulk Actions</option>
                                                         <option value="delete">Delete</option>
                                                         <option value="status-active">InActive</option>
+                                                        <option value="status-reject">Reject</option>
                                                     </select>
                                                     <button type="button" onclick="openActionModal()"
                                                         class="bulk-action-apply btn btn-light btn-px-4 py-3 border font-weight-semibold text-color-dark text-3">Apply</button>
