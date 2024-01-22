@@ -235,7 +235,7 @@ class PostController extends Controller
                     }
                 }
             }
-            if($request->bulk_action == "status-active")
+            if($request->bulk_action == "status-inactive")
             {
                 if($request->has('offers'))
                 {
@@ -243,6 +243,18 @@ class PostController extends Controller
                     {
                         $offer = Post::find($row);
                         $offer->status = 0;
+                        $offer->save();
+                    }
+                }
+            }
+            if($request->bulk_action == "status-active")
+            {
+                if($request->has('offers'))
+                {
+                    foreach($request->offers as $row)
+                    {
+                        $offer = Post::find($row);
+                        $offer->status = 1;
                         $offer->save();
                     }
                 }
