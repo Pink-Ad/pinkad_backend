@@ -59,13 +59,13 @@
                                 id="datatable-ecommerce-list" style="min-width: 640px;">
                                 <thead>
                                     <tr>
-                                        <th width="8%"><input type="checkbox" name="select_all" class="select-all checkbox-style-1 p-relative top-2" value="" required/></th>
-                                        <th width="10%">Shop</th>
-                                        <th width="20%">Image</th>
-                                        <th width="15%">Title</th>
-                                        <th width="25%">Description</th>
-                                        <th width="10%">Status</th>
-                                        <th width="10%" style="text-align: center">Action</th>
+                                        <th><input type="checkbox" name="select_all" class="select-all checkbox-style-1 p-relative top-2" value="" required/></th>
+                                        <th>Shop</th>
+                                        <th>Image</th>
+                                        <th>Title</th>
+                                        <th>Description</th>
+                                        <th>Status</th>
+                                        <th style="text-align: center">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -260,7 +260,7 @@
                                                     <select class="form-control select-style-1 bulk-action"  name="bulk_action"
                                                         style="min-width: 170px;" required>
                                                         <option value="" selected>Bulk Actions</option>
-                                                        <option value="delete">Delete</option>
+                                                        <!-- <option value="delete">Delete</option> -->
                                                         <option value="status-active">Active</option>
                                                         <option value="status-inactive">InActive</option>
                                                         <option value="status-reject">Reject</option>
