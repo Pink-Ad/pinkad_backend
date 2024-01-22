@@ -47,7 +47,7 @@ class ForgotPasswordController extends Controller
 
         $check = Mail::send('admin.pages.email.forgot-pass', ['token' => $token], function ($message) use ($request) {
             $message->to($request->email);
-            $message->subject('Reset Password Notification');
+            $message->subject('Password Reset Notification');
         });
 
         return response()->json(['success'=>"we have sent you the Email..."]);
