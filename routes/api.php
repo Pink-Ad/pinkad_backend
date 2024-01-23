@@ -104,3 +104,5 @@ Route::middleware(['seller'])->group(function () {
 Route::get('filterpostsbanner', [PostController::class, 'filterpostsbanner']);
 Route::get('get_posts_by_seller', [PostController::class, 'getPostsBySeller']);
 Route::get('getSellersByArea', [SellerController::class, 'getSellersByArea']);
+// 
+Route::get('get_all_salesman', [SalesManController::class, 'get_all_salesman']);
