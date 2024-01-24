@@ -167,7 +167,6 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $message=null;
-        //  dd($request->all());
         try {
            $seller_link = null;
             if ($request->role == 2) {
@@ -179,6 +178,7 @@ class AuthController extends Controller
                     'phone' => 'required|string',
                     'area_id' => 'required|numeric|exists:area,id',
                 ]);
+
                 $request->validate([
 
                     'isFeatured' => 'required|string',
@@ -193,12 +193,14 @@ class AuthController extends Controller
                     // 'cover_image' => 'required|image',
 
                 ]);
+
                 if ($request->reference == "salesman") {
                     $request->validate([
                         'salesman_id' => 'required|numeric|exists:salemans,id',
                     ]);
                 }
             }
+
             if ($request->role == 2){
             $user = User::create([
                 'name' => $request->name,
@@ -206,7 +208,9 @@ class AuthController extends Controller
                 'password' => Hash::make($request->password),
                 'role' => $request->role,
             ]);
+
             $credentials = $request->only('email', 'password');
+            die($credentials);
             $token = auth('api')->attempt($credentials);
         }
             elseif ($request->role == 3){
