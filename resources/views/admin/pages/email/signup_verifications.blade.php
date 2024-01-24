@@ -124,7 +124,7 @@
                     
                          <img src="https://pinkad.pk/portal/assets/img/logo-default.png" width="205" height="200" 
                          style="display: block; border: 0px;" />
-                         <h1 style="font-size: 32px; font-weight: 400; margin: 2;">Welcome!</h1>
+                         <h1 style="font-size: 29px; font-weight: bold; margin: 2;">Welcome!</h1>
                     </td>
                 </tr>
             </table>
@@ -174,7 +174,7 @@
                 </tr> -->
               <!--  -->
               <tr>
-    <td bgcolor="#ffffff" align="center" style="padding: 20px 30px 0 30px;">
+    <td bgcolor="#f1f1f1" align="center" style="padding: 10px 30px 0 30px;">
         <table border="0" cellspacing="0" cellpadding="0">
             <tr>
                 <td align="center" style="border-radius: 3px;">
@@ -193,7 +193,7 @@
 
 <!-- Adjusted spacing for better UI -->
 <tr>
-    <td bgcolor="#ffffff" align="center" style="padding: 20px 30px 0 30px;">
+    <td bgcolor="#f1f1f1" align="center" style="padding: 10px 30px 0 30px;">
         <table border="0" cellspacing="0" cellpadding="0">
             <tr>
                 <td align="center" style="border-radius: 3px;">
@@ -210,7 +210,7 @@
 </tr>
 
 <tr>
-    <td bgcolor="#ffffff" align="center" style="padding: 20px 30px 0 30px;">
+    <td bgcolor="#f1f1f1" align="center" style="padding: 10px 30px 0 30px;">
         <table border="0" cellspacing="0" cellpadding="0">
             <tr>
                 <td align="center" style="border-radius: 3px;">
@@ -235,7 +235,7 @@
                                 <td bgcolor="#ffffff" align="center" style="padding: 20px 30px 60px 30px;">
                                     <table border="0" cellspacing="0" cellpadding="0">
                                         <tr>
-                                            <td align="center" style="border-radius: 3px;" bgcolor="#FFA73B">
+                                            <td align="center" style="border-radius: 3px;" bgcolor="#ffffff">
                                             <a href="https://app.pinkad.pk/email-verified" target="_blank" 
                                             style="font-size: 20px; font-family: Helvetica, Arial, sans-serif; color: #ffffff;
                                              text-decoration: none; color: #d43790; text-decoration: none; padding: 15px 25px; 
