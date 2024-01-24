@@ -122,9 +122,9 @@
                 <tr>
                     <td bgcolor="#ffffff" align="center" valign="top" style="padding: 40px 20px 20px 20px; border-radius: 4px 4px 0px 0px; color: #111111; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 48px; font-weight: 400; letter-spacing: 4px; line-height: 48px;">
                     
-                         <img src="https://pinkad.pk/portal/assets/img/logo-default.png" width="125" height="120" 
+                         <img src="https://pinkad.pk/portal/assets/img/logo-default.png" width="205" height="200" 
                          style="display: block; border: 0px;" />
-                         <h1 style="font-size: 48px; font-weight: 400; margin: 2;">Welcome!</h1>
+                         <h1 style="font-size: 32px; font-weight: 400; margin: 2;">Welcome!</h1>
                     </td>
                 </tr>
             </table>
@@ -172,72 +172,61 @@
                         <p style="margin: 0;"><a href="#" target="_blank" style="color: #FFA73B;">https://ts.xx/sdfgd</a></p>
                     </td>
                 </tr> -->
-                <tr>
-                    <td bgcolor="#ffffff" align="left">
-                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                            <tr>
-                                <td bgcolor="#ffffff" align="center" style="padding: 20px 30px 60px 30px;">
-                                    <table border="0" cellspacing="0" cellpadding="0">
-                                        <tr>
-                                            <td align="center" style="border-radius: 3px;" bgcolor="#FFA73B">
-                                            <h5>
-                                            To watch your profile on PinkAd fb page
-</h5>
-                                            <a href="m.facebook.com/pinkad.pk" target="_blank" 
-                                            style="font-size: 20px; font-family: Helvetica, Arial, sans-serif; color: #ffffff;
-                                             text-decoration: none; color: #d43790; text-decoration: none; padding: 15px 25px; 
-                                             border-radius: 2px; border: 1px solid #FFA73B; display: inline-block;">
-                                             Follow PinkAd WhatsApp channel
-                                             </a>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </td>
-                            </tr>
-                            <!--  -->
-                            <tr>
-                                <td bgcolor="#ffffff" align="center" style="padding: 20px 30px 60px 30px;">
-                                    <table border="0" cellspacing="0" cellpadding="0">
-                                        <tr>
-                                            <td align="center" style="border-radius: 3px;" bgcolor="#FFA73B">
-                                            <h5>
-                                            To watch your profile on PinkAd Instagram 
-</h5>
-                                            <a href="m.instagram.com/pinkad.pk" target="_blank" 
-                                            style="font-size: 20px; font-family: Helvetica, Arial, sans-serif; color: #ffffff;
-                                             text-decoration: none; color: #d43790; text-decoration: none; padding: 15px 25px; 
-                                             border-radius: 2px; border: 1px solid #FFA73B; display: inline-block;">
-                                             Follow PinkAd WhatsApp channel
-                                             </a>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </td>
-                            </tr>
-                            <!--  -->
-                            <tr>
-                                <td bgcolor="#ffffff" align="center" style="padding: 20px 30px 60px 30px;">
-                                    <table border="0" cellspacing="0" cellpadding="0">
-                                        <tr>
-                                            <td align="center" style="border-radius: 3px;" bgcolor="#FFA73B">
-                                            <h5>
-                                            To get promotional tips about campaign start date etc.
-</h5>
-                                            <a href="https://whatsapp.com/channel/0029VaFeRli5vKAA6uEjVN23" target="_blank" 
-                                            style="font-size: 20px; font-family: Helvetica, Arial, sans-serif; color: #ffffff;
-                                             text-decoration: none; color: #d43790; text-decoration: none; padding: 15px 25px; 
-                                             border-radius: 2px; border: 1px solid #FFA73B; display: inline-block;">
-                                             Follow PinkAd WhatsApp channel
-                                             </a>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr> 
-              
+              <!--  -->
+              <tr>
+    <td bgcolor="#ffffff" align="center" style="padding: 20px 30px 0 30px;">
+        <table border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td align="center" style="border-radius: 3px;">
+                    <h5 style="margin-bottom: 10px;">
+                        To watch your profile on PinkAd Facebook page
+                    </h5>
+                    <a href="https://m.facebook.com/pinkad.pk" target="_blank" style="font-size: 20px; font-family: Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none; color: #d43790; text-decoration: none; padding: 15px 25px; border-radius: 2px; border: 1px solid #FFA73B; display: inline-block; background-color: #d43790;">
+                        Follow PinkAd Facebook Page
+                    </a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<!-- Repeat the same structure for other sections with different links -->
+
+<!-- Adjusted spacing for better UI -->
+<tr>
+    <td bgcolor="#ffffff" align="center" style="padding: 20px 30px 0 30px;">
+        <table border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td align="center" style="border-radius: 3px;">
+                    <h5 style="margin-bottom: 10px;">
+                        To watch your profile on PinkAd Instagram
+                    </h5>
+                    <a href="https://m.instagram.com/pinkad.pk" target="_blank" style="font-size: 20px; font-family: Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none; color: #d43790; text-decoration: none; padding: 15px 25px; border-radius: 2px; border: 1px solid #FFA73B; display: inline-block; background-color: #d43790;">
+                        Follow PinkAd Instagram
+                    </a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+
+<tr>
+    <td bgcolor="#ffffff" align="center" style="padding: 20px 30px 0 30px;">
+        <table border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td align="center" style="border-radius: 3px;">
+                    <h5 style="margin-bottom: 10px;">
+                        To get promotional tips about campaign start date, etc.
+                    </h5>
+                    <a href="https://whatsapp.com/channel/0029VaFeRli5vKAA6uEjVN23" target="_blank" style="font-size: 20px; font-family: Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none; color: #d43790; text-decoration: none; padding: 15px 25px; border-radius: 2px; border: 1px solid #FFA73B; display: inline-block; background-color: #d43790;">
+                        Follow PinkAd WhatsApp Channel
+                    </a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+
+              <!--  -->
 
                 <tr>
                     <td bgcolor="#ffffff" align="left">
