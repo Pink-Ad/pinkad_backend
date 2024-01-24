@@ -397,7 +397,7 @@ class AuthController extends Controller
                 ->where('email', $request->email)
                 ->update(['remember_token' => $verify_token, 'updated_at' => Carbon::now()]);
             $data1['email'] = $request->email;
-            Mail::send('admin.pages.email.signup_verification',['data' => $data1], function ($message)use($data1) {
+            Mail::send('admin.pages.email.signup_verifications',['data' => $data1], function ($message)use($data1) {
                 $message->to($data1['email'], 'Email Verification')->subject('Verify Your Email');
             });
 
