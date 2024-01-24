@@ -176,6 +176,7 @@ class PostController extends Controller
         $post = Post::with('shop', 'shop.seller', 'category', 'subcategory')->where('status', 1)->where('IsFeature', 1)->paginate(10);
         return $post;
     }
+
     public function insights(Request $request)
     {
         try {
@@ -234,7 +235,7 @@ class PostController extends Controller
                     }
                 }
             }
-            if($request->bulk_action == "status-active")
+            if($request->bulk_action == "status-inactive")
             {
                 if($request->has('offers'))
                 {
@@ -245,12 +246,51 @@ class PostController extends Controller
                         $offer->save();
                     }
                 }
-
+            }
+            if($request->bulk_action == "status-active")
+            {
+                if($request->has('offers'))
+                {
+                    foreach($request->offers as $row)
+                    {
+                        $offer = Post::find($row);
+                        $offer->status = 1;
+                        $offer->save();
+                    }
+                }
+            }
+            if($request->bulk_action == "status-reject")
+            {
+                if($request->has('offers'))
+                {
+                    foreach($request->offers as $row)
+                    {
+                        $offer = Post::find($row);
+                        $offer->status = 2;
+                        $offer->save();
+                    }
+                }
             }
         }
         return redirect()->back();
     }
 
+    public function filter_offer_status(Request $request){
+        $post= null;
+        if($request->filter_id=="1"){
+            $post = Post::where('status',1)->get();
+        }
+        else if($request->filter_id=="2"){
+            $post = Post::where('status',2)->get();
+        }
+        else if($request->filter_id=="0"){
+            $post = Post::where('status',0)->get();
+        }
+        else if($request->filter_id=="4"){
+            $post = Post::all();       
+        }
+        return view('admin.pages.offers.offers.index', compact('post'));
+    }
 
 //     public function filterpostsbanner(Request $request)
 // {

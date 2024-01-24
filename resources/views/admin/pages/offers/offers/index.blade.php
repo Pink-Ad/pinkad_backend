@@ -25,17 +25,27 @@
                                 {{-- <div class="col-12 col-lg-auto mb-3 mb-lg-0">
                                     <a href="/offers/form" class="btn btn-primary btn-md font-weight-semibold btn-py-2 px-4">+ Add Offer</a>
                                 </div> --}}
-                                <div class="col-8 col-lg-auto ms-auto ml-auto mb-3 mb-lg-0">
-
+                                
+                                <div class="col-6 col-lg-8 ps-lg-1 mb-3 mb-lg-0">
+                                    <div>
+                                        <form type="GET" action="{{ route('filter.offers') }}" class="d-flex align-items-lg-center flex-column flex-lg-row">
+                                            @csrf
+                                            <label class="ws-nowrap me-3 mb-0"><i class="bx bx-filter-alt" style="font-size:24px;color:#96207a"></i></label>
+                                            <select class="form-control select-style-1 filter-by" name="filter_id">
+                                                <option value="1">active</option>
+                                                <option value="2">rejected</option>
+                                                <option value="0">inactive</option>
+                                                <option value="4" selected>All</option>
+                                            </select>
+                                            <button type="submit" class="ml-2 btn btn-primary">Filter Offers</button>
+                                        </form>
+                                    </div>
                                 </div>
-                                <div class="col-4 col-lg-auto ps-lg-1 mb-3 mb-lg-0">
-
-                                </div>
-                                <div class="col-12 col-lg-auto ps-lg-1">
+                                <div class="col-4 col-lg-auto ps-lg-1" >
                                     <div class="search search-style-1 search-style-1-lg mx-lg-auto">
-                                        <div class="input-group">
+                                        <div class="input-group" >
                                             <input type="text" class="search-term form-control" name="search-term"
-                                                id="search-term" placeholder="Search Offer">
+                                                id="search-term" placeholder="Search Offer" style="float:right">
                                             <button class="btn btn-default" type="submit"><i
                                                     class="bx bx-search"></i></button>
                                         </div>
@@ -47,19 +57,15 @@
                             @csrf
                             <table class="table table-ecommerce-simple table-borderless table-striped mb-0"
                                 id="datatable-ecommerce-list" style="min-width: 640px;">
-
                                 <thead>
-
                                     <tr>
-                                        <th width="8%"><input type="checkbox" name="select_all"
-                                                class="select-all checkbox-style-1 p-relative top-2" value="" required/></th>
-                                        {{--                                <th width="5%">ID</th> --}}
-                                        <th width="10%">Shop</th>
-                                        <th width="20%">Image</th>
-                                        <th width="15%">Title</th>
-                                        <th width="25%">Description</th>
-                                        <th width="10%">Status</th>
-                                        <th width="10%" style="text-align: center">Action</th>
+                                        <th><input type="checkbox" name="select_all" class="select-all checkbox-style-1 p-relative top-2" value="" required/></th>
+                                        <th>Shop</th>
+                                        <th>Image</th>
+                                        <th>Title</th>
+                                        <th>Description</th>
+                                        <th>Status</th>
+                                        <th style="text-align: center">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -255,7 +261,9 @@
                                                         style="min-width: 170px;" required>
                                                         <option value="" selected>Bulk Actions</option>
                                                         <option value="delete">Delete</option>
-                                                        <option value="status-active">InActive</option>
+                                                        <option value="status-active">Active</option>
+                                                        <option value="status-inactive">InActive</option>
+                                                        <option value="status-reject">Reject</option>
                                                     </select>
                                                     <button type="button" onclick="openActionModal()"
                                                         class="bulk-action-apply btn btn-light btn-px-4 py-3 border font-weight-semibold text-color-dark text-3">Apply</button>

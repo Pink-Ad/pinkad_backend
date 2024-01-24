@@ -80,11 +80,13 @@ Route::get('/visitor/form', function () {
 
 // Sellers
 
-
  Route::get('/seller-shops/form', function () {
      return view('admin/pages/sellers/seller-shops/create');
  });
-
+ Route::get('/seller/filter', [SellerController::class, 'filter_seller'])->name('seller.filter');
+ Route::get('/seller/filter', [SellerController::class, 'filter_seller'])->name('filter.seller');
+ Route::get('/offer/filter', [PostController::class, 'filter_offer_status'])->name('filter.offers');
+ 
 // -- Offers -- //
 
 // categories

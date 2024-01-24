@@ -34,28 +34,29 @@ class ForgotPasswordController extends Controller
 
     public function postEmail(Request $request)
     {
+
         // $request->validate([
         //     'email' => 'required|email|exists:users',
         // ]);
 
-        // // $token = Str::random(64);
-        // $token = Str::random(64);
+        $token = Str::random(64);
 
-        // DB::table('password_resets')->insert(
-        //     ['email' => $request->email, 'token' => $token, 'created_at' => Carbon::now()]
-        // );
+        DB::table('password_resets')->insert(
+            ['email' => $request->email, 'token' => $token, 'created_at' => Carbon::now()]
+        );
 
-        // $check = Mail::send('admin.pages.email.forgot-pass', ['token' => $token], function ($message) use ($request) {
-        //     $message->to($request->email);
-        //     $message->subject('Reset Password Notification');
-        // });
-        // // dd($check);
-        // return response()->json(['success'=>"we have sent you the Email..."]);
+        $check = Mail::send('admin.pages.email.forgot-pass', ['token' => $token], function ($message) use ($request) {
+            $message->to($request->email);
+            $message->subject('Password Reset Notification');
+        });
+
+        return response()->json(['success'=>"we have sent you the Email..."]);
         $this->validateEmail($request);
 
         // We will send the password reset link to this user. Once we have attempted
         // to send the link, we will examine the response then see the message we
         // need to show to the user. Finally, we'll send out a proper response.
+
         $response = $this->broker()->sendResetLink(
             $this->credentials($request)
         );

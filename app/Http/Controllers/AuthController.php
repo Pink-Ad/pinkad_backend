@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\Seller;
 use App\Models\Shop;
+use App\Models\Area;
+use App\Models\City;
 use App\Models\Customer;
 use App\Models\SaleMan;
 use App\Models\Saleman_comision_details;
@@ -17,8 +19,8 @@ use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
-
-
+use Facebook\Facebook;
+use Illuminate\Support\Facades\Http;
 
 class AuthController extends Controller
 {
@@ -55,7 +57,6 @@ class AuthController extends Controller
                     Auth::logout();
                     return response()->json([
                         'message' => 'You are Currently De Active Now Kindly Contact to Admin...',
-
                     ]);
                 }
                 return response()->json([
@@ -120,6 +121,8 @@ class AuthController extends Controller
             ]);
         }
     }
+
+
     public function salesman_login(Request $request)
     {
         try {
@@ -165,7 +168,7 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
-        //  dd($request->all());
+        $message=null;
         try {
            $seller_link = null;
             if ($request->role == 2) {
@@ -177,6 +180,7 @@ class AuthController extends Controller
                     'phone' => 'required|string',
                     'area_id' => 'required|numeric|exists:area,id',
                 ]);
+
                 $request->validate([
 
                     'isFeatured' => 'required|string',
@@ -191,12 +195,14 @@ class AuthController extends Controller
                     // 'cover_image' => 'required|image',
 
                 ]);
+
                 if ($request->reference == "salesman") {
                     $request->validate([
                         'salesman_id' => 'required|numeric|exists:salemans,id',
                     ]);
                 }
             }
+
             if ($request->role == 2){
             $user = User::create([
                 'name' => $request->name,
@@ -204,6 +210,7 @@ class AuthController extends Controller
                 'password' => Hash::make($request->password),
                 'role' => $request->role,
             ]);
+
             $credentials = $request->only('email', 'password');
             $token = auth('api')->attempt($credentials);
         }
@@ -302,7 +309,56 @@ class AuthController extends Controller
                 $shop = Shop::create($data);
                 $shop->area = $request->area_id;
                 $shop->save();
+
+                // $area_data=Area::where('id',$request->area_id)->get();
+                // $city_id=$area_data[0]['city_id'];
+                // $city_data=City::where('id',$city_id)->get();
+                
+                // $area_name=$area_data[0]['name'];
+                // $city_name=$city_data[0]['name'];
+
+                // $fbk_message = $request->description." - ". $area_name."," .$city_name."\r\n";
+                // $fbk_message .= "Seller Contact: ". $request->whatsapp;
+                // if ($request->has('insta_page')) {
+                //     $fbk_message .= "\r\nInstagram: ". $request->insta_page;
+                // }
+                // if ($request->has('faecbook_page')) {
+                //     $fbk_message .= "\r\nFacebook Page: ". $request->faecbook_page;
+                // }
+
+                // $insta_message = $request->description." - ". $area_name .",". $city_name ."\r\n";
+                // $insta_message .= "Seller Contact: ". $request->whatsapp; 
+
+                // // SM Integration
+                // $long_live_access_token= Http::post('https://graph.facebook.com/oauth/access_token', [
+                //     'grant_type' => 'fb_exchange_token',
+                //     'client_id' => '891955272493237',
+                //     'client_secret' => 'f7d90606830a650135e5a00e9a92cc48',
+                //     'fb_exchange_token' => 'EAAMrOoUsKLUBOZBDLZCf7oXZBcvenxKTiJnZBOSLoEZAufxuZCgR6ZAAnhxeP0ZBSGRHsJEaazzq9NI7RZCbOY1iT6C0BVrZBZBZC2JvfyzczHvP8VaphHzd90pgd54pmE27S9osAm3IJtaYp33AZA13sHTLp74TgP5F95ZBjf0qc8RK47BOHBUf6v9cdnUqmJHVZB2SHwZD',
+                // ]);
+        
+                // $access_token=$long_live_access_token['access_token'];
+
+                // $fbk_posting = Http::post('https://graph.facebook.com/v18.0/106430192447842/photos', [
+                //     'url' =>'https://pinkad.pk/portal/public/storage/'.$request->coverimage,
+                //     'message' => $fbk_message,
+                //     'access_token' => $access_token,
+                // ]);
+        
+                // $inst_container = Http::post('https://graph.facebook.com/v18.0/17841459132604500/media', [
+                //     'image_url' =>'https://pinkad.pk/portal/public/storage/'.$request->coverimage,
+                //     'caption' => $insta_message,
+                //     'access_token' => $access_token,
+                // ]); 
+                
+                // $creation_id=$inst_container['id'];
+        
+                // $inst_posting = Http::post('https://graph.facebook.com/v18.0/17841459132604500/media_publish', [
+                //     'creation_id' => $creation_id,
+                //     'access_token' => $access_token,
+                // ]); 
             }
+        
             elseif ($request->role == 3) {
                 $customer = new Customer();
                 $customer->user_id = $user->id;
@@ -333,6 +389,7 @@ class AuthController extends Controller
                 $customer->save();
                 $seller_link= 'guest_link';
             }
+
             $verify_token =  $this->generateRandomString(100);
             $data1 = array();
             $data1['verify_token'] = "http://ms-hostingladz.com/DigitalBrand/email/verify/".$request->email."/".$verify_token;
@@ -343,6 +400,7 @@ class AuthController extends Controller
             Mail::send('admin.pages.email.signup_verification',['data' => $data1], function ($message)use($data1) {
                 $message->to($data1['email'], 'Email Verification')->subject('Verify Your Email');
             });
+
 
             return response()->json([
                 'status' => 'success',
