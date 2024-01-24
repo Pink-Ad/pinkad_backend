@@ -210,7 +210,6 @@ class AuthController extends Controller
             ]);
 
             $credentials = $request->only('email', 'password');
-            die($credentials);
             $token = auth('api')->attempt($credentials);
         }
             elseif ($request->role == 3){
