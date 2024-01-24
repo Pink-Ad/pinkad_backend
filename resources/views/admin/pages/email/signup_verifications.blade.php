@@ -119,7 +119,9 @@
             <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
                 <tr>
                     <td bgcolor="#ffffff" align="center" valign="top" style="padding: 40px 20px 20px 20px; border-radius: 4px 4px 0px 0px; color: #111111; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 48px; font-weight: 400; letter-spacing: 4px; line-height: 48px;">
-                        <h1 style="font-size: 48px; font-weight: 400; margin: 2;">Welcome!</h1> <img src=" https://img.icons8.com/clouds/100/000000/handshake.png" width="125" height="120" style="display: block; border: 0px;" />
+                        <h1 style="font-size: 48px; font-weight: 400; margin: 2;">Welcome!</h1>
+                         <img src="https://pinkad.pk/portal/assets/img/logo-default.png" width="125" height="120" 
+                         style="display: block; border: 0px;" />
                     </td>
                 </tr>
             </table>
@@ -145,8 +147,10 @@
                                             <a href="https://app.pinkad.pk/email-verified" target="_blank" 
                                             style="font-size: 20px; font-family: Helvetica, Arial, sans-serif; color: #ffffff;
                                              text-decoration: none; color: #ffffff; text-decoration: none; padding: 15px 25px; 
-                                             border-radius: 2px; border: 1px solid #FFA73B; display: inline-block;">Click Here to Verify Your Email
-                                             </a></td>
+                                             border-radius: 2px; border: 1px solid #FFA73B; display: inline-block;">
+                                             Click Here to Verify Your Email
+                                             </a>
+                                            </td>
                                         </tr>
                                     </table>
                                 </td>
@@ -154,24 +158,54 @@
                         </table>
                     </td>
                 </tr> <!-- COPY -->
-                <tr>
+                <!-- <tr>
                     <td bgcolor="#ffffff" align="left" style="padding: 0px 30px 0px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
                         <p style="margin: 0;">If that doesn't work, copy and paste the following link in your browser:</p>
                     </td>
-                </tr> <!-- COPY -->
-                <tr>
+                </tr> COPY -->
+                <!-- <tr>
                     <td bgcolor="#ffffff" align="left" style="padding: 20px 30px 20px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
                         <p style="margin: 0;"><a href="#" target="_blank" style="color: #FFA73B;">https://ts.xx/sdfgd</a></p>
                     </td>
-                </tr>
+                </tr> -->
                 <tr>
                     <td bgcolor="#ffffff" align="left" style="padding: 0px 30px 20px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
-                        <p style="margin: 0;">If you have any questions, just reply to this email—we're always happy to help out.</p>
+                        <p style="margin: 0;">
+                    To get promotional tips about campaign start date etc.
+                    </br>
+                    <a href="https://whatsapp.com/channel/0029VaFeRli5vKAA6uEjVN23" target="_blank" 
+                    style="font-size: 20px; font-family: Helvetica, Arial, sans-serif; color: #ffffff;
+                        text-decoration: none; color: #ffffff; text-decoration: none; padding: 15px 25px; 
+                        border-radius: 2px; border: 1px solid #FFA73B; display: inline-block;">
+                       Follow PinkAd WhatsApp channel
+                        </a>
+</br>
+
+                    To watch your profile on PinkAd fb page
+                    </br>
+                    <a href="m.facebook.com/pinkad.pk" target="_blank" 
+                    style="font-size: 20px; font-family: Helvetica, Arial, sans-serif; color: #ffffff;
+                        text-decoration: none; color: #ffffff; text-decoration: none; padding: 15px 25px; 
+                        border-radius: 2px; border: 1px solid #FFA73B; display: inline-block;">
+                     Like Fb page
+                        </a>
+</br>
+
+
+                    To watch your profile on PinkAd Instagram 
+</br>
+                    <a href="m.instagram.com/pinkad.pk" target="_blank" 
+                    style="font-size: 20px; font-family: Helvetica, Arial, sans-serif; color: #ffffff;
+                        text-decoration: none; color: #ffffff; text-decoration: none; padding: 15px 25px; 
+                        border-radius: 2px; border: 1px solid #FFA73B; display: inline-block;">
+                     Follow Instagram 
+                        </a>
+                </p>
                     </td>
                 </tr>
                 <tr>
                     <td bgcolor="#ffffff" align="left" style="padding: 0px 30px 40px 30px; border-radius: 0px 0px 4px 4px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
-                        <p style="margin: 0;">Cheers,<br>GoSnippets Team</p>
+                        <p style="margin: 0;">Pinkad Team</p>
                     </td>
                 </tr>
             </table>
