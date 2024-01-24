@@ -9,6 +9,8 @@ use App\Models\User;
 use App\Models\Seller;
 use App\Models\Shop;
 use App\Models\Customer;
+use App\Models\SaleMan;
+use App\Models\Saleman_comision_details;
 use App\Traits\SaveImage;
 use Carbon\Carbon;
 use Exception;
@@ -227,11 +229,7 @@ class AuthController extends Controller
                 $seller->SELL_ID = $id;
 
                 $seller->user_id = $user->id;
-                // 
-                if ($request->has('salesman_id') && $request->salesman_id) {
-                    $seller->salesman_id = $request->salesman_id;
-                }
-                // 
+               
                 if ($request->has('business_name') && $request->business_name) {
                     $seller->business_name = $request->business_name;
                 }
@@ -274,6 +272,21 @@ class AuthController extends Controller
                 }
                 $seller->save();
                 $seller->seller_link = 'https://www.pinkad.pk/seller?id='.$seller->id;
+                 // for salesman
+                 if ($request->has('salesman_id') && $request->salesman_id) {
+                    $seller->salesman_id = $request->salesman_id;
+                    $saleman = SaleMan::find($request->salesman_id);
+
+                    $saleman_commision_details = new Saleman_comision_details();
+                    $saleman_commision_details->date = now()->toDateString(); 
+                    $saleman_commision_details->req_type = 'deposit';
+                    $saleman_commision_details->seller_id =$seller->id; ;
+                    $saleman_commision_details->salesman_id = $request->salesman_id;
+                    $saleman_commision_details->amount =$saleman->comission_amount;
+                    // $saleman_commision_details->closing_balance = Carbon;
+                    $saleman_commision_details->save();
+                }
+                 // for salesman 
                 $seller->save();
                 $seller_link= $seller->seller_link;
                 $data['seller_id'] = $seller->id;
@@ -322,12 +335,12 @@ class AuthController extends Controller
             }
             $verify_token =  $this->generateRandomString(100);
             $data1 = array();
-            $data1['verify_token'] = "http://ms-hostingladz.com/DigitalBrand/email/verify/" . $request->email . "/" . $verify_token;
+            $data1['verify_token'] = "http://ms-hostingladz.com/DigitalBrand/email/verify/".$request->email."/".$verify_token;
             $cmd = DB::connection('mysql')->table('users')
                 ->where('email', $request->email)
                 ->update(['remember_token' => $verify_token, 'updated_at' => Carbon::now()]);
             $data1['email'] = $request->email;
-            Mail::send('admin.pages.email.signup_verification', ['data' => $data1], function ($message)use($data1) {
+            Mail::send('admin.pages.email.signup_verification',['data' => $data1], function ($message)use($data1) {
                 $message->to($data1['email'], 'Email Verification')->subject('Verify Your Email');
             });
 
