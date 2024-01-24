@@ -138,4 +138,17 @@ class SalesManController extends Controller
         $salesman->save();
         return redirect()->back();
     }
+    // mobile api
+
+
+    public function get_all_salesman() {
+        $sellers = SaleMan::with(['user' => function($query) {
+            $query->orderBy('name', 'asc');
+        }])->get();
+    
+        return $sellers;
+    }
+    
+    
+
 }
