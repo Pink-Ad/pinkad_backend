@@ -283,6 +283,9 @@ class AuthController extends Controller
                  if ($request->has('salesman_id') && $request->salesman_id) {
                     $seller->salesman_id = $request->salesman_id;
                     $saleman = SaleMan::find($request->salesman_id);
+                    $saleman->total_balance = $saleman->total_balance+$saleman->comission_amount;
+                    $saleman->total_sellers  =   $saleman->total_sellers+1;
+                    $saleman->save();
 
                     $saleman_commision_details = new Saleman_comision_details();
                     $saleman_commision_details->date = now()->toDateString(); 
@@ -290,8 +293,11 @@ class AuthController extends Controller
                     $saleman_commision_details->seller_id =$seller->id; ;
                     $saleman_commision_details->salesman_id = $request->salesman_id;
                     $saleman_commision_details->amount =$saleman->comission_amount;
-                    // $saleman_commision_details->closing_balance = Carbon;
+                    $saleman_commision_details->closing_balance = $saleman->total_balance;
                     $saleman_commision_details->save();
+                    // 
+                
+                   
                 }
                  // for salesman 
                 $seller->save();
