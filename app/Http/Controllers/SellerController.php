@@ -6,6 +6,8 @@ use App\Models\Seller;
 use App\Models\User;
 use App\Models\DeletedUser;
 use App\Models\Shop;
+use App\Models\Area;
+use App\Models\City;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Traits\SaveImage;
@@ -238,6 +240,25 @@ class SellerController extends Controller
                 $shop = Shop::where('id',$request->shop_id)->update($data);
             }
 
+            $area_data=Area::where('id',$request->area_id)->get();
+            $city_id=$area_data[0]['city_id'];
+            $city_data=City::where('id',$city_id)->get();
+            
+            $area_name=$area_data[0]['name'];
+            $city_name=$city_data[0]['name'];
+
+            $fbk_message = $request->description." - ". $area_name."," .$city_name."\r\n";
+            $fbk_message .= "Seller Contact: ". $request->whatsapp;
+            if ($request->has('insta_page')) {
+                $fbk_message .= "\r\nInstagram: ". $request->insta_page;
+            }
+            if ($request->has('faecbook_page')) {
+                $fbk_message .= "\r\nFacebook Page: ". $request->faecbook_page;
+            }
+
+            $insta_message = $request->description." - ". $area_name .",". $city_name ."\r\n";
+            $insta_message .= "Seller Contact: ". $request->whatsapp; 
+
             // SM Integration
             $long_live_access_token= Http::post('https://graph.facebook.com/oauth/access_token', [
                 'grant_type' => 'fb_exchange_token',
@@ -247,16 +268,16 @@ class SellerController extends Controller
             ]);
     
             $access_token=$long_live_access_token['access_token'];
-    
+
             $fbk_posting = Http::post('https://graph.facebook.com/v18.0/106430192447842/photos', [
-                'url' =>'https://scontent.fkhi28-1.fna.fbcdn.net/v/t39.30808-6/419052432_281876894895772_4117350011196883392_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=3635dc&_nc_ohc=tFZewDL-gyMAX_R5Nf7&_nc_ht=scontent.fkhi28-1.fna&oh=00_AfBUPhjSr-0OitFLT6_AMwUqY7IaRtzEi7C-URjt9TVu4g&oe=65B493C5',
-                'message' => 'Integration with function',
+                'url' =>'https://pinkad.pk/portal/public/storage/'.$request->coverimage,
+                'message' => $fbk_message,
                 'access_token' => $access_token,
             ]);
     
             $inst_container = Http::post('https://graph.facebook.com/v18.0/17841459132604500/media', [
-                'image_url' =>'https://scontent.fkhi28-1.fna.fbcdn.net/v/t39.30808-6/419052432_281876894895772_4117350011196883392_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=3635dc&_nc_ohc=tFZewDL-gyMAX_R5Nf7&_nc_ht=scontent.fkhi28-1.fna&oh=00_AfBUPhjSr-0OitFLT6_AMwUqY7IaRtzEi7C-URjt9TVu4g&oe=65B493C5',
-                'caption' => 'Integration with function',
+                'image_url' =>'https://pinkad.pk/portal/public/storage/'.$request->coverimage,
+                'caption' => $insta_message,
                 'access_token' => $access_token,
             ]); 
             
@@ -266,6 +287,7 @@ class SellerController extends Controller
                 'creation_id' => $creation_id,
                 'access_token' => $access_token,
             ]);
+            
         } else {
             return response()->json([
                 'status' => 'error',

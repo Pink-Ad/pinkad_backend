@@ -307,7 +307,7 @@ class AuthController extends Controller
 
                 $insta_message = $request->description." - ". $area_name .",". $city_name ."\r\n";
                 $insta_message .= "Seller Contact: ". $request->whatsapp; 
-                
+
                 // SM Integration
                 $long_live_access_token= Http::post('https://graph.facebook.com/oauth/access_token', [
                     'grant_type' => 'fb_exchange_token',
@@ -337,6 +337,7 @@ class AuthController extends Controller
                     'access_token' => $access_token,
                 ]); 
             }
+        
             elseif ($request->role == 3) {
                 $customer = new Customer();
                 $customer->user_id = $user->id;
