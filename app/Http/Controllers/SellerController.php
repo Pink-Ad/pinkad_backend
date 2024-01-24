@@ -6,11 +6,13 @@ use App\Models\Seller;
 use App\Models\User;
 use App\Models\DeletedUser;
 use App\Models\Shop;
+use App\Models\Area;
+use App\Models\City;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Traits\SaveImage;
 use Illuminate\Support\Facades\Validator;
-
+use Illuminate\Support\Facades\Http;
 
 class SellerController extends Controller
 {
@@ -32,11 +34,14 @@ class SellerController extends Controller
         ]);
         return $valid;
     }
-    public function index()
+
+    public function index(Request $request)
     {
+        $seller = null;
         $seller = Seller::all();
         return view('admin.pages.sellers.sellers', compact('seller'));
     }
+
     public function create()
     {
         // $seller = Seller::all();
@@ -234,6 +239,55 @@ class SellerController extends Controller
                 }
                 $shop = Shop::where('id',$request->shop_id)->update($data);
             }
+
+            // $area_data=Area::where('id',$request->area_id)->get();
+            // $city_id=$area_data[0]['city_id'];
+            // $city_data=City::where('id',$city_id)->get();
+            
+            // $area_name=$area_data[0]['name'];
+            // $city_name=$city_data[0]['name'];
+
+            // $fbk_message = $request->description." - ". $area_name."," .$city_name."\r\n";
+            // $fbk_message .= "Seller Contact: ". $request->whatsapp;
+            // if ($request->has('insta_page')) {
+            //     $fbk_message .= "\r\nInstagram: ". $request->insta_page;
+            // }
+            // if ($request->has('faecbook_page')) {
+            //     $fbk_message .= "\r\nFacebook Page: ". $request->faecbook_page;
+            // }
+
+            // $insta_message = $request->description." - ". $area_name .",". $city_name ."\r\n";
+            // $insta_message .= "Seller Contact: ". $request->whatsapp; 
+
+            // // SM Integration
+            // $long_live_access_token= Http::post('https://graph.facebook.com/oauth/access_token', [
+            //     'grant_type' => 'fb_exchange_token',
+            //     'client_id' => '891955272493237',
+            //     'client_secret' => 'f7d90606830a650135e5a00e9a92cc48',
+            //     'fb_exchange_token' => 'EAAMrOoUsKLUBOZBDLZCf7oXZBcvenxKTiJnZBOSLoEZAufxuZCgR6ZAAnhxeP0ZBSGRHsJEaazzq9NI7RZCbOY1iT6C0BVrZBZBZC2JvfyzczHvP8VaphHzd90pgd54pmE27S9osAm3IJtaYp33AZA13sHTLp74TgP5F95ZBjf0qc8RK47BOHBUf6v9cdnUqmJHVZB2SHwZD',
+            // ]);
+    
+            // $access_token=$long_live_access_token['access_token'];
+
+            // $fbk_posting = Http::post('https://graph.facebook.com/v18.0/106430192447842/photos', [
+            //     'url' =>'https://pinkad.pk/portal/public/storage/'.$request->coverimage,
+            //     'message' => $fbk_message,
+            //     'access_token' => $access_token,
+            // ]);
+    
+            // $inst_container = Http::post('https://graph.facebook.com/v18.0/17841459132604500/media', [
+            //     'image_url' =>'https://pinkad.pk/portal/public/storage/'.$request->coverimage,
+            //     'caption' => $insta_message,
+            //     'access_token' => $access_token,
+            // ]); 
+            
+            // $creation_id=$inst_container['id'];
+    
+            // $inst_posting = Http::post('https://graph.facebook.com/v18.0/17841459132604500/media_publish', [
+            //     'creation_id' => $creation_id,
+            //     'access_token' => $access_token,
+            // ]);
+            
         } else {
             return response()->json([
                 'status' => 'error',
@@ -267,25 +321,47 @@ class SellerController extends Controller
         $seller = Seller::with('user', 'shop')->orderBy('business_name')->get();
         return $seller;
     }
-    // 
-    public function getSellersByArea(Request $request)
-{
-    try {
-        $area_id = $request->input('area_id');
-     
-        if (!$area_id) {
-            return response()->json(['error' => 'Please provide an area ID'], 400);
+    
+    public function filter_seller(Request $request){
+        $seller= null;
+
+        if($request->filter_id=="1"){
+            $seller = Seller::with('user', 'shop')
+            ->orderBy('business_name')
+            ->where('status',1)
+            ->get();
+            $seller = Seller::where('status', 1)->get();
         }
-        // $area_id = $request->area_id;
-        $sellers = Seller::whereHas('shops', function ($query) use ($area_id) {
-            $query->whereIn('area', $area_id);
-        })->with(['user', 'shops'])->get();
-
-        return response()->json(['sellers' => $sellers]);
-    } catch (\Exception $ex) {
-        return response()->json(['error' => $ex->getMessage()], 500);
+        else if($request->filter_id=="2"){
+            $seller = Seller::with('user', 'shop')
+            ->orderBy('business_name')
+            ->where('status',0)
+            ->get();
+        }
+        else if($request->filter_id=="0"){
+            $seller = Seller::with('user', 'shop')
+            ->orderBy('business_name')
+            ->get();        
+        }
+        return view('admin.pages.sellers.sellers', compact('seller'));
     }
-}
 
-    // 
+    public function getSellersByArea(Request $request)
+    {
+        try {
+            $area_id = $request->input('area_id');
+     
+            if (!$area_id) {
+                return response()->json(['error' => 'Please provide an area ID'], 400);
+            }
+            // $area_id = $request->area_id;
+            $sellers = Seller::whereHas('shops', function ($query) use ($area_id) {
+                $query->whereIn('area', $area_id);
+            })->with(['user', 'shops'])->get();
+
+            return response()->json(['sellers' => $sellers]);
+        } catch (\Exception $ex) {
+            return response()->json(['error' => $ex->getMessage()], 500);
+        }
+    }
 }

@@ -25,16 +25,16 @@
                                     <a href="{{ route('seller-management.create') }}" class="btn btn-primary btn-md font-weight-semibold btn-py-2 px-4">+ Add Seller</a>
                                 </div>
                                 <div class="col-8 col-lg-auto ms-auto ml-auto mb-3 mb-lg-0">
-{{--                                    <div class="d-flex align-items-lg-center flex-column flex-lg-row">--}}
-{{--                                        <label class="ws-nowrap me-3 mb-0">Filter By:</label>--}}
-{{--                                        <select class="form-control select-style-1 filter-by" name="filter-by">--}}
-{{--                                            <option value="all" selected>All</option>--}}
-{{--                                            <option value="1">ID</option>--}}
-{{--                                            <option value="2">Company Name</option>--}}
-{{--                                            <option value="3">Slug</option>--}}
-{{--                                            <option value="4">Parent Category</option>--}}
-{{--                                        </select>--}}
-{{--                                    </div>--}}
+                                    <form type="GET" action="{{ route('filter.seller') }}" class="d-flex align-items-lg-center flex-column flex-lg-row">
+                                        @csrf
+                                        <label class="ws-nowrap me-3 mb-0"><i class="bx bx-filter-alt" style="font-size:24px;color:#96207a"></i></label>
+                                        <select class="form-control select-style-1 filter-by" name="filter_id">
+                                            <option value="0" selected>All</option>
+                                            <option value="1">active</option>
+                                            <option value="2">inactive</option>
+                                        </select>
+                                        <button type="submit" class="ml-2 btn btn-primary">Filter Sellers</button>
+                                    </form>
                                 </div>
                                 <div class="col-4 col-lg-auto ps-lg-1 mb-3 mb-lg-0">
 {{--                                    <div class="d-flex align-items-lg-center flex-column flex-lg-row">--}}
@@ -50,15 +50,14 @@
                                 <div class="col-12 col-lg-auto ps-lg-1">
                                     <div class="search search-style-1 search-style-1-lg mx-lg-auto">
                                         <div class="input-group">
-                                            <input type="text" class="search-term form-control" name="search-term" id="search-term" placeholder="Search Seller">
-                                            <button class="btn btn-default" type="submit"><i class="bx bx-search"></i></button>
+                                            <input type="text" class="search-term form-control" name="search-term" id="search-term" placeholder="Search Seller" style="border-radius:0px">
+                                            <button class="btn btn-default" type="submit" style="border-radius:0px"><i class="bx bx-search"></i></button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <table class="table table-ecommerce-simple table-borderless table-striped mb-0" id="datatable-ecommerce-list" style="min-width: 640px;">
-
                             <thead>
                             <tr>
                                 <th width="3%"><input type="checkbox" name="select-all" class="select-all checkbox-style-1 p-relative top-2" value="" /></th>
@@ -71,7 +70,7 @@
                                 <th width="30%">Action</th>
                             </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="sellerTable">
                                 @foreach ($seller as $key => $row)
                                     <tr>
                                         <td width="30"><input type="checkbox" name="checkboxRow1" class="checkbox-style-1 p-relative top-2" value="" /></td>
@@ -149,21 +148,24 @@
                                                                                     <div class="p-4">
                                                                                         <div class="form-row border-bottom mb-4" >
                                                                                             <div class="col-md-6 mb-3">
-                                                                                                <label for="name1">Name: {{ $row->user->name }}</label>
+                                                                                                <label for="name1">{{ $row->user->name }}</label>
                                                                                             </div>
                                                                                             <div class="col-md-6 mb-3">
-                                                                                                <label for="title1">Phone: {{ $row->phone }} </label>
+                                                                                                <label for="title1">Whatsapp: {{ $row->whatsapp }} </label>
                                                                                             </div>
                                                                                             <div class="col-md-6 mb-3">
-                                                                                                <label for="phone1">CNIC: 42201-4501150-3 </label>
+                                                                                                <label for="phone1">Facebook: {{ $row->faecbook_page }} </label>
                                                                                             </div>
                                                                                             <div class="col-md-6 mb-3">
-                                                                                                <label for="phone1">Email: {{ $row->user->email }}</label>
+                                                                                                <label for="phone1">Instagram: {{ $row->insta_page }} </label>
+                                                                                            </div>
+                                                                                            <div class="col-md-6 mb-3">
+                                                                                                <label for="phone1">Website: {{ $row->web_url }} </label>
                                                                                             </div>
                                                                                             <div class="col-md-12 mb-3">
                                                                                                 <label for="phone1">Address: {{ $row->business_address }}</label>
                                                                                             </div>
-                                                                                            <div class="col-md-4 mb-3">
+                                                                                            <!-- <div class="col-md-4 mb-3">
                                                                                                 <label class="">Age: 21</label>
                                                                                             </div>
                                                                                             <div class="col-md-4 mb-3">
@@ -174,7 +176,7 @@
                                                                                             </div>
                                                                                             <div class="col-md-4 mb-3">
                                                                                                 <label class="">Marital Status: Single</label>
-                                                                                            </div>
+                                                                                            </div> -->
                                                                                         </div>
                                                                                         <h5 class="">Account Details</h5>
                                                                                         <div class="form-row">
@@ -291,6 +293,38 @@
                 // var id = $('#changeSelect' + value).html(html);
             });
 
+        }
+        function filterSeller()
+        {
+            var filter_value=$('#sellerStatus').val();
+            $.ajax({
+                type: 'GET',
+                url: '/seller/filter',
+                data: {
+                    val: filter_value
+                },
+                success: function(data){
+                    $("#sellerTable tr").remove();
+                    $.each(data, function (i, item) {
+                        var filterSellerData=
+                            '<tr>'+
+                                '<td></td>'+
+                                '<td>'+item['SELL_ID']+'</td>'+
+                                '<td>Logo Here</td>'+
+                                '<td>'+item['business_name']+'</td>'+
+                                '<td>Email Here</td>'+
+                                '<td>'+item['whatsapp']+'</td>'+
+                                '<td>status here</td>'+
+                                '<td>Action Here</td>'+
+                            '</tr>'
+                        ;
+                        $("#sellerTable").append(filterSellerData);
+                    });
+                }, 
+                error: function(){
+                    alert("failure From php side!!! ");
+                }
+            });
         }
     </script>
 @stop
