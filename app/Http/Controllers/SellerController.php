@@ -247,7 +247,7 @@ class SellerController extends Controller
             $area_name=$area_data[0]['name'];
             $city_name=$city_data[0]['name'];
 
-            $fbk_message = $request->description." - ". $area_name."," .$city_name."\r\n";
+            $fbk_message = $request->business_name." - ". $area_name."," .$city_name."\r\n";
             $fbk_message .= "Seller Contact: ". $request->whatsapp;
             if ($request->has('insta_page')) {
                 $fbk_message .= "\r\nInstagram: ". $request->insta_page;
@@ -256,7 +256,7 @@ class SellerController extends Controller
                 $fbk_message .= "\r\nFacebook Page: ". $request->faecbook_page;
             }
 
-            $insta_message = $request->description." - ". $area_name .",". $city_name ."\r\n";
+            $insta_message = $request->business_name." - ". $area_name .",". $city_name ."\r\n";
             $insta_message .= "Seller Contact: ". $request->whatsapp; 
 
             // SM Integration
