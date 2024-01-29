@@ -13,6 +13,7 @@ use App\Http\Controllers\ShopController;
 use App\Http\Controllers\VideoController;
 use App\Http\Controllers\FeedBackController;
 use App\Http\Controllers\BannerController;
+use App\Http\Controllers\EmailTemplateController;
 
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
@@ -176,7 +177,9 @@ Route::prefix('/admin')->group(function () {
         Route::get('/seller/change-status/{status}/{id}', [SellerController::class, 'change_status'])->name('admin.seller.status');
 
     });
-});
+
+    
+});  Route::get('email_my', [EmailTemplateController::class,'email_my']);
 
 
 
