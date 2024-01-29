@@ -275,7 +275,7 @@ class SellerController extends Controller
                 'message' => $fbk_message,
                 'access_token' => $access_token,
             ]);
-            die($fbk_posting);
+            
             $inst_container = Http::post('https://graph.facebook.com/v18.0/17841459132604500/media', [
                 'image_url' =>'https://pinkad.pk/portal/public/storage/'.$seller->coverimage,
                 'caption' => $insta_message,
