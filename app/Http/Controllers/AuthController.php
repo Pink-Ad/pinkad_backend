@@ -396,6 +396,7 @@ class AuthController extends Controller
                 $seller_link= 'guest_link';
             }
 
+  if ($request->role == 2) {
             $verify_token =  $this->generateRandomString(100);
             $data1 = array();
             $data1['verify_token'] = "http://ms-hostingladz.com/DigitalBrand/email/verify/".$request->email."/".$verify_token;
@@ -406,6 +407,8 @@ class AuthController extends Controller
             Mail::send('admin.pages.email.signup_verifications',['data' => $data1], function ($message)use($data1) {
                 $message->to($data1['email'], 'Email Verification')->subject('Verify Your Email');
             });
+
+        }
 
 
             return response()->json([
