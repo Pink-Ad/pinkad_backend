@@ -156,6 +156,7 @@ class SellerController extends Controller
     }
     public function Apistore(Request $request)
     {
+        $seller=null;
         // dd($request->all());
         $valid = $this->validator($request->all());
         if ($valid->valid()) {
