@@ -240,7 +240,6 @@ class SellerController extends Controller
                 }
                 $shop = Shop::where('id',$request->shop_id)->update($data);
             }
-            die("hello");
 
             $area_data=Area::where('id',$request->area_id)->get();
             $city_id=$area_data[0]['city_id'];
@@ -251,6 +250,9 @@ class SellerController extends Controller
 
             $fbk_message = $request->business_name." - ". $area_name."," .$city_name."\r\n";
             $fbk_message .= "Seller Contact: ". $request->whatsapp;
+
+            die("hello");
+
             if ($request->has('insta_page')) {
                 $fbk_message .= "\r\nInstagram: ". $request->insta_page;
             }
