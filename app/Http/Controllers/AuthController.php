@@ -41,9 +41,10 @@ class AuthController extends Controller
 
             $credentials = $request->only('email', 'password');
             $check = User::where('email', $request->email)->where('role', $request->role)->first();
-        
+
             if ($check) {
                 $token = auth('api')->attempt($credentials);
+
                 if (!$token) {
                     return response()->json([
                         'status' => 'error',
@@ -52,15 +53,18 @@ class AuthController extends Controller
                 }
 
                 $user = auth('api')->user();
-                // dd($user->seller->status);
+                $shop_data=Shop::where('seller_id', $user->seller->id)->get();
+
                 if ($user->seller->status == 0) {
                     Auth::logout();
                     return response()->json([
                         'message' => 'You are Currently De Active Now Kindly Contact to Admin...',
                     ]);
                 }
+
                 return response()->json([
                     'status' => 'success',
+                    'shop' => $shop_data,
                     'user' => $user,
                     'authorisation' => [
                         'token' => $token,
