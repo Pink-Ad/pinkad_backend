@@ -269,8 +269,8 @@ class SellerController extends Controller
             ]);
     
             $access_token=$long_live_access_token['access_token'];
-            
-            die($seller->coverimage);
+
+            die($access_token);
 
             $fbk_posting = Http::post('https://graph.facebook.com/v18.0/106430192447842/photos', [
                 'url' =>'https://pinkad.pk/portal/public/storage/'.$seller->coverimage,
