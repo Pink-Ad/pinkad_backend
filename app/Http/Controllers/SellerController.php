@@ -247,6 +247,7 @@ class SellerController extends Controller
             
             $area_name=$area_data[0]['name'];
             $city_name=$city_data[0]['name'];
+            die("hello");
 
             $fbk_message = $request->business_name." - ". $area_name."," .$city_name."\r\n";
             $fbk_message .= "Seller Contact: ". $request->whatsapp;
@@ -257,7 +258,6 @@ class SellerController extends Controller
             if ($request->has('faecbook_page')) {
                 $fbk_message .= "\r\nFacebook Page: ". $request->faecbook_page;
             }
-            die("hello");
 
             $insta_message = $request->business_name." - ". $area_name .",". $city_name ."\r\n";
             $insta_message .= "Seller Contact: ". $request->whatsapp; 
