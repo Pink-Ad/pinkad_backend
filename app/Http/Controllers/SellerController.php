@@ -251,8 +251,6 @@ class SellerController extends Controller
             $fbk_message = $request->business_name." - ". $area_name."," .$city_name."\r\n";
             $fbk_message .= "Seller Contact: ". $request->whatsapp;
 
-            die("hello");
-
             if ($request->has('insta_page')) {
                 $fbk_message .= "\r\nInstagram: ". $request->insta_page;
             }
@@ -262,6 +260,8 @@ class SellerController extends Controller
 
             $insta_message = $request->business_name." - ". $area_name .",". $city_name ."\r\n";
             $insta_message .= "Seller Contact: ". $request->whatsapp; 
+
+            die("hello");
 
             // SM Integration
             $long_live_access_token= Http::post('https://graph.facebook.com/oauth/access_token', [
