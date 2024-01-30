@@ -242,7 +242,6 @@ class SellerController extends Controller
             }
 
             $area_data=Area::where('id',$request->area_id)->get();
-            die($area_data);
 
             $city_id=$area_data[0]['city_id'];
             $city_data=City::where('id',$city_id)->get();
