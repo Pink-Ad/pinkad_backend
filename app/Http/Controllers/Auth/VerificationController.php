@@ -80,7 +80,7 @@ class VerificationController extends Controller
         $emailname = User::where('email', auth('api')->user()->email)->first();
         $data['email'] = auth('api')->user()->email;
 
-        Mail::send('admin.pages.email.forgot-pass',['data'=> $data], function($message) {
+        Mail::send('admin.pages.email.forgot_pass',['data'=> $data], function($message) {
             $message->to(auth('api')->user()->email, 'Email Verification')->subject
                ('Verify Your Email');
          });

@@ -2,78 +2,120 @@
 <html class="modern fixed has-top-menu has-left-sidebar-half">
 <head>
     @include('.admin.includes.head')
+     <style>
+@media screen {
+    /* Font imports */
+    @font-face {
+        font-family: 'Lato';
+        font-style: normal;
+        font-weight: 400;
+        src: local('Lato Regular'), local('Lato-Regular'), url(https://fonts.gstatic.com/s/lato/v11/qIIYRU-oROkIk8vfvxw6QvesZW2xOQ-xsNqO47m55DA.woff) format('woff');
+    }
+    @font-face {
+        font-family: 'Lato';
+        font-style: normal;
+        font-weight: 700;
+        src: local('Lato Bold'), local('Lato-Bold'), url(https://fonts.gstatic.com/s/lato/v11/qdgUG4U09HnJwhYI-uK18wLUuEpTyoUstqEm5AMlJo4.woff) format('woff');
+    }
+    @font-face {
+        font-family: 'Lato';
+        font-style: italic;
+        font-weight: 400;
+        src: local('Lato Italic'), local('Lato-Italic'), url(https://fonts.gstatic.com/s/lato/v11/RYyZNoeFgb0l7W3Vu1aSWOvvDin1pK8aKteLpeZ5c0A.woff) format('woff');
+    }
+    @font-face {
+        font-family: 'Lato';
+        font-style: italic;
+        font-weight: 700;
+        src: local('Lato Bold Italic'), local('Lato-BoldItalic'), url(https://fonts.gstatic.com/s/lato/v11/HkF_qI1x_noxlxhrhMQYELO3LdcAZYWl9Si6vvxL-qU.woff) format('woff');
+    }
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-/* Font imports */
-@font-face {
-    font-family: 'Lato';
-    font-style: normal;
-    font-weight: 400;
-    src: local('Lato Regular'), local('Lato-Regular'), url(https://fonts.gstatic.com/s/lato/v11/qIIYRU-oROkIk8vfvxw6QvesZW2xOQ-xsNqO47m55DA.woff) format('woff');
-}
-@font-face {
-    font-family: 'Lato';
-    font-style: normal;
-    font-weight: 700;
-    src: local('Lato Bold'), local('Lato-Bold'), url(https://fonts.gstatic.com/s/lato/v11/qdgUG4U09HnJwhYI-uK18wLUuEpTyoUstqEm5AMlJo4.woff) format('woff');
-}
-@font-face {
-    font-family: 'Lato';
-    font-style: italic;
-    font-weight: 400;
-    src: local('Lato Italic'), local('Lato-Italic'), url(https://fonts.gstatic.com/s/lato/v11/RYyZNoeFgb0l7W3Vu1aSWOvvDin1pK8aKteLpeZ5c0A.woff) format('woff');
-}
-@font-face {
-    font-family: 'Lato';
-    font-style: italic;
-    font-weight: 700;
-    src: local('Lato Bold Italic'), local('Lato-BoldItalic'), url(https://fonts.gstatic.com/s/lato/v11/HkF_qI1x_noxlxhrhMQYELO3LdcAZYWl9Si6vvxL-qU.woff) format('woff');
-}
+    /* Additional CSS for specific link */
+    /* CSS for the "Verify Your Email" button */
+    a[href="https://app.pinkad.pk/email-verified"] {
+        font-size: 20px;
+        font-family: 'Lato', Helvetica, Arial, sans-serif; /* Use the imported font */
+        color: #d43790;
+        text-decoration: none;
+        padding: 15px 25px;
+        border-radius: 5px;
+        border: 1px solid #d43790;
+        display: inline-block;
+        background-color: #ffffff;
+        transition: background-color 0.3s, color 0.3s; /* Add transition effect */
+    }
 
-/* General styles */
-a {
-    text-decoration: none;
-}
-
-/* Click here to verify email button */
-a[href="https://app.pinkad.pk/email-verified"] {
-    font-size: 20px;
-    font-family: 'Lato', Helvetica, Arial, sans-serif; /* Use the imported font */
-    color: #d43790;
-    text-decoration: none;
-    padding: 15px 25px;
-    border-radius: 5px;
-    border: 1px solid #d43790;
-    display: inline-block;
-    background-color: #ffffff;
-    transition: background-color 0.3s, color 0.3s; /* Add transition effect */
-}
-
-a[href="https://app.pinkad.pk/email-verified"]:hover {
-    background-color: #d43790; /* Change background color on hover */
-    color: #ffffff; /* Change text color on hover */
-}
-
-/* Social icons */
-.social-icon {
-    display: inline-block;
-    width: 30px;
-    height: 30px;
-    margin-right: 10px; /* Adjust as needed */
-    vertical-align: middle;
-}
-
-/* Media queries */
-@media screen and (max-width: 600px) {
-    /* Adjust styles for smaller screens */
-    .social-icon {
-        width: 20px;
-        height: 20px;
+    a[href="https://app.pinkad.pk/email-verified"]:hover {
+        background-color: #d43790; /* Change background color on hover */
+        color: #ffffff; /* Change text color on hover */
     }
 }
-</style>
+
+/* CLIENT-SPECIFIC STYLES */
+body,
+table,
+td,
+a {
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+}
+
+table,
+td {
+    mso-table-lspace: 0pt;
+    mso-table-rspace: 0pt;
+}
+
+img {
+    -ms-interpolation-mode: bicubic;
+}
+
+/* RESET STYLES */
+img {
+    border: 0;
+    height: auto;
+    line-height: 100%;
+    outline: none;
+    text-decoration: none;
+}
+
+table {
+    border-collapse: collapse !important;
+}
+
+body {
+    height: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    background-color: #f4f4f4;
+}
+
+/* iOS BLUE LINKS */
+a[x-apple-data-detectors] {
+    color: inherit !important;
+    text-decoration: none !important;
+    font-size: inherit !important;
+    font-family: inherit !important;
+    font-weight: inherit !important;
+    line-height: inherit !important;
+}
+
+/* MOBILE STYLES */
+@media screen and (max-width:600px) {
+    h1 {
+        font-size: 32px !important;
+        line-height: 32px !important;
+    }
+}
+
+/* ANDROID CENTER FIX */
+div[style*="margin: 16px 0;"] {
+    margin: 0 !important;
+}
+
+
+    </style>
 
 </head>
 <body>
@@ -100,8 +142,8 @@ a[href="https://app.pinkad.pk/email-verified"]:hover {
                 <tr>
                     <td bgcolor="#ffffff" align="center" valign="top" style="padding: 40px 20px 20px 20px; border-radius: 4px 4px 0px 0px; color: #111111; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 48px; font-weight: 400; letter-spacing: 4px; line-height: 48px;">
                     
-                    <img src="https://pinkad.pk/portal/assets/img/logo-default.png" width="150" height="100" style="display: block; border: 0px;" />
-
+                         <img src="https://pinkad.pk/portal/assets/img/logo-default.png" width="205" height="200" 
+                         style="display: block; border: 0px;" />
                          <h1 style="font-size: 29px; font-weight: bold; margin: 2;">Welcome!</h1>
                     </td>
                 </tr>
@@ -153,64 +195,61 @@ a[href="https://app.pinkad.pk/email-verified"]:hover {
               <!--  -->
               <tr>
     <td bgcolor="#f1f1f1" align="center" style="padding: 23px 30px 0 30px;">
-    <table border="0" cellspacing="0" cellpadding="0">
-        <!-- Facebook -->
-        <tr>
-            <td bgcolor="#f1f1f1" align="center" style="padding: 20px;">
-                <table border="0" cellspacing="0" cellpadding="0">
-                    <tr>
-                        <td align="center">
-                            <h5 style="margin-bottom: 10px; font-size: 16px;">
-                                To watch your profile on PinkAd Facebook page
-                            </h5>
-                            <a href="https://m.facebook.com/pinkad.pk" target="_blank" style="font-size: 16px; color: #ffffff; text-decoration: none; padding: 10px 20px; border-radius: 5px; display: inline-block; background-color: #3b5998;">
-                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAArUlEQVQ4jWNgGAWjYBSMglEwJiCIAABcUMGBj2nF2BAGKQplYwCRAUlxWFYBbMFkALBcE2AiygGwAasg8gkTA1RgChKAEjKAFk6ErAWWASpKYBosCN4gMGsGlwC5gABRgDxFVKUkAE1ZpRYADSFygHxWFYB7pGAJFpgCC5gYgCWRgChKgSZgGGyAB0AFZaYFKAChGBWBgVlpABMA0tgWA4GYgAyjKAAQglT0JSAQAAAABJRU5ErkJggg==" alt="Facebook" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 5px;">
-                                Follow PinkAd Facebook Page
-                            </a>
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
+        <table border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td align="center" style="border-radius: 3px;">
+                    <h5 style="margin-bottom: 10px;">
+                        To watch your profile on PinkAd Facebook page
+</br>
+Follow PinkAd Facebook Page
+                    </h5>
+                    <a href="https://m.facebook.com/pinkad.pk" target="_blank" style="font-size: 20px; font-family: Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none; padding: 15px 25px; border-radius: 2px; border: 1px solid #FFA73B; display: inline-block; background-color: #d43790;">
+    <i class="fab fa-facebook-f"></i>
+</a>
 
-        <!-- Instagram -->
-        <tr>
-            <td bgcolor="#f1f1f1" align="center" style="padding: 20px;">
-                <table border="0" cellspacing="0" cellpadding="0">
-                    <tr>
-                        <td align="center">
-                            <h5 style="margin-bottom: 10px; font-size: 16px;">
-                                To watch your Profile on PinkAd Instagram
-                            </h5>
-                            <a href="https://m.instagram.com/pinkad.pk" target="_blank" style="font-size: 16px; color: #ffffff; text-decoration: none; padding: 10px 20px; border-radius: 5px; display: inline-block; background-color: #e4405f;">
-                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABzklEQVRIS7WV4W7CMAyGX4EWFHCwsgsYRtZGiGdXf+TyvIaVlq2VRgYC+abP7DL9uPYz4PmBkZAI2cL4AxmI+VzMJ3lLj4FGRZcCtRlxCtSI7dwB9cW4KUyH0GIHIBWGGIN1zgH/h3C9c1QTxeb0JjyfMksa4U6eTHAFhIjUg3oTgJ7oTQA0gcA3gfwJIG0CUQLQADSBwP8CB6gdQwbA1VgAzxvo2gDbqVAJBWGBGAjXB8qAT8RgoxJFYfjA5gfgFYcCX6hvgF3R9gH+gdgDbHlgSgAAKgJdQEE5CePDEG6EK4EPQTgErAX4RHgRaEH4RKAR8DNEZ4FuwAB7g8QBtB8wDEBdwaYBnC6oESoAVgPwJVAVoAXoD7AI5gfgGMBvoBPgU6A1QDxARqAT0BPgUmA+sAVgVdAF0BLYAVwHNgN3BN4A8gB4gA/gCyAjYAWwMnAgQG2AV2BL0BvQAOBPgA3BdYAXwPvAO2AuwD/AegApwGfAfQBjAHzA3QB7ABfAfYAfQA5ADHAG4ApwA2AdwAfQAAAABJRU5ErkJggg==" alt="Instagram" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 5px;">
-                                Follow PinkAd Instagram
-                            </a>
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
 
-        <!-- WhatsApp -->
-        <tr>
-            <td bgcolor="#f1f1f1" align="center" style="padding: 20px;">
-                <table border="0" cellspacing="0" cellpadding="0">
-                    <tr>
-                        <td align="center">
-                            <h5 style="margin-bottom: 10px; font-size: 16px;">
-                                To get promotional tips about campaign start date etc.
-                            </h5>
-                            <a href="https://whatsapp.com/channel/0029VaFeRli5vKAA6uEjVN23" target="_blank" style="font-size: 16px; color: #ffffff; text-decoration: none; padding: 10px 20px; border-radius: 5px; display: inline-block; background-color: #25d366;">
-                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAUCAYAAACN5yXYAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAALUlEQVQ4jWP4//8/AyWAFmsIGFjYGJgYmCguAAALK2GFX8NVAAAAABJRU5ErkJggg==" alt="WhatsApp" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 5px;">
-                                Follow PinkAd WhatsApp Channel
-                            </a>
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-    </table>
+<tr>
+    <td bgcolor="#f1f1f1" align="center" style="padding: 10px 30px 0 30px;">
+        <table border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td align="center" style="border-radius: 3px;">
+                    <h5 style="margin-bottom: 10px;">
+                        To watch your Profile on PinkAd Instagram
+</br>
+Follow PinkAd Instagram
+                    </h5>
+                    <a href="https://m.instagram.com/pinkad.pk" target="_blank" style="font-size: 20px; font-family: Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none; padding: 15px 25px; border-radius: 2px; border: 1px solid #FFA73B; display: inline-block; background-color: #d43790;">
+    <i class="fab fa-instagram"></i>
+</a>
+
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+
+<tr>
+    <td bgcolor="#f1f1f1" align="center" style="padding: 10px 30px 34px 30px;">
+        <table border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td align="center" style="border-radius: 3px;">
+                    <h5 style="margin-bottom: 10px;">
+                        To get promotional tips about campaign start date etc.
+</br>
+Follow PinkAd WhatsApp Channel
+                    </h5>
+                    <a href="https://whatsapp.com/channel/0029VaFeRli5vKAA6uEjVN23" target="_blank" style="font-size: 20px; font-family: Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none; padding: 15px 25px; border-radius: 2px; border: 1px solid #FFA73B; display: inline-block; background-color: #d43790;">
+    <i class="fab fa-whatsapp"></i>
+</a>
+
+                </td>
+            </tr>
+        </table>
     </td>
 </tr>
 

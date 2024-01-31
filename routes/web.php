@@ -132,6 +132,23 @@ Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'
 
 
 Auth::routes();
+
+        //salesman new work for access
+       // routes/web.php
+
+use App\Http\Controllers\HomeController;
+
+Route::prefix('/admin')->group(function () {
+    Route::middleware(['auth', 'is_Salesman'])->group(function () {
+        Route::get('/salesman', [HomeController::class, 'index'])->name('home');
+        Route::resource('/salesman-management', SalesManController::class);
+        Route::get('/salesman/delete/{id}', [SalesManController::class,'destroy'])->name('delete.salesman');
+        Route::get('/salesman/change/status/{id}/{status}', [SalesManController::class,'change_status'])->name('change.salesman.status');
+    });
+});
+
+
+        //  //salesman new work for access
 Route::prefix('/admin')->group(function () {
     Route::middleware(['is_Admin'])->group(function () {
         Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -142,9 +159,7 @@ Route::prefix('/admin')->group(function () {
         Route::resource('/feedback-management', FeedBackController::class);
 
 
-        Route::resource('/salesman-management', SalesManController::class);
-        Route::get('/salesman/delete/{id}', [SalesManController::class,'destroy'])->name('delete.salesman');
-        Route::get('/salesman/change/status/{id}/{status}', [SalesManController::class,'change_status'])->name('change.salesman.status');
+     
 
         Route::resource('/seller-management', SellerController::class);
         Route::get('/seller/delete/{id}', [SellerController::class,'destroy'])->name('delete.seller');
@@ -179,7 +194,8 @@ Route::prefix('/admin')->group(function () {
     });
 
     
-});  Route::get('email_my', [EmailTemplateController::class,'email_my']);
+});  
+Route::get('email_my', [EmailTemplateController::class,'email_my']);
 
 
 

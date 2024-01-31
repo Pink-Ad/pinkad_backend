@@ -45,7 +45,7 @@ class ForgotPasswordController extends Controller
             ['email' => $request->email, 'token' => $token, 'created_at' => Carbon::now()]
         );
 
-        $check = Mail::send('admin.pages.email.forgot-pass', ['token' => $token], function ($message) use ($request) {
+        $check = Mail::send('admin.pages.email.forgot_pass', ['token' => $token], function ($message) use ($request) {
             $message->to($request->email);
             $message->subject('Password Reset Notification');
         });
