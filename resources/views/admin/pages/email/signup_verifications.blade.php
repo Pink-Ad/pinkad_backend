@@ -100,7 +100,7 @@ a[href="https://app.pinkad.pk/email-verified"]:hover {
                 <tr>
                     <td bgcolor="#ffffff" align="center" valign="top" style="padding: 40px 20px 20px 20px; border-radius: 4px 4px 0px 0px; color: #111111; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 48px; font-weight: 400; letter-spacing: 4px; line-height: 48px;">
                     
-                    <img src="https://pinkad.pk/portal/assets/img/logo-default.png" width="150" height="100" style="display: block; border: 0px;" />
+                    <img src="https://pinkad.pk/portal/assets/img/logo-default.png" width="50%" height="30%" style="display: block; border: 0px;" />
 
                          <h1 style="font-size: 29px; font-weight: bold; margin: 2;">Welcome!</h1>
                     </td>
@@ -113,8 +113,8 @@ a[href="https://app.pinkad.pk/email-verified"]:hover {
             <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
                 <tr>
                     <td bgcolor="#ffffff" align="left" style="padding: 20px 30px 40px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
-                        <p style="margin: 0;">We're excited to have you get started. First, you need to confirm your account.
-                         Just press the button below.</p>
+                        <h4 style="margin: 0;">We're excited to have you get started. First, you need to confirm your account.
+                         Just press the button below.</h4>
                     </td>
                 </tr>
                 <!-- <tr>
@@ -162,11 +162,16 @@ a[href="https://app.pinkad.pk/email-verified"]:hover {
                         <td align="center">
                             <h5 style="margin-bottom: 10px; font-size: 16px;">
                                 To watch your profile on PinkAd Facebook page
+                                </br>
+Follow PinkAd Facebook Page
                             </h5>
-                            <a href="https://m.facebook.com/pinkad.pk" target="_blank" style="font-size: 16px; color: #ffffff; text-decoration: none; padding: 10px 20px; border-radius: 5px; display: inline-block; background-color: #3b5998;">
-                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAArUlEQVQ4jWNgGAWjYBSMglEwJiCIAABcUMGBj2nF2BAGKQplYwCRAUlxWFYBbMFkALBcE2AiygGwAasg8gkTA1RgChKAEjKAFk6ErAWWASpKYBosCN4gMGsGlwC5gABRgDxFVKUkAE1ZpRYADSFygHxWFYB7pGAJFpgCC5gYgCWRgChKgSZgGGyAB0AFZaYFKAChGBWBgVlpABMA0tgWA4GYgAyjKAAQglT0JSAQAAAABJRU5ErkJggg==" alt="Facebook" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 5px;">
-                                Follow PinkAd Facebook Page
-                            </a>
+                            <a href="https://m.facebook.com/pinkad.pk" target="_blank" style=
+                            " color: #ffffff; text-decoration: none; padding: 10px 20px;
+                             border-radius: 5px; display: inline-block; ">
+                             <!-- >background-color: #3b5998;"> -->
+                        <img src="{{ asset('/assets/img/icons/facebook.png') }}" alt="Facebook"
+                        style="width: 10%; height: 10%; vertical-align: middle; margin-right: 5px;">
+                        </a>
                         </td>
                     </tr>
                 </table>
@@ -181,10 +186,16 @@ a[href="https://app.pinkad.pk/email-verified"]:hover {
                         <td align="center">
                             <h5 style="margin-bottom: 10px; font-size: 16px;">
                                 To watch your Profile on PinkAd Instagram
+                                </br>
+                                 Follow PinkAd Instagram
                             </h5>
-                            <a href="https://m.instagram.com/pinkad.pk" target="_blank" style="font-size: 16px; color: #ffffff; text-decoration: none; padding: 10px 20px; border-radius: 5px; display: inline-block; background-color: #e4405f;">
-                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABzklEQVRIS7WV4W7CMAyGX4EWFHCwsgsYRtZGiGdXf+TyvIaVlq2VRgYC+abP7DL9uPYz4PmBkZAI2cL4AxmI+VzMJ3lLj4FGRZcCtRlxCtSI7dwB9cW4KUyH0GIHIBWGGIN1zgH/h3C9c1QTxeb0JjyfMksa4U6eTHAFhIjUg3oTgJ7oTQA0gcA3gfwJIG0CUQLQADSBwP8CB6gdQwbA1VgAzxvo2gDbqVAJBWGBGAjXB8qAT8RgoxJFYfjA5gfgFYcCX6hvgF3R9gH+gdgDbHlgSgAAKgJdQEE5CePDEG6EK4EPQTgErAX4RHgRaEH4RKAR8DNEZ4FuwAB7g8QBtB8wDEBdwaYBnC6oESoAVgPwJVAVoAXoD7AI5gfgGMBvoBPgU6A1QDxARqAT0BPgUmA+sAVgVdAF0BLYAVwHNgN3BN4A8gB4gA/gCyAjYAWwMnAgQG2AV2BL0BvQAOBPgA3BdYAXwPvAO2AuwD/AegApwGfAfQBjAHzA3QB7ABfAfYAfQA5ADHAG4ApwA2AdwAfQAAAABJRU5ErkJggg==" alt="Instagram" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 5px;">
-                                Follow PinkAd Instagram
+                            <a href="https://m.instagram.com/pinkad.pk" target="_blank" 
+                            style="font-size: 16px; color: #ffffff; 
+                            text-decoration: none; padding: 10px 20px; border-radius: 5px;
+                             display: inline-block;">
+                                <img src="{{ asset('/assets/img/icons/instagram.png') }}" 
+                                alt="Instagram" style="width: 10%; height: 10%; vertical-align: middle; margin-right: 5px;">
+                               
                             </a>
                         </td>
                     </tr>
@@ -200,10 +211,15 @@ a[href="https://app.pinkad.pk/email-verified"]:hover {
                         <td align="center">
                             <h5 style="margin-bottom: 10px; font-size: 16px;">
                                 To get promotional tips about campaign start date etc.
+                                </br>
+                                 Follow PinkAd WhatsApp Channel
                             </h5>
-                            <a href="https://whatsapp.com/channel/0029VaFeRli5vKAA6uEjVN23" target="_blank" style="font-size: 16px; color: #ffffff; text-decoration: none; padding: 10px 20px; border-radius: 5px; display: inline-block; background-color: #25d366;">
-                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAUCAYAAACN5yXYAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAALUlEQVQ4jWP4//8/AyWAFmsIGFjYGJgYmCguAAALK2GFX8NVAAAAABJRU5ErkJggg==" alt="WhatsApp" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 5px;">
-                                Follow PinkAd WhatsApp Channel
+                            <a href="https://whatsapp.com/channel/0029VaFeRli5vKAA6uEjVN23" target="_blank" 
+                            style="font-size: 16px; color: #ffffff; text-decoration: none; padding: 10px 20px;
+                             border-radius: 5px; display: inline-block;">
+                                <img src="{{ asset('/assets/img/icons/whatsapp.png') }}" 
+                                alt="WhatsApp" style="width: 10%; height: 10%; vertical-align: middle; margin-right: 5px;">
+                               
                             </a>
                         </td>
                     </tr>
@@ -223,8 +239,8 @@ a[href="https://app.pinkad.pk/email-verified"]:hover {
                 <td bgcolor="#ffffff" align="center" style="padding: 20px 30px;">
                     <table border="0" cellspacing="0" cellpadding="0">
                         <tr>
-                            <td align="center" bgcolor="#ffffff" style="border-radius: 3px;">
-                                <a href="https://app.pinkad.pk/email-verified" target="_blank">
+                            <td align="center" bgcolor="#d43790" style="border-radius: 3px;">
+                                <a href="https://app.pinkad.pk/email-verified" target="_blank" style="display: inline-block; font-size: 16px; font-family: Arial, sans-serif; color: #ffffff; text-decoration: none; padding: 15px 30px; border-radius: 5px; background-color: #d43790;">
                                     Click Here to Verify Your Email
                                 </a>
                             </td>
@@ -237,9 +253,10 @@ a[href="https://app.pinkad.pk/email-verified"]:hover {
 </tr>
 
 
+
                 <tr>
                     <td bgcolor="#ffffff" align="left" style="padding: 0px 30px 40px 30px; border-radius: 0px 0px 4px 4px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
-                        <p style="margin: 0;">Pinkad Team</p>
+                        <h4 style="margin: 0; :000000">Pinkad Team</h4>
                     </td>
                 </tr>
             </table>
