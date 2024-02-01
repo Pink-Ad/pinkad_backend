@@ -16,6 +16,22 @@
                             <span>Home</span>
                         </a>
                     </li>
+                    <?php
+            // Check if the user is a salesman (role == 4) or if no user is logged in
+            if(auth()->check() && auth()->user()->role == 4):
+        ?>
+        <li class="nav-group-label">Salesman</li>
+        <li>
+            <a class="nav-link" href="{{ route('salesman-management.index') }}">
+                <i class="bx bx-user-voice" aria-hidden="true"></i>
+                <span>Salesman</span>
+            </a>    
+        </li>
+        <?php endif; ?>
+        <?php
+            // Check if the user is a salesman (role == 4) or if no user is logged in
+            if(auth()->check() && auth()->user()->role != 4):
+        ?>
                     <li class="nav-group-label">User</li>
                     <li>
                         <a class="nav-link" href="/user_roles">
@@ -142,6 +158,7 @@
                             <span>Seller Guide</span>
                         </a>
                     </li>
+                    <?php endif; ?>
                 </ul>
             </nav>
 
