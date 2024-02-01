@@ -71,12 +71,16 @@ class PostController extends Controller
                 $data['banner'] = $banner;
                 if($request->has('gender'))
                 {
-                    $data['gender'] = $request->gender;
+                    // $data['gender'] = $request->gender;
+                    $data['gender'] = "male";
+
                 }
 
                 foreach ($request->shop_id as $row) {
                     $data['shop_id'] = $row;
-                    $data['status'] = 2;
+                    // $data['status'] = 2;
+                    $data['status'] = 1;
+
                     // 
                     $offer = Post::create($data);
                     $offer->save();
