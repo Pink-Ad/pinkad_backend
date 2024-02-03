@@ -37,5 +37,9 @@ class Seller extends Model
     {
         return $this->hasMany(Shop::class);
     }
+    public function salesman()
+    {
+        return $this->hasMany(SaleMan::class,'salesman_id','id');
+    }
 
 }
