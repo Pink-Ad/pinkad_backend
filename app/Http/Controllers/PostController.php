@@ -169,7 +169,7 @@ class PostController extends Controller
                 $query->where('name', 'like', '%' . $searchString . '%');
             });
         }
-        $post = $post->get();
+        $post = $post->OrderBy('id', 'DESC')->get();
         return $post;
     }
     public function top_offerList()
@@ -179,7 +179,7 @@ class PostController extends Controller
     }
     public function featured_offer_list()
     {
-        $post = Post::with('shop', 'shop.seller', 'category', 'subcategory')->where('status', 1)->where('IsFeature', 1)->paginate(10);
+        $post = Post::with('shop', 'shop.seller', 'category', 'subcategory')->where('status', 1)->where('IsFeature', 1)->OrderBy('id', 'DESC')->paginate(10);
         return $post;
     }
 
