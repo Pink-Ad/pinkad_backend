@@ -26,7 +26,13 @@ class HomeController extends Controller
      */
     public function index()
     {
-        if (auth()->check()) {
+        if (auth()->check() && auth()->user()->role == 4) {
+
+
+
+        }
+        else if (auth()->check() && auth()->user()->role != 4) {
+
             $from = now()->startOfMonth(); // first date of the current month
             $to = now();
             $visitor = Customer::count();

@@ -1,8 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\Auth;
 
 use App\Models\Seller;
+use App\Models\SaleMan;
 use App\Models\User;
 use App\Models\DeletedUser;
 use App\Models\Shop;
@@ -35,12 +37,34 @@ class SellerController extends Controller
         return $valid;
     }
 
-    public function index(Request $request)
-    {
-        $seller = null;
-        $seller = Seller::all();
-        return view('admin.pages.sellers.sellers', compact('seller'));
+    public function index()
+{
+    $seller = null;
+
+    // Check if the user is authenticated and has role 4
+    if (auth()->check() && auth()->user()->role == 4) {
+        // Get the authenticated user's ID
+        $user_id = auth()->user()->id;
+
+        // Find the salesman using the authenticated user's ID
+        $salesman = SaleMan::where('user_id', $user_id)->first();
+
+        if ($salesman) {
+            // If the salesman is found, retrieve associated sellers
+            $seller = Seller::where('salesman_id', $salesman->id)->get();
+        } else {
+            // Handle case when salesman is not found
+            // You may display a message or redirect as per your application's logic
+            return redirect()->back()->with('error', 'Salesman not found.');
+        }
+    } else {
+        // Handle case when user is not authenticated or doesn't have role 4
+        // You may display a message or redirect as per your application's logic
+        return redirect()->back()->with('error', 'Unauthorized access.');
     }
+
+    return view('admin.pages.sellers.sellers', compact('seller'));
+}
 
     public function create()
     {

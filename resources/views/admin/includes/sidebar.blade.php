@@ -22,11 +22,12 @@
         ?>
         <li class="nav-group-label">Salesman</li>
         <li>
-            <a class="nav-link" href="{{ route('salesman-management.index') }}">
-                <i class="bx bx-user-voice" aria-hidden="true"></i>
-                <span>Salesman</span>
-            </a>    
-        </li>
+        <li>
+        <a class="nav-link" href="{{ route('seller-managements.index', ['id' => auth()->user()->id]) }}">                            <i class="bx bx-male-sign" aria-hidden="true"></i>
+                            <span>Sellers</span>
+                        </a>
+                    </li> 
+        </li>       
         <?php endif; ?>
         <?php
             // Check if the user is a salesman (role == 4) or if no user is logged in
