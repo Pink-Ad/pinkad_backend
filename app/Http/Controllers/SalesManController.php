@@ -98,6 +98,11 @@ class SalesManController extends Controller
             $sales_man->age = $request->age;
 
         }
+        if($request->has('comission_amount') && $request->comission_amount)
+        {
+            $sales_man->comission_amount = $request->comission_amount;
+
+        }
         if($request->has('address') && $request->address)
         {
             $sales_man->address = $request->address;

@@ -21,9 +21,19 @@
                     <div class="datatables-header-footer-wrapper">
                         <div class="datatable-header">
                             <div class="row align-items-center mb-3">
+                            <?php if(auth()->check() && auth()->user()->role == 4): ?>
+    
                                 <div class="col-12 col-lg-auto mb-3 mb-lg-0">
-                                    <a href="{{ route('seller-management.create') }}" class="btn btn-primary btn-md font-weight-semibold btn-py-2 px-4">+ Add Seller</a>
+                                    <a href="{{ route('seller-managements.create') }}" class="btn btn-primary btn-md font-weight-semibold btn-py-2 px-4">+ Add Seller</a>
                                 </div>
+                                <?php endif; ?>
+                                <?php if(auth()->check() && auth()->user()->role != 4): ?>
+    
+    <div class="col-12 col-lg-auto mb-3 mb-lg-0">
+        <a href="{{ route('seller-management.create') }}" class="btn btn-primary btn-md font-weight-semibold btn-py-2 px-4">+ Add Seller</a>
+    </div>
+    <?php endif; ?>
+
                                 <div class="col-8 col-lg-auto ms-auto ml-auto mb-3 mb-lg-0">
                                     <form type="GET" action="{{ route('filter.seller') }}" class="d-flex align-items-lg-center flex-column flex-lg-row">
                                         @csrf

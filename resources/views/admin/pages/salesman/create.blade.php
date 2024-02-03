@@ -142,6 +142,13 @@
                                         <input type="number" class="form-control" id="formGroupExampleInput" placeholder="" name="age" required>
                                     </div>
                                 </div>
+                                <div class="col-lg-4 pb-3">
+                                    <div class="form-group">
+                                        <label class="col-form-label" for="formGroupExampleInput">Commission Amount </label>
+                                        <input type="number" class="form-control" id="formGroupExampleInput" placeholder="Enter Commission" 
+                                        name="comission_amount" required>
+                                    </div>
+                                </div>
 
                                 <div class="col-lg-4 pb-3">
                                     <div class="form-group">
