@@ -69,19 +69,21 @@ class PostController extends Controller
                 // // $shop_id = auth('api')->user()->seller->shop->id;
                 $data = $request->all();
                 $data['banner'] = $banner;
+                $data['status'] = 1;
                 if($request->has('gender'))
                 {
-                    // $data['gender'] = $request->gender;
-                    $data['gender'] = "male";
-
+                    $data['gender'] = $request->gender;
+                    if($request->gender=="male"){
+                        $data['status'] = 1;
+                    }
+                    else if($request->gender=="female"){
+                        $data['status'] = 2;
+                    }
                 }
 
                 foreach ($request->shop_id as $row) {
                     $data['shop_id'] = $row;
                     // $data['status'] = 2;
-                    $data['status'] = 1;
-
-                    // 
                     $offer = Post::create($data);
                     $offer->save();
                     $offer->post_link = 'https://www.pinkad.pk/offer?id='.$offer->id;
