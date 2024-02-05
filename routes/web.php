@@ -51,7 +51,7 @@ Route::get('/forgot-password', function () {
 });
 
 // Users & User Role
-Route::get('/users', function () {
+Route::get('/users', function () {  
     return view('admin/pages/users/users');
 });
 Route::get('/user/form', function () {
@@ -140,9 +140,11 @@ use App\Http\Controllers\HomeController;
 
 Route::prefix('/admin')->group(function () {
     Route::middleware(['auth', 'is_Salesman'])->group(function () {
+
+        Route::get('/salesman', [HomeController::class, 'index'])->name('salesman_home');
         Route::resource('/seller-managements', SellerController::class);
         Route::get('/seller/delete/{id}', [SellerController::class,'destroy'])->name('delete.seller');
-        // Route::get('/salesman', [HomeController::class, 'index'])->name('salesman_home');
+        
         // Route::resource('/salesman-management', SalesManController::class);
         // Route::get('/salesman/delete/{id}', [SalesManController::class,'destroy'])->name('delete.salesman');
         // Route::get('/salesman/change/status/{id}/{status}', [SalesManController::class,'change_status'])->name('change.salesman.status');

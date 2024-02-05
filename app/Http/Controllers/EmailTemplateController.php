@@ -18,7 +18,7 @@ class EmailTemplateController extends Controller
 {
     public function email_my(){
 
-        return view('admin.pages.email.signup_verifications');
+        return view('admin.pages.forgot-password');
         
     }
    
