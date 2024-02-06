@@ -196,7 +196,7 @@ class AuthController extends Controller
                     'shop_contact_number' => 'required|string',
                     // 'business_name' => 'required|string',
                     'business_address' => 'required|string',
-                    // 'cover_image' => 'required|image',
+                    'cover_image' => 'required|image',
 
                 ]);
 
