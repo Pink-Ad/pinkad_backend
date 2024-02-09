@@ -88,7 +88,16 @@ class SellerController extends Controller
             $seller->logo = $this->seller_logo($request->logo);
         }
         $seller->save();
-        return redirect()->route('seller-management.index');
+         if (auth()->check() && auth()->user()->role == 4) {
+            // $user_id = auth()->user()->id;
+            // $salesman = SaleMan::where('user_id', $user_id)->first();
+            // $seller->salesman_id = $salesman->id;
+            // // 
+         return redirect()->route('seller-managements.index');
+        }
+        else{
+            return redirect()->route('seller-management.index');
+        }
     }
     public function store(Request $request)
     {
@@ -136,8 +145,29 @@ class SellerController extends Controller
         if ($request->has('logo') && $request->logo) {
             $seller->logo = $this->seller_logo($request->logo);
         }
+        if ($request->has('logo') && $request->logo) {
+            $seller->logo = $this->seller_logo($request->logo);
+        }
+         // 
+         if (auth()->check() && auth()->user()->role == 4) {
+            // Get the authenticated user's ID
+            $user_id = auth()->user()->id;
+            $salesman = SaleMan::where('user_id', $user_id)->first();
+            $seller->salesman_id = $salesman->id;
+            // 
+        $seller->save();
+        return redirect()->route('seller-managements.index');
+
+    
+        }
+        else{
         $seller->save();
         return redirect()->route('seller-management.index');
+
+    
+            
+        }
+        
     }
     public function destroy($id)
     {

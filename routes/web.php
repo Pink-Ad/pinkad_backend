@@ -143,11 +143,12 @@ Route::prefix('/admin')->group(function () {
 
         Route::get('/salesman', [HomeController::class, 'index'])->name('salesman_home');
         Route::resource('/seller-managements', SellerController::class);
-        Route::get('/seller/delete/{id}', [SellerController::class,'destroy'])->name('delete.seller');
+        Route::get('/seller/delete/{id}', [SellerController::class,'destroy'])->name('delete.sellers');
+        //
+        Route::get('/seller/filter', [SellerController::class, 'filter_seller'])->name('seller.filter');
+        Route::get('/seller/filter', [SellerController::class, 'filter_seller'])->name('filters.seller');
+        // 
         
-        // Route::resource('/salesman-management', SalesManController::class);
-        // Route::get('/salesman/delete/{id}', [SalesManController::class,'destroy'])->name('delete.salesman');
-        // Route::get('/salesman/change/status/{id}/{status}', [SalesManController::class,'change_status'])->name('change.salesman.status');
     });
 });
 
