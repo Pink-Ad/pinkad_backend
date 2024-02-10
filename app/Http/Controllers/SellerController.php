@@ -43,25 +43,38 @@ class SellerController extends Controller
 
     // Check if the user is authenticated and has role 4
     if (auth()->check() && auth()->user()->role == 4) {
-        // Get the authenticated user's ID
+    //    dd('asas');
         $user_id = auth()->user()->id;
-
+        // dd($user_id);
         // Find the salesman using the authenticated user's ID
         $salesman = SaleMan::where('user_id', $user_id)->first();
+        //  dd($salesman);
 
         if ($salesman) {
             // If the salesman is found, retrieve associated sellers
             $seller = Seller::where('salesman_id', $salesman->id)->get();
-        } else {
-            // Handle case when salesman is not found
-            // You may display a message or redirect as per your application's logic
-            return redirect()->back()->with('error', 'Salesman not found.');
-        }
-    } else {
-        // Handle case when user is not authenticated or doesn't have role 4
-        // You may display a message or redirect as per your application's logic
-        return redirect()->back()->with('error', 'Unauthorized access.');
+            //    dd($seller);
+        } 
+        // else {
+        //     // Handle case when salesman is not found
+        //     // You may display a message or redirect as per your application's logic
+        //     return redirect()->back()->with('error', 'Salesman not found.');
+        // }
     }
+    else if(auth()->check() && auth()->user()->role != 4) {
+
+        // dd('asas');
+        $seller = Seller::all();
+    }
+    
+    
+    
+    
+    // else {
+    //     // Handle case when user is not authenticated or doesn't have role 4
+    //     // You may display a message or redirect as per your application's logic
+    //     return redirect()->back()->with('error', 'Unauthorized access.');
+    // }
 
     return view('admin.pages.sellers.sellers', compact('seller'));
 }
@@ -145,8 +158,8 @@ class SellerController extends Controller
         if ($request->has('logo') && $request->logo) {
             $seller->logo = $this->seller_logo($request->logo);
         }
-        if ($request->has('logo') && $request->logo) {
-            $seller->logo = $this->seller_logo($request->logo);
+        if ($request->hasFile('logo') && $request->file('logo')->isValid()) {
+            $seller->logo = $this->seller_logo($request->file('logo'));
         }
          // 
          if (auth()->check() && auth()->user()->role == 4) {

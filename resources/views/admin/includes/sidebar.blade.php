@@ -20,7 +20,7 @@
             // Check if the user is a salesman (role == 4) or if no user is logged in
             if(auth()->check() && auth()->user()->role == 4):
         ?>
-        <li class="nav-group-label">Salesman</li>
+        <li class="nav-group-label">Sellers</li>
         <li>
         <li>
         <a class="nav-link" href="{{ route('seller-managements.index', ['id' => auth()->user()->id]) }}">                            <i class="bx bx-male-sign" aria-hidden="true"></i>
