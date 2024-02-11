@@ -328,6 +328,7 @@ public function filterpostsbanner(Request $request)
     if ($category_id && $area_id) {
         $filteredPosts = Post::whereIn('category_id', $category_id)
                              ->whereIn('area', $area_id)
+                             ->where('area', 785)
                              ->whereNotNull('banner')
                              ->get();
 
