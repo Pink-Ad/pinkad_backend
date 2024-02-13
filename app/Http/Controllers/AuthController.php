@@ -55,7 +55,7 @@ class AuthController extends Controller
                 $user = auth('api')->user();
                 $shop_data=Shop::where('seller_id', $user->seller->id)->get();
                 
-                $area_data=Area::where('id',$shop_data[1]['area'])->get();
+                $area_data=Area::where('id',$shop_data[0]['area'])->get();
 
                 $city_id=$area_data[0]['city_id'];
                 $city_data=City::where('id',$city_id)->get();
