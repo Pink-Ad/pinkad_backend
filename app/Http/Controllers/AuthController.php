@@ -54,6 +54,14 @@ class AuthController extends Controller
 
                 $user = auth('api')->user();
                 $shop_data=Shop::where('seller_id', $user->seller->id)->get();
+                
+                $area_data=Area::where('id',$shop_data[1]['area'])->get();
+
+                $city_id=$area_data[0]['city_id'];
+                $city_data=City::where('id',$city_id)->get();
+
+                $area_name=$area_data[0]['name'];
+                $city_name=$city_data[0]['name'];
 
                 if ($user->seller->status == 0) {
                     Auth::logout();
@@ -65,6 +73,9 @@ class AuthController extends Controller
                 return response()->json([
                     'status' => 'success',
                     'shop' => $shop_data,
+                    'city_id' => $city_id,
+                    'city_name' => $city_name,
+                    'area_name' => $area_name,
                     'user' => $user,
                     'authorisation' => [
                         'token' => $token,
@@ -72,6 +83,7 @@ class AuthController extends Controller
                     ]
                 ]);
             } else {
+
                 return response()->json([
                     'status' => 'error',
                     'message' => "Invalid Credentials..."
