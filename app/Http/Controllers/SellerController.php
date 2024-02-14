@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 use App\Models\Seller;
 use App\Models\SaleMan;
@@ -11,7 +12,6 @@ use App\Models\Shop;
 use App\Models\Area;
 use App\Models\City;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use App\Traits\SaveImage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Http;
@@ -391,5 +391,26 @@ class SellerController extends Controller
         } catch (\Exception $ex) {
             return response()->json(['error' => $ex->getMessage()], 500);
         }
+    }
+
+    public function change_password(Request $request)
+    {
+      
+        // Find the user by ID
+        $user = User::findOrFail($request->user_id);
+
+        // Check if the current password matches
+        if (!Hash::check($request->current_password, $user->password)) {
+            return response()->json(['message' => 'Current password is incorrect'], 401);
+        }
+
+        // Hash the new password
+        $newPassword = Hash::make($request->new_password);
+
+        // Update the user's password
+        $user->password = $newPassword;
+        $user->save();
+
+        return response()->json(['message' => 'Password changed successfully'], 200);
     }
 }
