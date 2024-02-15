@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Traits\SaveImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Saleman_comision_details;
 use App\Models\Seller;
 
 
@@ -44,6 +45,7 @@ class SalesManController extends Controller
     public function store(Request $request)
     {
 
+        // dd($request->all());
         $user = User::create([
             "name" => $request->first_name." ".$request->last_name,
             "email" => $request->email,
@@ -121,6 +123,27 @@ class SalesManController extends Controller
             $sales_man->picture = $this->picture($request->picture);
         }
         $sales_man->save();
+    // for salesman
+    if ($sales_man) {
+        // $seller->salesman_id = $sales_man->id;
+        $saleman = SaleMan::find($sales_man->id);
+        $saleman->total_balance = $saleman->total_balance+$saleman->comission_amount;
+        // $saleman->total_sellers  =   $saleman->total_sellers+1;
+        $saleman->save();
+
+        $saleman_commision_details = new Saleman_comision_details();
+        $saleman_commision_details->date = now()->toDateString(); 
+        $saleman_commision_details->req_type = 'deposit';
+        // $saleman_commision_details->seller_id =$seller->id; 
+        $saleman_commision_details->salesman_id = $sales_man->id;
+        $saleman_commision_details->amount =$saleman->comission_amount;
+        $saleman_commision_details->closing_balance = $saleman->total_balance;
+        $saleman_commision_details->save();
+        // 
+    
+    
+    }
+    // for salesman 
         return redirect()->route('salesman-management.index');
     }
     public function destroy($id)

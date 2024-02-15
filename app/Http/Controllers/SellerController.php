@@ -164,9 +164,15 @@ class SellerController extends Controller
          // 
          if (auth()->check() && auth()->user()->role == 4) {
             // Get the authenticated user's ID
+            // dd('asas');
             $user_id = auth()->user()->id;
             $salesman = SaleMan::where('user_id', $user_id)->first();
+            // $saleman->total_sellers  =   $saleman->total_sellers+1;
+            // $saleman->save();
+
+            // 
             $seller->salesman_id = $salesman->id;
+            // dd( $seller->salesman_id);
             // 
         $seller->save();
         return redirect()->route('seller-managements.index');
