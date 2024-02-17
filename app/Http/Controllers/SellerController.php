@@ -43,25 +43,38 @@ class SellerController extends Controller
 
     // Check if the user is authenticated and has role 4
     if (auth()->check() && auth()->user()->role == 4) {
-        // Get the authenticated user's ID
+    //    dd('asas');
         $user_id = auth()->user()->id;
-
+        // dd($user_id);
         // Find the salesman using the authenticated user's ID
         $salesman = SaleMan::where('user_id', $user_id)->first();
+        //  dd($salesman);
 
         if ($salesman) {
             // If the salesman is found, retrieve associated sellers
             $seller = Seller::where('salesman_id', $salesman->id)->get();
-        } else {
-            // Handle case when salesman is not found
-            // You may display a message or redirect as per your application's logic
-            return redirect()->back()->with('error', 'Salesman not found.');
-        }
-    } else {
-        // Handle case when user is not authenticated or doesn't have role 4
-        // You may display a message or redirect as per your application's logic
-        return redirect()->back()->with('error', 'Unauthorized access.');
+            //    dd($seller);
+        } 
+        // else {
+        //     // Handle case when salesman is not found
+        //     // You may display a message or redirect as per your application's logic
+        //     return redirect()->back()->with('error', 'Salesman not found.');
+        // }
     }
+    else if(auth()->check() && auth()->user()->role != 4) {
+
+        // dd('asas');
+        $seller = Seller::all();
+    }
+    
+    
+    
+    
+    // else {
+    //     // Handle case when user is not authenticated or doesn't have role 4
+    //     // You may display a message or redirect as per your application's logic
+    //     return redirect()->back()->with('error', 'Unauthorized access.');
+    // }
 
     return view('admin.pages.sellers.sellers', compact('seller'));
 }
@@ -88,7 +101,16 @@ class SellerController extends Controller
             $seller->logo = $this->seller_logo($request->logo);
         }
         $seller->save();
-        return redirect()->route('seller-management.index');
+         if (auth()->check() && auth()->user()->role == 4) {
+            // $user_id = auth()->user()->id;
+            // $salesman = SaleMan::where('user_id', $user_id)->first();
+            // $seller->salesman_id = $salesman->id;
+            // // 
+         return redirect()->route('seller-managements.index');
+        }
+        else{
+            return redirect()->route('seller-management.index');
+        }
     }
     public function store(Request $request)
     {
@@ -136,8 +158,47 @@ class SellerController extends Controller
         if ($request->has('logo') && $request->logo) {
             $seller->logo = $this->seller_logo($request->logo);
         }
+        if ($request->hasFile('logo') && $request->file('logo')->isValid()) {
+            $seller->logo = $this->seller_logo($request->file('logo'));
+        }
+         // 
+         if (auth()->check() && auth()->user()->role == 4) {
+            // Get the authenticated user's ID
+            // dd('asas');
+            $user_id = auth()->user()->id;
+            $saleman = SaleMan::where('user_id', $user_id)->first();
+            $saleman->total_sellers  =   $saleman->total_sellers+1;
+            // 
+            $saleman->total_balance = $saleman->total_balance+$saleman->comission_amount;
+            $saleman->save();
+        
+            $saleman_commision_details = new Saleman_comision_details();
+            $saleman_commision_details->date = now()->toDateString(); 
+            $saleman_commision_details->req_type = 'deposit';
+            // $saleman_commision_details->seller_id =$seller->id; 
+            $saleman_commision_details->salesman_id = $saleman->id;
+            $saleman_commision_details->amount =$saleman->comission_amount;
+            $saleman_commision_details->closing_balance = $saleman->total_balance;
+            $saleman_commision_details->save();
+            // 
+            $seller->salesman_id = $saleman->id;
+            // dd( $seller->salesman_id);
+            // 
+            $seller->save();
+            $saleman_commision_details->seller_id =$seller->id;
+            $saleman_commision_details->save();
+           return redirect()->route('seller-managements.index');
+
+    
+        }
+        else{
         $seller->save();
         return redirect()->route('seller-management.index');
+
+    
+            
+        }
+        
     }
     public function destroy($id)
     {

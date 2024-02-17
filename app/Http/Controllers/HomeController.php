@@ -27,11 +27,16 @@ class HomeController extends Controller
     public function index()
     {
         if (auth()->check() && auth()->user()->role == 4) {
-
-
+            $from = now()->startOfMonth(); // first date of the current month
+            $to = now();
+            $visitor = Customer::count();
+            $seller = Seller::count();
+            $monthly_user_count = User::whereBetween('created_at', [$from, $to])->count();
+            return view('admin.pages.home',compact('visitor','seller','monthly_user_count'));
 
         }
-        else if (auth()->check() && auth()->user()->role != 4) {
+
+       else  if (auth()->check() && auth()->user()->role != 4) {
 
             $from = now()->startOfMonth(); // first date of the current month
             $to = now();

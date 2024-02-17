@@ -21,11 +21,23 @@
                     <div class="datatables-header-footer-wrapper">
                         <div class="datatable-header">
                             <div class="row align-items-center mb-3">
+                            <?php if(auth()->check() && auth()->user()->role == 4): ?>
+    
                                 <div class="col-12 col-lg-auto mb-3 mb-lg-0">
-                                    <a href="{{ route('seller-management.create') }}" class="btn btn-primary btn-md font-weight-semibold btn-py-2 px-4">+ Add Seller</a>
+                                    <a href="{{ route('seller-managements.create') }}" class="btn btn-primary btn-md font-weight-semibold btn-py-2 px-4">+ Add Seller</a>
                                 </div>
+                                <?php endif; ?>
+                                <?php if(auth()->check() && auth()->user()->role != 4): ?>
+    
+    <div class="col-12 col-lg-auto mb-3 mb-lg-0">
+        <a href="{{ route('seller-management.create') }}" class="btn btn-primary btn-md font-weight-semibold btn-py-2 px-4">+ Add Seller</a>
+    </div>
+    <?php endif; ?>
+
                                 <div class="col-8 col-lg-auto ms-auto ml-auto mb-3 mb-lg-0">
-                                    <form type="GET" action="{{ route('filter.seller') }}" class="d-flex align-items-lg-center flex-column flex-lg-row">
+                                <?php if(auth()->check() && auth()->user()->role == 4): ?>
+                                    <form type="GET" action="{{ route('filter.seller') }}"
+                                     class="d-flex align-items-lg-center flex-column flex-lg-row">
                                         @csrf
                                         <label class="ws-nowrap me-3 mb-0"><i class="bx bx-filter-alt" style="font-size:24px;color:#96207a"></i></label>
                                         <select class="form-control select-style-1 filter-by" name="filter_id">
@@ -35,6 +47,20 @@
                                         </select>
                                         <button type="submit" class="ml-2 btn btn-primary">Filter Sellers</button>
                                     </form>
+                                <?php endif; ?>
+                                <?php if(auth()->check() && auth()->user()->role != 4): ?>
+                                    <form type="GET" action="{{ route('filter.seller') }}"
+                                     class="d-flex align-items-lg-center flex-column flex-lg-row">
+                                        @csrf
+                                        <label class="ws-nowrap me-3 mb-0"><i class="bx bx-filter-alt" style="font-size:24px;color:#96207a"></i></label>
+                                        <select class="form-control select-style-1 filter-by" name="filter_id">
+                                            <option value="0" selected>All</option>
+                                            <option value="1">active</option>
+                                            <option value="2">inactive</option>
+                                        </select>
+                                        <button type="submit" class="ml-2 btn btn-primary">Filter Sellers</button>
+                                    </form>
+                                <?php endif; ?>
                                 </div>
                                 <div class="col-4 col-lg-auto ps-lg-1 mb-3 mb-lg-0">
 {{--                                    <div class="d-flex align-items-lg-center flex-column flex-lg-row">--}}
@@ -80,16 +106,35 @@
                                         <td>{{ $row->user->email }}</td>
                                         <td>{{ $row->phone }}</td>
                                         <td>
-                                            <select id="status_change-{{ $row->id }}" class="form-control" data-id="{{ $row->id }}" onchange="status({{ $row->id }})">
+                                            <select id="status_change-{{ $row->id }}" class="form-control" 
+                                            data-id="{{ $row->id }}" onchange="status({{ $row->id }})">
                                                 <option @if($row->status == 1) selected @endif value="1">Active</option>
                                                 <option @if($row->status == 0) selected @endif value="0">De-Active</option>
                                             </select>
                                         </td>
                                         <td>
-                                            <form action="{{ route('delete.seller',$row->id) }}" id="delete-seller-{{ $row->id }}" method="GET">
+                                        <?php if(auth()->check() && auth()->user()->role == 4): ?>
+                                            <form action="{{ route('delete.seller',$row->id) }}"
+                                             id="delete-seller-{{ $row->id }}" method="GET">
                                             </form>
-                                            <button class="btn btn-danger"  onclick="openDeleteModal({{ $row->id }})" style="padding: 4px 6px;font-size: 12px;"><i class="fas fa-trash"></i></button>
-                                            <a class="btn btn-warning" style="padding: 4px 6px;font-size: 12px;" href="{{ route('seller-management.edit',$row->id) }}"><i class="fas fa-pen"></i></a>
+                                         <?php endif; ?>
+                                            <?php if(auth()->check() && auth()->user()->role != 4): ?>
+                                            <form action="{{ route('delete.seller',$row->id) }}"
+                                             id="delete-seller-{{ $row->id }}" method="GET">
+                                            </form>
+                                            <?php endif; ?>
+                                            <button class="btn btn-danger"  onclick="openDeleteModal({{ $row->id }})"
+                                             style="padding: 4px 6px;font-size: 12px;"><i class="fas fa-trash"></i></button>
+                                             <?php if(auth()->check() && auth()->user()->role == 4): ?>
+                                            <a class="btn btn-warning" style="padding: 4px 6px;font-size: 12px;" 
+                                            href="{{ route('seller-managements.edit',$row->id) }}"><i class="fas fa-pen"></i>
+                                            </a>
+                                            <?php endif; ?>
+                                             <?php if(auth()->check() && auth()->user()->role != 4): ?>
+                                            <a class="btn btn-warning" style="padding: 4px 6px;font-size: 12px;" 
+                                            href="{{ route('seller-management.edit',$row->id) }}"><i class="fas fa-pen"></i>
+                                            </a>
+                                            <?php endif; ?>
                                             <button class="btn btn-primary"   onclick="openViewModal({{ $row->id }})" style="padding: 4px 6px;font-size: 12px;"><i class="fas fa-eye"></i></button>
                                             <div class="modal fade" id="viewModal-{{ $row->id }}" tabindex="-1" role="dialog" aria-hidden="true">
                                                 <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 1000px">

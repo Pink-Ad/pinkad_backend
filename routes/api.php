@@ -13,7 +13,7 @@ use App\Http\Controllers\ProvinceController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\AreaController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
-use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\Auth\Controller;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\VideoController;

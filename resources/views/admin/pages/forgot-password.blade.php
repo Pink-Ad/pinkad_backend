@@ -102,7 +102,7 @@ a[href="https://app.pinkad.pk/email-verified"]:hover {
                     
                     <img src="https://pinkad.pk/portal/assets/img/logo-default.png" width="50%" height="30%" style="display: block; border: 0px;" />
 
-                         <h1 style="font-size: 29px; font-weight: bold; margin: 2;">Welcome!</h1>
+                         <!-- <h1 style="font-size: 29px; font-weight: bold; margin: 2;">Welcome!</h1>   -->
                     </td>
                 </tr>
             </table>
@@ -124,12 +124,15 @@ a[href="https://app.pinkad.pk/email-verified"]:hover {
                 <form method="POST" action="{{ route('password.email') }}">
                     <td align="center">
                         <div class="form-group mb-0">
-                            <input name="email" id="email" type="email" placeholder="Your Email" class="form-control form-control-lg" style="width: 250px; padding: 10px; border-radius: 5px; border: 1px solid #ff69b4;" />
+                            <input name="email" id="email" type="email" placeholder="Your Email" 
+                            class="form-control form-control-lg" 
+                            style="width: 250px; padding: 10px; border-radius: 5px; border: 1px solid #ff69b4;" />
                         </div>
                     </td>
                     <td align="center">
                         <div class="form-group mb-0">
-                            <button class="btn btn-primary btn-lg" type="submit" style="padding: 10px 20px; border-radius: 5px; border: none; background-color: #ff69b4; color: #ffffff;">Reset Password</button>
+                            <button class="btn btn-primary btn-lg" type="submit" 
+                            style="padding: 10px 20px; border-radius: 5px; border: none; background-color: #ff69b4; color: #ffffff;">Reset Password</button>
                         </div>
                     </td>
                 </form>
