@@ -178,6 +178,7 @@ class AuthController extends Controller
                     'password' => 'required|string|min:6',
                     'role' => 'required|numeric|In:2,3',
                     'phone' => 'required|string',
+                    'whatsapp' => 'required|string|unique:seller',
                     'area_id' => 'required|numeric|exists:area,id',
                 ]);
 
