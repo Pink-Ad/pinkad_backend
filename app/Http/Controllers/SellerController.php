@@ -166,16 +166,28 @@ class SellerController extends Controller
             // Get the authenticated user's ID
             // dd('asas');
             $user_id = auth()->user()->id;
-            $salesman = SaleMan::where('user_id', $user_id)->first();
-            // $saleman->total_sellers  =   $saleman->total_sellers+1;
-            // $saleman->save();
-
+            $saleman = SaleMan::where('user_id', $user_id)->first();
+            $saleman->total_sellers  =   $saleman->total_sellers+1;
             // 
-            $seller->salesman_id = $salesman->id;
+            $saleman->total_balance = $saleman->total_balance+$saleman->comission_amount;
+            $saleman->save();
+        
+            $saleman_commision_details = new Saleman_comision_details();
+            $saleman_commision_details->date = now()->toDateString(); 
+            $saleman_commision_details->req_type = 'deposit';
+            // $saleman_commision_details->seller_id =$seller->id; 
+            $saleman_commision_details->salesman_id = $saleman->id;
+            $saleman_commision_details->amount =$saleman->comission_amount;
+            $saleman_commision_details->closing_balance = $saleman->total_balance;
+            $saleman_commision_details->save();
+            // 
+            $seller->salesman_id = $saleman->id;
             // dd( $seller->salesman_id);
             // 
-        $seller->save();
-        return redirect()->route('seller-managements.index');
+            $seller->save();
+            $saleman_commision_details->seller_id =$seller->id;
+            $saleman_commision_details->save();
+           return redirect()->route('seller-managements.index');
 
     
         }
