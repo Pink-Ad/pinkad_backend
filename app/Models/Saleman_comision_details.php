@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Saleman_comision_details extends Model
 {
     use HasFactory;
-    protected $table = "salesman_comission details";
+    protected $table = "salesman_comission_details";
     protected $fillable = [
         "date",
         "req_type",
