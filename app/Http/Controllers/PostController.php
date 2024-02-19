@@ -6,6 +6,7 @@ use App\Models\Post;
 use App\Models\Seller;
 use App\Models\Shop;
 use App\Models\Area;
+use App\Models\City;
 use App\Models\OfferSubcatPivot;
 use App\Models\OfferareaPivot;
 use Exception;
