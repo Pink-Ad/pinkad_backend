@@ -243,7 +243,8 @@ class PostController extends Controller
                     {
                         $offer = Post::find($row);
                         $shop = Shop::where('id',$offer['shop_id'])->get();
-                        $seller = Seller::where ('id', $shop['seller_id']);
+                        die($shop);
+                        $seller = Seller::where('id', $shop['seller_id'])->get();
                         $area_data=Area::where('id',$shop[0]['area'])->get();
                         $city_id=$area_data[0]['city_id'];
                         $city_data=City::where('id',$city_id)->get();
@@ -258,7 +259,7 @@ class PostController extends Controller
                         if ($request->has('faecbook_page')) {
                             $fbk_message .= "\r\nFacebook Page: ". $seller['faecbook_page'];
                         }
-                        
+
                         $insta_message = $shop[0]['name']."\r\n". $offer['0']['title']."\r\n". $offer['0']['description']."\r\n";
                         $insta_message .= "Seller Contact: ". $seller['whatsapp']; 
 
