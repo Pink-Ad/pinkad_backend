@@ -94,8 +94,7 @@
                             <tr>
                                 <td width="30"><input type="checkbox" name="sellers[]" value="{{ $row->id }}"class="checkbox-style-1 p-relative top-2" /></td>
                                 <td>{{ $row->SELL_ID }}</td>
-                                <td></td>
-                                <!-- <td><img src="{{ asset('/public/storage/'.$row->logo) }}" style="width:100px; height:100px; border-radius:50%;"></td> -->
+                                <td><img src="{{ asset('/public/storage/'.$row->logo) }}" style="width:100px; height:100px; border-radius:50%;"></td>
                                 <td><a href="#"><strong>{{ $row->user->name }}</strong></a></td>
                                 <td>{{ $row->user->email }}</td>
                                 <td>{{ $row->phone }}</td>
