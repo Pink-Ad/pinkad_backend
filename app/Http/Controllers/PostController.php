@@ -252,7 +252,7 @@ class PostController extends Controller
                         $area_name=$area_data[0]['name'];
                         $city_name=$city_data[0]['name'];
                         die($offer);
-                        $fbk_message = $shop[0]['name']."\r\n". $offer['0']['title']."\r\n". $offer['0']['description']."\r\n";
+                        $fbk_message = $shop[0]['name']."\r\n". $offer['title']."\r\n". $offer['description']."\r\n";
                         $fbk_message .= "Seller Contact: ". $seller['whatsapp'];
                         if ($request->has('insta_page')) {
                             $fbk_message .= "\r\nInstagram: ". $seller['insta_page'];
@@ -261,7 +261,7 @@ class PostController extends Controller
                             $fbk_message .= "\r\nFacebook Page: ". $seller['faecbook_page'];
                         }
 
-                        $insta_message = $shop[0]['name']."\r\n". $offer['0']['title']."\r\n". $offer['0']['description']."\r\n";
+                        $insta_message = $shop[0]['name']."\r\n". $offer['title']."\r\n". $offer['description']."\r\n";
                         $insta_message .= "Seller Contact: ". $seller['whatsapp']; 
 
                         // SM Integration
