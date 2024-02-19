@@ -252,11 +252,10 @@ class PostController extends Controller
                         $area_name=$area_data[0]['name'];
                         $city_name=$city_data[0]['name'];
                         $fbk_message = $shop[0]['name']."\r\n". $offer['title']."\r\n". $offer['description']."\r\n";
-                        die($seller);
-                        $fbk_message .= "Seller Contact: ". $seller['whatsapp'];
+                        $fbk_message .= "Seller Contact: ". $seller['0']['whatsapp'];
 
                         $insta_message = $shop[0]['name']."\r\n". $offer['title']."\r\n". $offer['description']."\r\n";
-                        $insta_message .= "Seller Contact: ". $seller['whatsapp']; 
+                        $insta_message .= "Seller Contact: ". $seller['0']['whatsapp']; 
 
                         // SM Integration
                         $long_live_access_token= Http::post('https://graph.facebook.com/oauth/access_token', [
@@ -269,13 +268,13 @@ class PostController extends Controller
                         $access_token=$long_live_access_token['access_token'];
 
                         $fbk_posting = Http::post('https://graph.facebook.com/v18.0/106430192447842/photos', [
-                            'url' =>'https://pinkad.pk/portal/public/storage/'.$seller['coverimage'],
+                            'url' =>'https://pinkad.pk/portal/public/storage/'.$offer['banner'],
                             'message' => $fbk_message,
                             'access_token' => $access_token,
                         ]);
                 
                         $inst_container = Http::post('https://graph.facebook.com/v18.0/17841459132604500/media', [
-                            'image_url' =>'https://pinkad.pk/portal/public/storage/'.$seller['coverimage'],
+                            'image_url' =>'https://pinkad.pk/portal/public/storage/'.$offer['banner'],
                             'caption' => $insta_message,
                             'access_token' => $access_token,
                         ]); 
