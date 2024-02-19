@@ -173,6 +173,8 @@ Route::prefix('/admin')->group(function () {
         Route::get('/seller/delete/{id}', [SellerController::class,'destroy'])->name('delete.seller');
         Route::resource('/offer-categories', CategoryController::class);
         Route::get('/category/delete/{id}', [CategoryController::class,'destroy'])->name('delete.category');
+        Route::post('/seller/action', [SellerController::class, 'perform_action'])->name('admin.change.seller_action');
+
 
         Route::resource('/offer-sub-categories', SubCatogoryController::class);
         Route::get('/sub-category/delete/{id}', [SubCatogoryController::class,'destroy'])->name('delete.subcategory');
