@@ -164,7 +164,7 @@ class SellerController extends Controller
                             'caption' => $insta_message,
                             'access_token' => $access_token,
                         ]); 
-                        
+                        die($inst_container);
                         $creation_id=$inst_container['id'];
                 
                         $inst_posting = Http::post('https://graph.facebook.com/v18.0/17841459132604500/media_publish', [
