@@ -243,7 +243,6 @@ class PostController extends Controller
                     {
                         $offer = Post::find($row);
                         $shop = Shop::where('id',$offer['shop_id'])->get();
-                        die($shop);
                         $seller = Seller::where('id', $shop[0]['seller_id'])->get();
                         $area_data=Area::where('id',$shop[0]['area'])->get();
                         $city_id=$area_data[0]['city_id'];
