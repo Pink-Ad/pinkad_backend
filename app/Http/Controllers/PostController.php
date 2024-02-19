@@ -6,12 +6,14 @@ use App\Models\Post;
 use App\Models\Seller;
 use App\Models\Shop;
 use App\Models\Area;
+use App\Models\City;
 use App\Models\OfferSubcatPivot;
 use App\Models\OfferareaPivot;
 use Exception;
 use Illuminate\Http\Request;
 use App\Traits\SaveImage;
 use Facebook\Facebook;
+use Illuminate\Support\Facades\Http;
 
 class PostController extends Controller
 {
@@ -238,6 +240,57 @@ class PostController extends Controller
                     {
                         $offer = Post::find($row);
                         $offer->delete();
+                    }
+                }
+            }
+            if($request->bulk_action == "promote")
+            {
+                if($request->has('offers'))
+                {
+                    foreach($request->offers as $row)
+                    {
+                        $offer = Post::find($row);
+                        $shop = Shop::where('id',$offer['shop_id'])->get();
+                        $seller = Seller::where('id', $shop[0]['seller_id'])->get();
+                        $area_data=Area::where('id',$shop[0]['area'])->get();
+                        $city_id=$area_data[0]['city_id'];
+                        $city_data=City::where('id',$city_id)->get();
+                        
+                        $area_name=$area_data[0]['name'];
+                        $city_name=$city_data[0]['name'];
+                        $fbk_message = $shop[0]['name']."\r\n". $offer['title']."\r\n". $offer['description']."\r\n";
+                        $fbk_message .= "Seller Contact: ". $seller['0']['whatsapp'];
+
+                        $insta_message = $shop[0]['name']."\r\n". $offer['title']."\r\n". $offer['description']."\r\n";
+                        $insta_message .= "Seller Contact: ". $seller['0']['whatsapp']; 
+
+                        // SM Integration
+                        $long_live_access_token= Http::post('https://graph.facebook.com/oauth/access_token', [
+                            'grant_type' => 'fb_exchange_token',
+                            'client_id' => '891955272493237',
+                            'client_secret' => 'f7d90606830a650135e5a00e9a92cc48',
+                            'fb_exchange_token' => 'EAAMrOoUsKLUBOZBDLZCf7oXZBcvenxKTiJnZBOSLoEZAufxuZCgR6ZAAnhxeP0ZBSGRHsJEaazzq9NI7RZCbOY1iT6C0BVrZBZBZC2JvfyzczHvP8VaphHzd90pgd54pmE27S9osAm3IJtaYp33AZA13sHTLp74TgP5F95ZBjf0qc8RK47BOHBUf6v9cdnUqmJHVZB2SHwZD',
+                        ]);
+                
+                        $access_token=$long_live_access_token['access_token'];
+
+                        $fbk_posting = Http::post('https://graph.facebook.com/v18.0/106430192447842/photos', [
+                            'url' =>'https://pinkad.pk/portal/public/storage/'.$offer['banner'],
+                            'message' => $fbk_message,
+                            'access_token' => $access_token,
+                        ]);
+                
+                        $inst_container = Http::post('https://graph.facebook.com/v18.0/17841459132604500/media', [
+                            'image_url' =>'https://pinkad.pk/portal/public/storage/'.$offer['banner'],
+                            'caption' => $insta_message,
+                            'access_token' => $access_token,
+                        ]); 
+                        $creation_id=$inst_container['id'];
+                
+                        $inst_posting = Http::post('https://graph.facebook.com/v18.0/17841459132604500/media_publish', [
+                            'creation_id' => $creation_id,
+                            'access_token' => $access_token,
+                        ]); 
                     }
                 }
             }
