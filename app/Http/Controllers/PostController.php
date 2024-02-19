@@ -252,13 +252,8 @@ class PostController extends Controller
                         $area_name=$area_data[0]['name'];
                         $city_name=$city_data[0]['name'];
                         $fbk_message = $shop[0]['name']."\r\n". $offer['title']."\r\n". $offer['description']."\r\n";
+                        die($seller);
                         $fbk_message .= "Seller Contact: ". $seller['whatsapp'];
-                        if ($request->has('insta_page')) {
-                            $fbk_message .= "\r\nInstagram: ". $seller['insta_page'];
-                        }
-                        if ($request->has('faecbook_page')) {
-                            $fbk_message .= "\r\nFacebook Page: ". $seller['faecbook_page'];
-                        }
 
                         $insta_message = $shop[0]['name']."\r\n". $offer['title']."\r\n". $offer['description']."\r\n";
                         $insta_message .= "Seller Contact: ". $seller['whatsapp']; 
