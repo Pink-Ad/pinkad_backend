@@ -189,7 +189,7 @@ class AuthController extends Controller
            $seller_link = null;
             if ($request->role == 2) {
                 $request->validate([
-                    'name' => 'required|string|max:255|unique:users',
+                    'name' => 'required|string|max:255',
                     'email' => 'required|string|email|max:255|unique:users',
                     'password' => 'required|string|min:6',
                     'role' => 'required|numeric|In:2,3',
@@ -206,7 +206,7 @@ class AuthController extends Controller
                     // 'branch_name' => 'required|string',
                     'description' => 'required|string',
                     'shop_contact_number' => 'required|string',
-                    'business_name' => 'required|string|unique:users',
+                    // 'business_name' => 'required|string',
                     'business_address' => 'required|string',
                     'coverimage' => 'required|image',
                 ]);
