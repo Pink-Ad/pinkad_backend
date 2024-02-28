@@ -199,7 +199,6 @@ class AuthController extends Controller
                 ]);
 
                 $request->validate([
-
                     'isFeatured' => 'required|string',
                     'logo' => 'required|image',
                     'reference' => 'required|string',
@@ -207,7 +206,7 @@ class AuthController extends Controller
                     // 'branch_name' => 'required|string',
                     'description' => 'required|string',
                     'shop_contact_number' => 'required|string',
-                    // 'business_name' => 'required|string',
+                    'business_name' => 'required|string|unique:users',
                     'business_address' => 'required|string',
                     'coverimage' => 'required|image',
                 ]);
