@@ -404,7 +404,8 @@ public function getPostsBySeller(Request $request)
         $seller_id = $request->seller_id;
         $seller_posts = Post::whereHas('shop', function ($query) use ($seller_id) {
             $query->where('seller_id', $seller_id);
-        })->get();
+        })->orderBy('created_at', 'desc')->get();
+        
 
         return response()->json(['seller_posts' => $seller_posts]);
     } catch (\Exception $ex) {
