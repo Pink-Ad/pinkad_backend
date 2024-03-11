@@ -199,7 +199,7 @@ class AuthController extends Controller
 
                 $request->validate([
                     'isFeatured' => 'required|string',
-                    // 'logo' => 'required|image',
+                    'logo' => 'required|image',
                     'reference' => 'required|string',
                     // 'shop_name' => 'required|string',
                     // 'branch_name' => 'required|string',
@@ -207,7 +207,7 @@ class AuthController extends Controller
                     'shop_contact_number' => 'required|string',
                     // 'business_name' => 'required|string',
                     'business_address' => 'required|string',
-                    // 'coverimage' => 'required|image',
+                    'coverimage' => 'required|image',
                 ]);
 
                 if ($request->reference == "salesman") {
