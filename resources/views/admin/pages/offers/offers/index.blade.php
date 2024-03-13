@@ -62,6 +62,7 @@
                                         <th><input type="checkbox" name="select_all" class="select-all checkbox-style-1 p-relative top-2" value="" required/></th>
                                         <th>Shop</th>
                                         <th>Image</th>
+                                        <th>Status</th>
                                         <th>Title</th>
                                         <th>Description</th>
                                         <th>Status</th>
@@ -77,6 +78,7 @@
                                             <td>{{ $row->shop->name }}</td>
                                             <td><img src="{{ asset('/public/storage/' . $row->banner) }}"
                                                     style="width:150px; height:150px;" /></td>
+                                                    <td>{{ $row->status }}</td>
                                             <td><strong>{{ $row->title }}</strong></td>
                                             <td>{{ $row->description }}</td>
                                             <td>

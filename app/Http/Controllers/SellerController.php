@@ -52,7 +52,8 @@ class SellerController extends Controller
 
         if ($salesman) {
             // If the salesman is found, retrieve associated sellers
-            $seller = Seller::where('salesman_id', $salesman->id)->get();
+            // $seller = Seller::where('salesman_id', $salesman->id)->get();
+            $seller = Seller::where('salesman_id', $salesman->id)->orderBy('created_at', 'desc')->get();
             //    dd($seller);
         } 
         // else {
@@ -64,7 +65,8 @@ class SellerController extends Controller
     else if(auth()->check() && auth()->user()->role != 4) {
 
         // dd('asas');
-        $seller = Seller::all();
+        // $seller = Seller::all();
+        $seller = Seller::orderBy('created_at', 'desc')->get();
     }
     
     
