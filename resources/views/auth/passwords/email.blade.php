@@ -4,6 +4,11 @@
     @include('.admin.includes.head')
 </head>
 <body>
+<style>
+    .invalid-feedback {
+        font-size: medium;
+    }
+</style>
 <!-- start: page -->
 <section class="body-sign">
     <div class="center-sign">
