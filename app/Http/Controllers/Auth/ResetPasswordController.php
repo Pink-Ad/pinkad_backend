@@ -52,7 +52,8 @@ class ResetPasswordController extends Controller
         });
 
         return $response == Password::PASSWORD_RESET
-            ? response()->json(['message' => 'Password reset successfully'], 200)
-            : response()->json(['error' => 'Unable to reset password'], 400);
+    ? response()->json(['message' => '<span style="font-size: larger;">Password reset successfully</span>'], 200)
+    : response()->json(['error' => '<span style="font-size: larger;">Unable to reset password</span>'], 400);
+
     }
 }

@@ -318,7 +318,7 @@ class AuthController extends Controller
                 $data['seller_id'] = $seller->id;
                 $data['name'] = $request->name;
                 $data['area'] = $request->area_id;
-                // $data['branch_name'] = $request->branch_name;
+                $data['branch_name'] = 'common';
                 $data['status'] = 1;
                 $data['description'] = $request->description;
                 $data['address'] = $request->business_address;
@@ -327,8 +327,11 @@ class AuthController extends Controller
                     $data['logo'] = $this->shop_logo($request->cover_image);
                 }
                 $shop = Shop::create($data);
-                // $shop->area = $request->area_id;
-                $shop->save();
+                if (!$shop) {
+                    // Handle shop creation failure
+                    return response()->json(['error' => 'Failed to create shop'], 500);
+                }
+
 
                            // Fetch area data
                 $area_data = Area::where('id', $request->area_id)->first();
