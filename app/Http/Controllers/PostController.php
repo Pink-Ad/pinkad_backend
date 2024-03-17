@@ -174,7 +174,8 @@ class PostController extends Controller
                 $query->where('name', 'like', '%' . $searchString . '%');
             });
         }
-        $post = $post->OrderBy('id', 'DESC')->get();
+        // $post = $post->OrderBy('id', 'DESC')->get();
+        $post = $post->orderByDesc('id')->get();
         return $post;
     }
     public function top_offerList()

@@ -44,7 +44,7 @@ class AuthController extends Controller
 
             if ($check) {
                 $token = auth('api')->attempt($credentials);
-
+                
                 if (!$token) {
                     return response()->json([
                         'status' => 'error',
