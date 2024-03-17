@@ -6,7 +6,7 @@
 <body>
 <style>
     .invalid-feedback {
-        font-size: medium;
+        font-size: 20px;
     }
 </style>
 <!-- start: page -->

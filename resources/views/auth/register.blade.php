@@ -3,7 +3,7 @@
 @section('content')
 <style>
     .invalid-feedback {
-        font-size: medium;
+        font-size: 20px;
     }
 </style>
 <div class="container">
