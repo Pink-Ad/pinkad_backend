@@ -2,9 +2,11 @@
 
 @section('content')
 <style>
+   @media only screen and (max-width: 768px) {
     .invalid-feedback {
-        font-size: 20px;
+        font-size: 16px; /* Adjust the font size as needed */
     }
+}
 </style>
 <div class="container">
     <div class="row justify-content-center">
