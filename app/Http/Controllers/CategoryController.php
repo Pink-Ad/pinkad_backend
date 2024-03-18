@@ -44,4 +44,18 @@ class CategoryController extends Controller
         $category = Category::where('status',1)->get();
         return $category;
     }
+    // for web
+    public function getCategories()
+    {
+        $categories = Category::all();
+        return response()->json($categories);
+    }
+
+    public function getSubcategories(Category $category)
+    {
+        $subcategories = $category->subcategories;
+        return response()->json($subcategories);
+    }
+      // for web
+
 }
