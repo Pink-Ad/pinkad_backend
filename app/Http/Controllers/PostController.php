@@ -133,8 +133,15 @@ class PostController extends Controller
     }
     public function offer_detail($id)
     {
-        $offer = Post::with('shop', 'shop.seller', 'category', 'subcategory')->where('status', 1)->find($id);
+        // $offer = Post::with('shop', 'shop.seller', 'category', 'subcategory')->where('status', 1)->find($id);
+        // return $offer;
+        $offer = Post::with('shop', 'shop.seller', 'category', 'subcategory')
+             ->where('status', 1)
+             ->orderBy('created_at', 'desc') // Order by created_at in descending order
+             ->find($id);
+
         return $offer;
+
     }
     public function offerList()
     {
@@ -407,7 +414,7 @@ public function getPostsBySeller(Request $request)
         }
 
         $seller_id = $request->seller_id;
-        $seller_posts = Post::whereHas('shop', function ($query) use ($seller_id) {
+        $seller_posts = Post::where('status',1)->whereHas('shop', function ($query) use ($seller_id) {
             $query->where('seller_id', $seller_id);
         })->orderBy('created_at', 'desc')->get();
         
