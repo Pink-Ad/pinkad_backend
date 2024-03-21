@@ -39,6 +39,7 @@ class SellerController extends Controller
 
     public function index()
 {
+    // dd('abc');
     $seller = null;
 
     // Check if the user is authenticated and has role 4
@@ -68,6 +69,7 @@ class SellerController extends Controller
         // $seller = Seller::all();
         $seller = Seller::orderBy('created_at', 'desc')->get();
     }
+    // dd($seller);
     
     
     
