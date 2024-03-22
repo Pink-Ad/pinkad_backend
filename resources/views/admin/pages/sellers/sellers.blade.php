@@ -74,8 +74,8 @@
                         </div>
                     </div>
                 </div>
-                <!-- <form action="{{ route('admin.change.seller_action') }}" method="POST" id="action-form"> -->
-                <!-- @csrf -->
+                <form action="{{ route('admin.change.seller_action') }}" method="POST" id="action-form">
+                @csrf
                 <table class="table table-ecommerce-simple table-borderless table-striped mb-0" id="datatable-ecommerce-list" style="min-width: 640px;">
                     <thead>
                     <tr>
@@ -268,7 +268,7 @@
                             </div>
                         </div>
                         </table>
-                        <!-- </form> -->
+                        </form>
                     </div>
                 </div>
             </div>
