@@ -364,47 +364,47 @@ class AuthController extends Controller
                 $insta_message .= "Seller Contact: " . $request->whatsapp;
                 
                 // SM Integration
-                $response = Http::post('https://graph.facebook.com/oauth/access_token', [
-                    'grant_type' => 'fb_exchange_token',
-                    'client_id' => '891955272493237',
-                    'client_secret' => 'f7d90606830a650135e5a00e9a92cc48',
-                    'fb_exchange_token' => 'EAAMrOoUsKLUBO5hggGcTnRdqy350yesPe8zYquYJRTKmlP3qbS3NhWziwK8K4x9ZAQtBZAbwLU72ZAkl8Cv4A986ly1sslt3a4l8OpB3Fzp5jj1I1s8U6nQXMmqWlsEn5KxOh7GCGzDnKhgJfSC19ZB9yy7WR4p68OTAvVjWUCZABlFuFDRpShMKYhQZDZD',
-                ]);
+                // $response = Http::post('https://graph.facebook.com/oauth/access_token', [
+                //     'grant_type' => 'fb_exchange_token',
+                //     'client_id' => '891955272493237',
+                //     'client_secret' => 'f7d90606830a650135e5a00e9a92cc48',
+                //     'fb_exchange_token' => 'EAAMrOoUsKLUBO5hggGcTnRdqy350yesPe8zYquYJRTKmlP3qbS3NhWziwK8K4x9ZAQtBZAbwLU72ZAkl8Cv4A986ly1sslt3a4l8OpB3Fzp5jj1I1s8U6nQXMmqWlsEn5KxOh7GCGzDnKhgJfSC19ZB9yy7WR4p68OTAvVjWUCZABlFuFDRpShMKYhQZDZD',
+                // ]);
                 
-                $long_live_access_token = json_decode($response->body(), true)['access_token'];
+                // $long_live_access_token = json_decode($response->body(), true)['access_token'];
                 
-                $fbk_posting = Http::post('https://graph.facebook.com/v18.0/106430192447842/photos', [
-                    'url' => 'https://pinkad.pk/portal/public/storage/' . $seller->coverimage,
-                    'message' => $fbk_message,
-                    'access_token' => $long_live_access_token,
-                ]);
+                // $fbk_posting = Http::post('https://graph.facebook.com/v18.0/106430192447842/photos', [
+                //     'url' => 'https://pinkad.pk/portal/public/storage/' . $seller->coverimage,
+                //     'message' => $fbk_message,
+                //     'access_token' => $long_live_access_token,
+                // ]);
                 
-                if ($fbk_posting->successful()) {
-                    $inst_container = Http::post('https://graph.facebook.com/v18.0/17841459132604500/media', [
-                        'image_url' => 'https://pinkad.pk/portal/public/storage/' . $seller->coverimage,
-                        'caption' => $insta_message,
-                        'access_token' => $long_live_access_token,
-                    ]);
+                // if ($fbk_posting->successful()) {
+                //     $inst_container = Http::post('https://graph.facebook.com/v18.0/17841459132604500/media', [
+                //         'image_url' => 'https://pinkad.pk/portal/public/storage/' . $seller->coverimage,
+                //         'caption' => $insta_message,
+                //         'access_token' => $long_live_access_token,
+                //     ]);
                 
-                    if ($inst_container->successful()) {
-                        $creation_id = json_decode($inst_container->body(), true)['id'];
+                //     if ($inst_container->successful()) {
+                //         $creation_id = json_decode($inst_container->body(), true)['id'];
                 
-                        $inst_posting = Http::post('https://graph.facebook.com/v18.0/17841459132604500/media_publish', [
-                            'creation_id' => $creation_id,
-                            'access_token' => $long_live_access_token,
-                        ]);
+                //         $inst_posting = Http::post('https://graph.facebook.com/v18.0/17841459132604500/media_publish', [
+                //             'creation_id' => $creation_id,
+                //             'access_token' => $long_live_access_token,
+                //         ]);
                 
-                        if ($inst_posting->successful()) {
-                            return response()->json(['status' => 'success', 'message' => 'Media posted successfully'], 200);
-                        } else {
-                            return response()->json(['status' => 'error', 'message' => 'Error publishing media'], 500);
-                        }
-                    } else {
-                        return response()->json(['status' => 'error', 'message' => 'Error creating media container'], 500);
-                    }
-                } else {
-                    return response()->json(['status' => 'error', 'message' => 'Error posting media on Facebook'], 500);
-                }
+                //         if ($inst_posting->successful()) {
+                //             return response()->json(['status' => 'success', 'message' => 'Media posted successfully'], 200);
+                //         } else {
+                //             return response()->json(['status' => 'error', 'message' => 'Error publishing media'], 500);
+                //         }
+                //     } else {
+                //         return response()->json(['status' => 'error', 'message' => 'Error creating media container'], 500);
+                //     }
+                // } else {
+                //     return response()->json(['status' => 'error', 'message' => 'Error posting media on Facebook'], 500);
+                // }
 
             }
         
