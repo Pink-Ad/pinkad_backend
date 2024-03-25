@@ -38,7 +38,10 @@ class PostController extends Controller
     public function index()
     {
         // $post = Post::all();
-        $post = Post::orderBy('created_at', 'desc')->get();
+        $posts = Post::select('id', 'title', 'description', 'status', 'banner', 'shop_id')
+        ->with('shop')
+        ->orderByDesc('created_at')
+        ->get();
 
         // dd($post);
         return view('admin.pages.offers.offers.index', compact('post'));
