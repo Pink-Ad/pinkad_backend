@@ -75,7 +75,13 @@
                                             <td><input type="checkbox" name="offers[]" class="checkbox-style-1 p-relative top-2"
                                                     value="{{ $row->id }}" /></td>
                                             {{--                                        <td>{{ ++$key }}</td> --}}
-                                            <td>{{ optional($row->shop)->name }}</td>
+                                            <td>
+    @if ($row->shop && $row->shop->seller && $row->shop->seller->user)
+        {{ $row->shop->seller->user->name }}
+    @else
+        N/A
+    @endif
+</td>
                                             <td><img src="{{ asset('/public/storage/' . $row->banner) }}"
                                                     style="width:150px; height:150px;" /></td>
                                                     <td>{{ $row->status }}</td>
