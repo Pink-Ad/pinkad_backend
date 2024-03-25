@@ -81,7 +81,7 @@
                     <tr>
                         <th width="3%"><input type="checkbox" name="select-all" class="select-all checkbox-style-1 p-relative top-2" value="" /></th>
                         <th width="8%">ID</th>
-                        <th width="15%">Logo</th>
+                        <th width="15%">Cover Image</th>
                         <th width="12%">Name</th>
                         <th width="20%">Email</th>
                         <th width="15%">Contact</th>
@@ -94,7 +94,7 @@
                             <tr>
                                 <td width="30"><input type="checkbox" name="sellers[]" value="{{ $row->id }}"class="checkbox-style-1 p-relative top-2" /></td>
                                 <td>{{ $row->SELL_ID }}</td>
-                                <td><img src="{{ asset('/public/storage/'.$row->logo) }}" style="width:100px; height:100px; border-radius:50%;"></td>
+                                <td><img src="{{ asset('/public/storage/'.$row->coverimage) }}" style="width:100px; height:100px; border-radius:50%;"></td>
                                 <td><a href="#"><strong>{{ $row->user->name }}</strong></a></td>
                                 <td>{{ $row->user->email }}</td>
                                 <td>{{ $row->phone }}</td>
@@ -148,7 +148,7 @@
                                                                             <div class="profile-img text-center rounded-circle">
                                                                                 <div class="pt-5">
                                                                                     <div class="bg-img m-auto">
-                                                                                        <img class="img-fluid" style="width:100px; height:100px; border-radius:50%;" src="{{ asset('/public/storage/'.$row->logo) }}" alt="">
+                                                                                        <img class="img-fluid" style="width:100px; height:100px; border-radius:50%;" src="{{ asset('/public/storage/'.$row->coverimage) }}" alt="">
                                                                                     </div>
                                                                                     <div class="profile pt-4">
                                                                                         <h4 class="mb-1">{{ $row->user->name }}</h4>

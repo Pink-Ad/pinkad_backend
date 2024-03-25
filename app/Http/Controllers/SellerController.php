@@ -67,7 +67,7 @@ class SellerController extends Controller
 
         // dd('asas');
         // $seller = Seller::all();
-        $seller = Seller::select('id', 'SELL_ID', 'user_id', 'logo', 'phone', 'status')
+        $seller = Seller::select('id', 'SELL_ID', 'user_id', 'coverimage', 'phone', 'status')
         ->with('user:id,name,email')
         ->orderByDesc('created_at')
         ->get();

@@ -39,9 +39,12 @@ class PostController extends Controller
     {
         // $post = Post::all();
         $post = Post::select('id', 'title', 'description', 'status', 'banner', 'shop_id')
-        ->with('shop')
+        ->with(['shop' => function ($query) {
+            $query->withDefault(); // Provide default Shop if not found
+        }])
         ->orderByDesc('created_at')
         ->get();
+    
 
         // dd($post);
         return view('admin.pages.offers.offers.index', compact('post'));
