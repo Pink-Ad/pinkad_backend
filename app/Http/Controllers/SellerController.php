@@ -67,10 +67,10 @@ class SellerController extends Controller
 
         // dd('asas');
         // $seller = Seller::all();
-        $seller = Seller::select('id', 'logo', 'user_id', 'phone', 'status')
+        $seller = Seller::select('id', 'SELL_ID', 'user_id', 'phone', 'status')
         ->with('user:id,name,email')
-        ->orderBy('created_at', 'desc')
-        ->paginate(10);
+        ->orderByDesc('created_at')
+        ->get();
     
 
     //   return view('sellers.index', ['sellers' => $sellers]);
