@@ -67,7 +67,13 @@ class SellerController extends Controller
 
         // dd('asas');
         // $seller = Seller::all();
-        $seller = Seller::orderBy('created_at', 'desc')->get();
+        $seller = Seller::select('id', 'logo', 'user_id', 'phone', 'status')
+        ->with('user:id,name,email')
+        ->orderBy('created_at', 'desc')
+        ->paginate(10);
+    
+
+    //   return view('sellers.index', ['sellers' => $sellers]);
     }
     // dd($seller);
     
@@ -79,6 +85,7 @@ class SellerController extends Controller
     //     // You may display a message or redirect as per your application's logic
     //     return redirect()->back()->with('error', 'Unauthorized access.');
     // }
+    // dd($seller);
 
     return view('admin.pages.sellers.sellers', compact('seller'));
 }
