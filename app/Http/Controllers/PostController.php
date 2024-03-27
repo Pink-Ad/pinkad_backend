@@ -45,7 +45,7 @@ class PostController extends Controller
     ->get();
 
 
-
+// ..
 
 
         // dd($post);
