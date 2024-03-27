@@ -8,6 +8,7 @@ use App\Models\Shop;
 use App\Models\Area;
 use App\Models\City;
 use App\Models\OfferSubcatPivot;
+use App\Models\OfferInsight;
 use App\Models\OfferareaPivot;
 use Exception;
 use Illuminate\Http\Request;
@@ -37,8 +38,15 @@ class PostController extends Controller
     // }
     public function index()
     {
-        // $post = Post::all();
-        $post = Post::orderBy('created_at', 'desc')->get();
+    $post = Post::select('post.id', 'post.title', 'post.description', 'post.status', 'post.banner', 'post.shop_id')
+   
+    ->leftJoin('offer_insights', 'post.id', '=', 'offer_insights.offer_id')
+    ->orderByDesc('post.created_at')
+    ->get();
+
+
+
+
 
         // dd($post);
         return view('admin.pages.offers.offers.index', compact('post'));
