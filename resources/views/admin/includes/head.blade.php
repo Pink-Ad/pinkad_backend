@@ -22,7 +22,7 @@
 <link rel="stylesheet" href={{ asset('/assets/vendor/datatables/media/css/dataTables.bootstrap5.css') }} />
 
 <!-- Theme CSS -->
-<link rel="stylesheet" href={{ ('/assets/css/theme.css') }} />
+<link rel="stylesheet" href={{ asset('/assets/css/theme.css') }} />
 <link rel="stylesheet" type="text/css" href={{ asset('/assets/css/vendors.css') }}  />
 <link rel="stylesheet" type="text/css" href={{ asset('/assets/css/style.css') }}  />
 

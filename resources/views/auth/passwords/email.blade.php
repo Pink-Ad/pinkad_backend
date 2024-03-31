@@ -4,6 +4,13 @@
     @include('.admin.includes.head')
 </head>
 <body>
+<style>
+   @media only screen and (max-width: 768px) {
+    .invalid-feedback {
+        font-size: 16px; /* Adjust the font size as needed */
+    }
+}
+</style>
 <!-- start: page -->
 <section class="body-sign">
     <div class="center-sign">

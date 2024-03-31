@@ -87,7 +87,9 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('logout', 'logout');
     Route::post('refresh', 'refresh');
 });
+
 Route::middleware(['seller'])->group(function () {
+    Route::post('seller/change_password', [SellerController::class, 'change_password']);
     Route::post('seller/update', [SellerController::class, 'Apistore']);
     Route::post('create/shop', [ShopController::class, 'create_shop_api']);
     Route::get('list/shop', [ShopController::class, 'shop_list']);

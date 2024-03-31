@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 use App\Models\Seller;
 use App\Models\SaleMan;
@@ -11,7 +12,6 @@ use App\Models\Shop;
 use App\Models\Area;
 use App\Models\City;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use App\Traits\SaveImage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Http;
@@ -39,6 +39,7 @@ class SellerController extends Controller
 
     public function index()
 {
+    // dd('abc');
     $seller = null;
 
     // Check if the user is authenticated and has role 4
@@ -52,7 +53,8 @@ class SellerController extends Controller
 
         if ($salesman) {
             // If the salesman is found, retrieve associated sellers
-            $seller = Seller::where('salesman_id', $salesman->id)->get();
+            // $seller = Seller::where('salesman_id', $salesman->id)->get();
+            $seller = Seller::where('salesman_id', $salesman->id)->orderBy('created_at', 'desc')->get();
             //    dd($seller);
         } 
         // else {
@@ -64,8 +66,18 @@ class SellerController extends Controller
     else if(auth()->check() && auth()->user()->role != 4) {
 
         // dd('asas');
-        $seller = Seller::all();
+        // $seller = Seller::all();
+        $seller = Seller::select('id', 'SELL_ID', 'user_id', 'coverimage', 'phone', 'status')
+        ->with('user:id,name,email')
+        ->orderByDesc('created_at')
+        ->get();
+    
+    
+    
+
+    //   return view('sellers.index', ['sellers' => $sellers]);
     }
+    // dd($seller);
     
     
     
@@ -75,6 +87,7 @@ class SellerController extends Controller
     //     // You may display a message or redirect as per your application's logic
     //     return redirect()->back()->with('error', 'Unauthorized access.');
     // }
+    // dd($seller);
 
     return view('admin.pages.sellers.sellers', compact('seller'));
 }
@@ -148,7 +161,7 @@ class SellerController extends Controller
                             'grant_type' => 'fb_exchange_token',
                             'client_id' => '891955272493237',
                             'client_secret' => 'f7d90606830a650135e5a00e9a92cc48',
-                            'fb_exchange_token' => 'EAAMrOoUsKLUBOZBDLZCf7oXZBcvenxKTiJnZBOSLoEZAufxuZCgR6ZAAnhxeP0ZBSGRHsJEaazzq9NI7RZCbOY1iT6C0BVrZBZBZC2JvfyzczHvP8VaphHzd90pgd54pmE27S9osAm3IJtaYp33AZA13sHTLp74TgP5F95ZBjf0qc8RK47BOHBUf6v9cdnUqmJHVZB2SHwZD',
+                            'fb_exchange_token' => 'EAAMrOoUsKLUBO5hggGcTnRdqy350yesPe8zYquYJRTKmlP3qbS3NhWziwK8K4x9ZAQtBZAbwLU72ZAkl8Cv4A986ly1sslt3a4l8OpB3Fzp5jj1I1s8U6nQXMmqWlsEn5KxOh7GCGzDnKhgJfSC19ZB9yy7WR4p68OTAvVjWUCZABlFuFDRpShMKYhQZDZD',
                         ]);
                 
                         $access_token=$long_live_access_token['access_token'];
@@ -317,6 +330,7 @@ class SellerController extends Controller
     }
     public function Apistore(Request $request)
     {
+        $seller=null;
         // dd($request->all());
         $valid = $this->validator($request->all());
         if ($valid->valid()) {
@@ -401,26 +415,28 @@ class SellerController extends Controller
                 $shop = Shop::where('id',$request->shop_id)->update($data);
             }
 
-            // $area_data=Area::where('id',$request->area_id)->get();
-            // $city_id=$area_data[0]['city_id'];
-            // $city_data=City::where('id',$city_id)->get();
+            $area_data=Area::where('id',$request->area_id)->get();
+
+            $city_id=$area_data[0]['city_id'];
+            $city_data=City::where('id',$city_id)->get();
             
-            // $area_name=$area_data[0]['name'];
-            // $city_name=$city_data[0]['name'];
+            $area_name=$area_data[0]['name'];
+            $city_name=$city_data[0]['name'];
 
-            // $fbk_message = $request->description." - ". $area_name."," .$city_name."\r\n";
-            // $fbk_message .= "Seller Contact: ". $request->whatsapp;
-            // if ($request->has('insta_page')) {
-            //     $fbk_message .= "\r\nInstagram: ". $request->insta_page;
-            // }
-            // if ($request->has('faecbook_page')) {
-            //     $fbk_message .= "\r\nFacebook Page: ". $request->faecbook_page;
-            // }
+            $fbk_message = $request->business_name." - ". $area_name."," .$city_name."\r\n";
+            $fbk_message .= "Seller Contact: ". $request->whatsapp;
 
-            // $insta_message = $request->description." - ". $area_name .",". $city_name ."\r\n";
-            // $insta_message .= "Seller Contact: ". $request->whatsapp; 
+            if ($request->has('insta_page')) {
+                $fbk_message .= "\r\nInstagram: ". $request->insta_page;
+            }
+            if ($request->has('faecbook_page')) {
+                $fbk_message .= "\r\nFacebook Page: ". $request->faecbook_page;
+            }
 
-            // // SM Integration
+            $insta_message = $request->business_name." - ". $area_name .",". $city_name ."\r\n";
+            $insta_message .= "Seller Contact: ". $request->whatsapp; 
+
+            // SM Integration
             // $long_live_access_token= Http::post('https://graph.facebook.com/oauth/access_token', [
             //     'grant_type' => 'fb_exchange_token',
             //     'client_id' => '891955272493237',
@@ -430,14 +446,15 @@ class SellerController extends Controller
     
             // $access_token=$long_live_access_token['access_token'];
 
+
             // $fbk_posting = Http::post('https://graph.facebook.com/v18.0/106430192447842/photos', [
-            //     'url' =>'https://pinkad.pk/portal/public/storage/'.$request->coverimage,
+            //     'url' =>'https://pinkad.pk/portal/public/storage/'.$seller->coverimage,
             //     'message' => $fbk_message,
             //     'access_token' => $access_token,
             // ]);
-    
+            
             // $inst_container = Http::post('https://graph.facebook.com/v18.0/17841459132604500/media', [
-            //     'image_url' =>'https://pinkad.pk/portal/public/storage/'.$request->coverimage,
+            //     'image_url' =>'https://pinkad.pk/portal/public/storage/'.$seller->coverimage,
             //     'caption' => $insta_message,
             //     'access_token' => $access_token,
             // ]); 
@@ -479,7 +496,8 @@ class SellerController extends Controller
     }
     public function all_selller_list()
     {
-        $seller = Seller::with('user', 'shop')->orderBy('business_name')->get();
+        $seller = Seller::with('user', 'shop')->orderBy('id', 'DESC')->get();
+        // $seller = Seller::with('user', 'shop')->orderBy('business_name')->get();
         return $seller;
     }
     
@@ -524,5 +542,26 @@ class SellerController extends Controller
         } catch (\Exception $ex) {
             return response()->json(['error' => $ex->getMessage()], 500);
         }
+    }
+
+    public function change_password(Request $request)
+    {
+      
+        // Find the user by ID
+        $user = User::findOrFail($request->user_id);
+
+        // Check if the current password matches
+        if (!Hash::check($request->current_password, $user->password)) {
+            return response()->json(['message' => 'Current password is incorrect'], 401);
+        }
+
+        // Hash the new password
+        $newPassword = Hash::make($request->new_password);
+
+        // Update the user's password
+        $user->password = $newPassword;
+        $user->save();
+
+        return response()->json(['message' => 'Password changed successfully'], 200);
     }
 }

@@ -41,9 +41,10 @@ class AuthController extends Controller
 
             $credentials = $request->only('email', 'password');
             $check = User::where('email', $request->email)->where('role', $request->role)->first();
-        
+
             if ($check) {
                 $token = auth('api')->attempt($credentials);
+                
                 if (!$token) {
                     return response()->json([
                         'status' => 'error',
@@ -52,15 +53,29 @@ class AuthController extends Controller
                 }
 
                 $user = auth('api')->user();
-                // dd($user->seller->status);
+                $shop_data=Shop::where('seller_id', $user->seller->id)->get();
+                
+                $area_data=Area::where('id',$shop_data[0]['area'])->get();
+
+                $city_id=$area_data[0]['city_id'];
+                $city_data=City::where('id',$city_id)->get();
+
+                $area_name=$area_data[0]['name'];
+                $city_name=$city_data[0]['name'];
+
                 if ($user->seller->status == 0) {
                     Auth::logout();
                     return response()->json([
                         'message' => 'You are Currently De Active Now Kindly Contact to Admin...',
                     ]);
                 }
+
                 return response()->json([
                     'status' => 'success',
+                    'shop' => $shop_data,
+                    'city_id' => $city_id,
+                    'city_name' => $city_name,
+                    'area_name' => $area_name,
                     'user' => $user,
                     'authorisation' => [
                         'token' => $token,
@@ -68,6 +83,7 @@ class AuthController extends Controller
                     ]
                 ]);
             } else {
+
                 return response()->json([
                     'status' => 'error',
                     'message' => "Invalid Credentials..."
@@ -165,7 +181,6 @@ class AuthController extends Controller
             ]);
         }
     }
-
     public function register(Request $request)
     {
         $message=null;
@@ -183,7 +198,6 @@ class AuthController extends Controller
                 ]);
 
                 $request->validate([
-
                     'isFeatured' => 'required|string',
                     'logo' => 'required|image',
                     'reference' => 'required|string',
@@ -193,8 +207,7 @@ class AuthController extends Controller
                     'shop_contact_number' => 'required|string',
                     // 'business_name' => 'required|string',
                     'business_address' => 'required|string',
-                    // 'cover_image' => 'required|image',
-
+                    'coverimage' => 'required|image',
                 ]);
 
                 if ($request->reference == "salesman") {
@@ -297,7 +310,6 @@ class AuthController extends Controller
                     $saleman_commision_details->closing_balance = $saleman->total_balance;
                     $saleman_commision_details->save();
                     // 
-                
                    
                 }
                  // for salesman 
@@ -306,7 +318,8 @@ class AuthController extends Controller
                 $data['seller_id'] = $seller->id;
                 $data['name'] = $request->name;
                 $data['area'] = $request->area_id;
-                // $data['branch_name'] = $request->branch_name;
+                $data['branch_name'] = 'common';
+                $data['status'] = 1;
                 $data['description'] = $request->description;
                 $data['address'] = $request->business_address;
                 $data['contact_number'] = $request->shop_contact_number;
@@ -314,56 +327,85 @@ class AuthController extends Controller
                     $data['logo'] = $this->shop_logo($request->cover_image);
                 }
                 $shop = Shop::create($data);
-                $shop->area = $request->area_id;
-                $shop->save();
+                if (!$shop) {
+                    // Handle shop creation failure
+                    return response()->json(['error' => 'Failed to create shop'], 500);
+                }
 
-                // $area_data=Area::where('id',$request->area_id)->get();
-                // $city_id=$area_data[0]['city_id'];
-                // $city_data=City::where('id',$city_id)->get();
+
+                           // Fetch area data
+                $area_data = Area::where('id', $request->area_id)->first();
                 
-                // $area_name=$area_data[0]['name'];
-                // $city_name=$city_data[0]['name'];
-
-                // $fbk_message = $request->description." - ". $area_name."," .$city_name."\r\n";
-                // $fbk_message .= "Seller Contact: ". $request->whatsapp;
-                // if ($request->has('insta_page')) {
-                //     $fbk_message .= "\r\nInstagram: ". $request->insta_page;
-                // }
-                // if ($request->has('faecbook_page')) {
-                //     $fbk_message .= "\r\nFacebook Page: ". $request->faecbook_page;
-                // }
-
-                // $insta_message = $request->description." - ". $area_name .",". $city_name ."\r\n";
-                // $insta_message .= "Seller Contact: ". $request->whatsapp; 
-
-                // // SM Integration
-                // $long_live_access_token= Http::post('https://graph.facebook.com/oauth/access_token', [
+                if (!$area_data) {
+                    return response()->json(['status' => 'error', 'message' => 'Area data not found'], 404);
+                }
+                
+                // Fetch city data
+                $city_data = City::where('id', $area_data->city_id)->first();
+                
+                if (!$city_data) {
+                    return response()->json(['status' => 'error', 'message' => 'City data not found'], 404);
+                }
+                
+                // Prepare message strings
+                $area_name = $area_data->name;
+                $city_name = $city_data->name;
+                
+                $fbk_message = $request->business_name . " - " . $area_name . ", " . $city_name . "\r\n";
+                $fbk_message .= "Seller Contact: " . $request->whatsapp;
+                if ($request->has('insta_page')) {
+                    $fbk_message .= "\r\nInstagram: " . $request->insta_page;
+                }
+                if ($request->has('faecbook_page')) {
+                    $fbk_message .= "\r\nFacebook Page: " . $request->faecbook_page;
+                }
+                
+                $insta_message = $request->business_name . " - " . $area_name . ", " . $city_name . "\r\n";
+                $insta_message .= "Seller Contact: " . $request->whatsapp;
+                
+                // SM Integration
+                // $response = Http::post('https://graph.facebook.com/oauth/access_token', [
                 //     'grant_type' => 'fb_exchange_token',
                 //     'client_id' => '891955272493237',
                 //     'client_secret' => 'f7d90606830a650135e5a00e9a92cc48',
-                //     'fb_exchange_token' => 'EAAMrOoUsKLUBOZBDLZCf7oXZBcvenxKTiJnZBOSLoEZAufxuZCgR6ZAAnhxeP0ZBSGRHsJEaazzq9NI7RZCbOY1iT6C0BVrZBZBZC2JvfyzczHvP8VaphHzd90pgd54pmE27S9osAm3IJtaYp33AZA13sHTLp74TgP5F95ZBjf0qc8RK47BOHBUf6v9cdnUqmJHVZB2SHwZD',
+                //     'fb_exchange_token' => 'EAAMrOoUsKLUBO5hggGcTnRdqy350yesPe8zYquYJRTKmlP3qbS3NhWziwK8K4x9ZAQtBZAbwLU72ZAkl8Cv4A986ly1sslt3a4l8OpB3Fzp5jj1I1s8U6nQXMmqWlsEn5KxOh7GCGzDnKhgJfSC19ZB9yy7WR4p68OTAvVjWUCZABlFuFDRpShMKYhQZDZD',
                 // ]);
-        
-                // $access_token=$long_live_access_token['access_token'];
-
-                // $fbk_posting = Http::post('https://graph.facebook.com/v18.0/106430192447842/photos', [
-                //     'url' =>'https://pinkad.pk/portal/public/storage/'.$request->coverimage,
-                //     'message' => $fbk_message,
-                //     'access_token' => $access_token,
-                // ]);
-        
-                // $inst_container = Http::post('https://graph.facebook.com/v18.0/17841459132604500/media', [
-                //     'image_url' =>'https://pinkad.pk/portal/public/storage/'.$request->coverimage,
-                //     'caption' => $insta_message,
-                //     'access_token' => $access_token,
-                // ]); 
                 
-                // $creation_id=$inst_container['id'];
-        
-                // $inst_posting = Http::post('https://graph.facebook.com/v18.0/17841459132604500/media_publish', [
-                //     'creation_id' => $creation_id,
-                //     'access_token' => $access_token,
-                // ]); 
+                // $long_live_access_token = json_decode($response->body(), true)['access_token'];
+                
+                // $fbk_posting = Http::post('https://graph.facebook.com/v18.0/106430192447842/photos', [
+                //     'url' => 'https://pinkad.pk/portal/public/storage/' . $seller->coverimage,
+                //     'message' => $fbk_message,
+                //     'access_token' => $long_live_access_token,
+                // ]);
+                
+                // if ($fbk_posting->successful()) {
+                //     $inst_container = Http::post('https://graph.facebook.com/v18.0/17841459132604500/media', [
+                //         'image_url' => 'https://pinkad.pk/portal/public/storage/' . $seller->coverimage,
+                //         'caption' => $insta_message,
+                //         'access_token' => $long_live_access_token,
+                //     ]);
+                
+                //     if ($inst_container->successful()) {
+                //         $creation_id = json_decode($inst_container->body(), true)['id'];
+                
+                //         $inst_posting = Http::post('https://graph.facebook.com/v18.0/17841459132604500/media_publish', [
+                //             'creation_id' => $creation_id,
+                //             'access_token' => $long_live_access_token,
+                //         ]);
+                
+                //         if ($inst_posting->successful()) {
+                //             return response()->json(['status' => 'success', 'message' => 'Media posted successfully'], 200);
+                //         } else {
+                //             return response()->json(['status' => 'error', 'message' => 'Error publishing media'], 500);
+                //         }
+                //     } else {
+                //         return response()->json(['status' => 'error', 'message' => 'Error creating media container'], 500);
+                //     }
+                // } else {
+                //     return response()->json(['status' => 'error', 'message' => 'Error posting media on Facebook'], 500);
+                // }
+
             }
         
             elseif ($request->role == 3) {
@@ -429,7 +471,8 @@ class AuthController extends Controller
             ]);
         }
     }
-    public function generateRandomString($length = 20)
+
+       public function generateRandomString($length = 20)
     {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charactersLength = strlen($characters);
@@ -459,5 +502,6 @@ class AuthController extends Controller
                 'type' => 'bearer',
             ]
         ]);
+        ///
     }
 }

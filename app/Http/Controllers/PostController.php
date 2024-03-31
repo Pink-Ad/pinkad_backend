@@ -8,6 +8,7 @@ use App\Models\Shop;
 use App\Models\Area;
 use App\Models\City;
 use App\Models\OfferSubcatPivot;
+use App\Models\OfferInsight;
 use App\Models\OfferareaPivot;
 use Exception;
 use Illuminate\Http\Request;
@@ -37,7 +38,17 @@ class PostController extends Controller
     // }
     public function index()
     {
-        $post = Post::all();
+    $post = Post::select('post.id', 'post.title', 'post.description', 'post.status', 'post.banner', 'post.shop_id')
+   
+    ->leftJoin('offer_insights', 'post.id', '=', 'offer_insights.offer_id')
+    ->orderByDesc('post.created_at')
+    ->get();
+
+
+// ..
+
+
+        // dd($post);
         return view('admin.pages.offers.offers.index', compact('post'));
     }
     public function destroy($id)
@@ -71,15 +82,21 @@ class PostController extends Controller
                 // // $shop_id = auth('api')->user()->seller->shop->id;
                 $data = $request->all();
                 $data['banner'] = $banner;
+                $data['status'] = 1;
                 if($request->has('gender'))
                 {
                     $data['gender'] = $request->gender;
+                    if($request->gender=="male"){
+                        $data['status'] = 1;
+                    }
+                    else if($request->gender=="female"){
+                        $data['status'] = 2;
+                    }
                 }
 
                 foreach ($request->shop_id as $row) {
                     $data['shop_id'] = $row;
-                    $data['status'] = 2;
-                    // 
+                    // $data['status'] = 2;
                     $offer = Post::create($data);
                     $offer->save();
                     $offer->post_link = 'https://www.pinkad.pk/offer?id='.$offer->id;
@@ -124,8 +141,15 @@ class PostController extends Controller
     }
     public function offer_detail($id)
     {
-        $offer = Post::with('shop', 'shop.seller', 'category', 'subcategory')->where('status', 1)->find($id);
+        // $offer = Post::with('shop', 'shop.seller', 'category', 'subcategory')->where('status', 1)->find($id);
+        // return $offer;
+        $offer = Post::with('shop', 'shop.seller', 'category', 'subcategory')
+             ->where('status', 1)
+             ->orderBy('created_at', 'desc') // Order by created_at in descending order
+             ->find($id);
+
         return $offer;
+
     }
     public function offerList()
     {
@@ -134,7 +158,7 @@ class PostController extends Controller
     }
     public function selleroffer($id)
     {
-        $post = Post::with('shop', 'shop.seller')->where('shop_id', $id)->get();
+        $post = Post::with('shop', 'shop.seller')->where('shop_id', $id)->orderBy('id', 'DESC')->get();
         return $post;
     }
     public function offer_filter(Request $request)
@@ -165,18 +189,26 @@ class PostController extends Controller
                 $query->where('name', 'like', '%' . $searchString . '%');
             });
         }
-        $post = $post->get();
+        // $post = $post->OrderBy('id', 'DESC')->get();
+        $post = $post->orderByDesc('id')->get();
         return $post;
     }
     public function top_offerList()
     {
-        $post = Post::with('shop', 'shop.seller')->where('status', 1)->OrderBy('id', 'DESC')->paginate(10);
+        // $post = Post::with('shop', 'shop.seller')->where('status', 1)->OrderBy('id', 'DESC')->paginate(30);
+        $post = Post::with('shop', 'shop.seller')->where('status', 1)->OrderBy('id', 'DESC')->get();
         return $post;
     }
     public function featured_offer_list()
     {
-        $post = Post::with('shop', 'shop.seller', 'category', 'subcategory')->where('status', 1)->where('IsFeature', 1)->paginate(10);
+        $post = Post::with(['shop', 'shop.seller', 'category', 'subcategory'])
+        ->where('status', 1)
+        ->where('IsFeature', 1)
+        ->orderBy('id', 'DESC')
+        ->get();
         return $post;
+    
+    // return response()->json($post);
     }
 
     public function insights(Request $request)
@@ -263,7 +295,7 @@ class PostController extends Controller
                             'grant_type' => 'fb_exchange_token',
                             'client_id' => '891955272493237',
                             'client_secret' => 'f7d90606830a650135e5a00e9a92cc48',
-                            'fb_exchange_token' => 'EAAMrOoUsKLUBOZBDLZCf7oXZBcvenxKTiJnZBOSLoEZAufxuZCgR6ZAAnhxeP0ZBSGRHsJEaazzq9NI7RZCbOY1iT6C0BVrZBZBZC2JvfyzczHvP8VaphHzd90pgd54pmE27S9osAm3IJtaYp33AZA13sHTLp74TgP5F95ZBjf0qc8RK47BOHBUf6v9cdnUqmJHVZB2SHwZD',
+                            'fb_exchange_token' => 'EAAMrOoUsKLUBO5hggGcTnRdqy350yesPe8zYquYJRTKmlP3qbS3NhWziwK8K4x9ZAQtBZAbwLU72ZAkl8Cv4A986ly1sslt3a4l8OpB3Fzp5jj1I1s8U6nQXMmqWlsEn5KxOh7GCGzDnKhgJfSC19ZB9yy7WR4p68OTAvVjWUCZABlFuFDRpShMKYhQZDZD',
                         ]);
                 
                         $access_token=$long_live_access_token['access_token'];
@@ -375,6 +407,7 @@ public function filterpostsbanner(Request $request)
     if ($category_id && $area_id) {
         $filteredPosts = Post::whereIn('category_id', $category_id)
                              ->whereIn('area', $area_id)
+                             ->where('area', 785)
                              ->whereNotNull('banner')
                              ->get();
 
@@ -395,9 +428,10 @@ public function getPostsBySeller(Request $request)
         }
 
         $seller_id = $request->seller_id;
-        $seller_posts = Post::whereHas('shop', function ($query) use ($seller_id) {
+        $seller_posts = Post::where('status',1)->whereHas('shop', function ($query) use ($seller_id) {
             $query->where('seller_id', $seller_id);
-        })->get();
+        })->orderBy('created_at', 'desc')->get();
+        
 
         return response()->json(['seller_posts' => $seller_posts]);
     } catch (\Exception $ex) {
