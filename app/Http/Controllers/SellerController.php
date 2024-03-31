@@ -491,15 +491,14 @@ class SellerController extends Controller
     }
     public function top_selller_list()
     {
-        // $seller = Seller::with('user', 'shop')->orderBy('id', 'DESC')->paginate(10);
-        return $seller="hello";
-        // 
+        $seller = Seller::with('user', 'shop')->orderBy('id', 'DESC')->paginate(10);
+        return $seller;
     }
     public function all_selller_list()
     {
-        $seller = Seller::with('user', 'shop')->orderBy('id', 'DESC')->get();
-        // $seller = Seller::with('user', 'shop')->orderBy('business_name')->get();
-        return $seller;
+        // $seller = Seller::with('user', 'shop')->orderBy('id', 'DESC')->get();
+        // // $seller = Seller::with('user', 'shop')->orderBy('business_name')->get();
+        // return $seller;
     }
     
     public function filter_seller(Request $request){
