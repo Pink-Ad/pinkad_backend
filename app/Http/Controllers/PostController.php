@@ -195,12 +195,12 @@ class PostController extends Controller
     }
     public function top_offerList()
     {
-        $posts = Post::with(['shop', 'shop.seller', 'category', 'subcategory'])
+        $post = Post::with(['shop', 'shop.seller', 'category', 'subcategory'])
     ->where('status', 1)
     ->orderBy('id', 'DESC')
     ->get();
 
-return response()->json($posts);
+return response()->json($post);
        
     }
     public function featured_offer_list()
