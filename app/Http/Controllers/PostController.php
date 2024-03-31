@@ -206,8 +206,9 @@ class PostController extends Controller
         ->where('IsFeature', 1)
         ->orderBy('id', 'DESC')
         ->get();
+        return $post;
     
-    return response()->json($post);
+    // return response()->json($post);
     }
 
     public function insights(Request $request)
