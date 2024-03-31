@@ -195,16 +195,23 @@ class PostController extends Controller
     }
     public function top_offerList()
     {
-        $post = Post::with('shop', 'shop.seller', 'category', 'subcategory')->where('status', 1)->OrderBy('id', 'DESC');
-        return $post;
+        $posts = Post::with(['shop', 'shop.seller', 'category', 'subcategory'])
+    ->where('status', 1)
+    ->orderBy('id', 'DESC')
+    ->get();
+
+return response()->json($posts);
        
     }
     public function featured_offer_list()
     {   
-        $post = Post::with('shop', 'shop.seller', 'category', 'subcategory')->where('status', 1)
-        ->where('IsFeature', 1)->OrderBy('id', 'DESC')->get();
-        // ->paginate(30);
-        return $post;
+        $post = Post::with(['shop', 'shop.seller', 'category', 'subcategory'])
+        ->where('status', 1)
+        ->where('IsFeature', 1)
+        ->orderBy('id', 'DESC')
+        ->get();
+    
+    return response()->json($post);
     }
 
     public function insights(Request $request)
