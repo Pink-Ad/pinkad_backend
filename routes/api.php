@@ -59,7 +59,8 @@ Route::get('shop-detail/{id}', [ShopController::class, 'shop_details']);
 Route::get('offer-detail/{id}', [PostController::class, 'offer_detail']);
 
 Route::get('/offer-filter', [PostController::class, 'offer_filter']);
-Route::get('/top-offer', [PostController::class, 'top_offerList']);
+// Route::get('/top-offer', [PostController::class, 'top_offerList']);
+Route::get('/top-offer', [PostController::class, 'featured_offer_list']);
 Route::get('/featured-offer', [PostController::class, 'featured_offer_list']);
 
 
