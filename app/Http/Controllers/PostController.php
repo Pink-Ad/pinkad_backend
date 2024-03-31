@@ -201,11 +201,11 @@ class PostController extends Controller
     }
     public function featured_offer_list()
     {
-        // $post = Post::with(['shop', 'shop.seller', 'category', 'subcategory'])
-        // ->where('status', 1)
-        // ->where('IsFeature', 1)
-        // ->orderBy('id', 'DESC')
-        // ->get();
+        $post = Post::with(['shop', 'shop.seller', 'category', 'subcategory'])
+        ->where('status', 1)
+        ->where('IsFeature', 1)
+        ->orderBy('id', 'DESC')
+        ->get();
     
     return response()->json($post);
     }

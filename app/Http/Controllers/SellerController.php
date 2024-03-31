@@ -491,8 +491,8 @@ class SellerController extends Controller
     }
     public function top_selller_list()
     {
-        $seller = Seller::with('user', 'shop')->orderBy('id', 'DESC')->paginate(10);
-        return $seller;
+        // $seller = Seller::with('user', 'shop')->orderBy('id', 'DESC')->paginate(10);
+        return $seller="hello";
     }
     public function all_selller_list()
     {
