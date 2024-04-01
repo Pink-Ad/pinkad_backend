@@ -60,6 +60,7 @@ Route::get('offer-detail/{id}', [PostController::class, 'offer_detail']);
 
 Route::get('/offer-filter', [PostController::class, 'offer_filter']);
 Route::get('/top-offer', [PostController::class, 'top_offerList']);
+Route::get('/testing-offer', [PostController::class, 'testing_offer']);
 Route::get('/featured-offer', [PostController::class, 'featured_offer_list']);
 
 
