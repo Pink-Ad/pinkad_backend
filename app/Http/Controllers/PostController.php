@@ -194,9 +194,8 @@ class PostController extends Controller
         $post = $post->orderByDesc('id')->get();
         return $post;
     }
-    public function testing_offer()
+    public function check_offers()
     {
-        // $post = Post::with('shop', 'shop.seller')->where('status', 1)->OrderBy('id', 'DESC')->paginate(30);
         $post = Post::with('shop', 'shop.seller')->where('status', 1)->OrderBy('id', 'DESC')->paginate(30);
         return $post;
     }
