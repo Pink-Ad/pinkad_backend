@@ -73,9 +73,9 @@ class PostController extends Controller
                 'subcat_id' => 'array',
                 'subcat_id.*' => 'exists:sub_category,id',
 
-                // 'IsFeature' => 'required|In:0,1',
-                'area' => 'required|numeric|exists:area,id',
-                'multiple_area' => 'array',
+                // // 'IsFeature' => 'required|In:0,1',
+                // 'area' => 'required|numeric|exists:area,id',
+                // 'multiple_area' => 'array',
             ]);
             if (auth('api')->user()->seller->shop != null) {
                 $banner = $this->post_banner($request->banner);
@@ -98,7 +98,8 @@ class PostController extends Controller
                     $data['shop_id'] = $row;
                     // $data['status'] = 2;
                     $offer = Post::create($data);
-                    $offer->save();
+                    // $offer->area = 785;
+                    // $offer->save();
                     $offer->post_link = 'https://www.pinkad.pk/offer?id='.$offer->id;
                     $offer->save();
                   
@@ -193,22 +194,38 @@ class PostController extends Controller
         $post = $post->orderByDesc('id')->get();
         return $post;
     }
-    public function check_offers()
-    {
-        $post = Post::with('shop', 'shop.seller')->where('status', 1)->OrderBy('id', 'DESC')->get();
-        return $post;
-    }
     public function top_offerList()
     {
-        // $post = Post::with('shop', 'shop.seller')->where('status', 1)->OrderBy('id', 'DESC')->paginate(30);
         $post = Post::with('shop', 'shop.seller')->where('status', 1)->OrderBy('id', 'DESC')->paginate(30);
+        // $post = Post::with('shop', 'shop.seller')->where('status', 1)->OrderBy('id', 'DESC')->get();
         return $post;
     }
     public function featured_offer_list()
     {
-        $post = Post::with('shop', 'shop.seller', 'category', 'subcategory')->where('status', 1)
-        ->where('IsFeature', 1)->OrderBy('id', 'DESC')->paginate(30);
+
+        $post = Post::with('shop', 'shop.seller', 'category', 'subcategory')
+        ->where('status', 1)
+        ->where('IsFeature', 1)
+        ->OrderBy('id', 'DESC')->paginate(30);
+        // $post = Post::with(['shop', 'shop.seller', 'category', 'subcategory'])
+        // ->where('status', 1)
+        // ->where('IsFeature', 1)
+        // ->orderBy('id', 'DESC')
+        // ->get();
         return $post;
+    
+    // return response()->json($post);
+    }
+    public function check_offers()
+    {
+        $post = Post::with(['shop', 'shop.seller', 'category', 'subcategory'])
+        ->where('status', 1)
+        ->where('IsFeature', 1)
+        ->orderBy('id', 'DESC')
+        ->get();
+        return $post;
+    
+    // return response()->json($post);
     }
 
     public function insights(Request $request)
