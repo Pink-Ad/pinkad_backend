@@ -62,6 +62,13 @@ Route::get('/offer-filter', [PostController::class, 'offer_filter']);
 Route::get('/top-offer', [PostController::class, 'top_offerList']);
 Route::get('/check_offers', [PostController::class, 'check_offers']);
 Route::get('/featured-offer', [PostController::class, 'featured_offer_list']);
+// 
+ // 
+ Route::get('/categories', [CategoryController::class, 'getCategories']);
+ Route::get('/categories/{category}/subcategories', [CategoryController::class, 'getSubcategories']);
+ 
+ // 
+// 
 
 
 Route::get('featured-selller-list', [SellerController::class, 'featured_selller_list']);
