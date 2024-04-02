@@ -198,7 +198,7 @@ class PostController extends Controller
     {
         $post = Post::with('shop', 'shop.seller')->where('status', 1)->OrderBy('id', 'DESC')->paginate(30);
         // $post = Post::with('shop', 'shop.seller')->where('status', 1)->OrderBy('id', 'DESC')->get();
-        // return $post;
+        return $post;
     }
     public function featured_offer_list()
     {
