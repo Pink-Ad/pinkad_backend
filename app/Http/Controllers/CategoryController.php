@@ -47,6 +47,7 @@ class CategoryController extends Controller
         // for web
         public function getCategories()
         {
+            // dd('asas');
             $categories = Category::all();
             return response()->json($categories);
         }
