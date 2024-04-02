@@ -74,8 +74,8 @@ class PostController extends Controller
                 'subcat_id.*' => 'exists:sub_category,id',
 
                 // 'IsFeature' => 'required|In:0,1',
-                // 'area' => 'required|numeric|exists:area,id',
-                // 'multiple_area' => 'array',
+                'area' => 'required|numeric|exists:area,id',
+                'multiple_area' => 'array',
             ]);
             if (auth('api')->user()->seller->shop != null) {
                 $banner = $this->post_banner($request->banner);
@@ -98,7 +98,6 @@ class PostController extends Controller
                     $data['shop_id'] = $row;
                     // $data['status'] = 2;
                     $offer = Post::create($data);
-                    $offer->area = 785;
                     $offer->save();
                     $offer->post_link = 'https://www.pinkad.pk/offer?id='.$offer->id;
                     $offer->save();
