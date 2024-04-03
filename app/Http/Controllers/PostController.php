@@ -218,7 +218,6 @@ class PostController extends Controller
     {
         $post = Post::with(['shop', 'shop.seller', 'category', 'subcategory'])
         ->where('status', 1)
-        ->where('IsFeature', 1)
         ->orderBy('id', 'DESC')
         ->get();
         return $post;
