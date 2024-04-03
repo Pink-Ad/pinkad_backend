@@ -44,20 +44,20 @@ class CategoryController extends Controller
         $category = Category::where('status',1)->get();
         return $category;
     }
-        // for web
-        public function getCategories()
-        {
-            // dd('asas');
-            $categories = Category::all();
-            return response()->json($categories);
-        }
+        // // for web
+        // public function getCategories()
+        // {
+        //     // dd('asas');
+        //     $categories = Category::all();
+        //     return response()->json($categories);
+        // }
     
-        public function getSubcategories(Request $request, $categoryId)
-        {
-            $category = Category::findOrFail($categoryId);
-            $subcategories = $category->subcategories;
-            return response()->json($subcategories);
-        }
-        // for web
+        // public function getSubcategories(Request $request, $categoryId)
+        // {
+        //     $category = Category::findOrFail($categoryId);
+        //     $subcategories = $category->subcategories;
+        //     return response()->json($subcategories);
+        // }
+        // // for web
 
 }
