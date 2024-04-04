@@ -98,8 +98,10 @@ class PostController extends Controller
                     $data['shop_id'] = $row;
                     // $data['status'] = 2;
                     $offer = Post::create($data);
-                    $offer->post_link = 'https://www.pinkad.pk/offer?id='.$offer->id;
-                    $offer->save();
+                    $offer->post_link =  'https://www.pinkad.pk/offer?id='.$offer->id;
+                    $offer->area = 785; // Assuming 'area' is a valid attribute for the Post model
+                    $offer->save(); // This line is optional if you're creating a new post; create() already saves it
+                    
                   
                     // 
                     if ($request->has('subcat_id')) {
