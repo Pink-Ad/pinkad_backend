@@ -204,7 +204,7 @@ class PostController extends Controller
         $post = Post::with('shop', 'shop.seller', 'category', 'subcategory')
         ->where('status', 1)
         ->where('IsFeature', 1)
-        ->OrderBy('id', 'DESC')->paginate(600);
+        ->OrderBy('id', 'DESC')->paginate(99999);
         // $post = Post::with(['shop', 'shop.seller', 'category', 'subcategory'])
         // ->where('status', 1)
         // ->where('IsFeature', 1)
