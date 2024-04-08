@@ -454,6 +454,19 @@ public function getPostsBySeller(Request $request)
     }
 }
 
+        public function offer_search(Request $request){
+
+            $searchTerm = $request->input('search_name');
+            $posts = Post::where('title', 'like', "%$searchTerm%")->get();
+            return response()->json($posts);
+        }
+
+        public function seller_search(Request $request){
+            $searchTerm = $request->input('search_name');
+            $sellers = Seller::where('business_name', 'like', "%$searchTerm%")->get();
+            return response()->json($sellers);
+        }
+
 
 
 }
