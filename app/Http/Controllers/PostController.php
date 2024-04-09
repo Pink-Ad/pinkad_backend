@@ -99,6 +99,7 @@ class PostController extends Controller
                     // $data['status'] = 2;
                     $offer = Post::create($data);
                     $offer->post_link = 'https://www.pinkad.pk/offer?id='.$offer->id;
+                    $offer->area = 785;
                     $offer->save();
                   
                     // 
