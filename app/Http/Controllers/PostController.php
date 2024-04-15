@@ -206,11 +206,16 @@ class PostController extends Controller
         ->where('status', 1)
         ->where('IsFeature', 1)
         ->OrderBy('id', 'DESC')->paginate(300);
-        // $post = Post::with(['shop', 'shop.seller', 'category', 'subcategory'])
-        // ->where('status', 1)
-        // ->where('IsFeature', 1)
-        // ->orderBy('id', 'DESC')
-        // ->get();
+        foreach ($post as $posts) {
+            // Check if the post has a banner image
+            if ($posts->banner) {
+                // Get the path to the banner image
+                $imagePath = public_path($posts->banner);
+                
+                // Compress the image using Intervention Image library
+                Image::make($imagePath)->encode('jpg', 50)->save($imagePath); // Adjust quality (50) as needed
+            }
+        }
         return $post;
     
     // return response()->json($post);
