@@ -58,6 +58,20 @@ class CategoryController extends Controller
             $subcategories = $category->subcategories;
             return response()->json($subcategories);
         }
-        // for web
+        // for email verify
+
+    
+
+        public function verifyEmail(Request $request, $email, $token)
+        {
+                DB::table('users')
+                    ->where('email', $email)
+                    ->update(['email_verified_at' => true, 'updated_at' => now()]);
+                
+                // Redirect or show success message
+                return redirect('https://app.pinkad.pk/email-verified');
+          
+        }
+        
 
 }
