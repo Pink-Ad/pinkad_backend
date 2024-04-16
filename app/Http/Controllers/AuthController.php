@@ -42,6 +42,16 @@ class AuthController extends Controller
             $credentials = $request->only('email', 'password');
             $check = User::where('email', $request->email)->where('role', $request->role)->first();
 
+
+             // email verify code
+             if ($check->email_verified_at !== null) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => "Email not verified. Please verify your email first."
+                ], 401);
+            }
+            // email verify code
+
             if ($check) {
                 $token = auth('api')->attempt($credentials);
                 
