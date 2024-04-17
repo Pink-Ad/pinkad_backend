@@ -62,15 +62,22 @@ class CategoryController extends Controller
 
     
 
-        public function verifyEmail(Request $request, $email, $token)
+        public function verifyEmail($email)
         {
-                DB::table('users')
-                    ->where('email', $email)
-                    ->update(['email_verified_at' => true, 'updated_at' => now()]);
-                
+
+            $encodedEmail = urldecode($email);
+
+            $user = User::where('email', $encodedEmail)->first();
+
+        
+                // Update the user's email_verified_at and updated_at columns
+                $user->email_verified_at = now();
+                // $user->updated_at = now();
+                $user->save();
+        
                 // Redirect or show success message
                 return redirect('https://app.pinkad.pk/email-verified');
-          
+           
         }
         
 
