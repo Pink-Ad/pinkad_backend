@@ -291,6 +291,7 @@ class SellerController extends Controller
     }
     public function destroy($id)
     {
+        // dd($id);
         $seller = Seller::find($id);
         $user = User::find($seller->user_id);
         $del = DeletedUser::create([
