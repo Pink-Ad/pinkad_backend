@@ -327,14 +327,15 @@ class PostController extends Controller
                             'access_token' => $access_token,
                         ]);
                 
-                        $inst_container = Http::post('https://graph.facebook.com/v18.0/17841459132604500/media', [
+                        // $inst_container = Http::post('https://graph.facebook.com/v18.0/17841459132604500/media', [
+                        $inst_container = Http::post('https://graph.facebook.com/v18.0/17841450398544936/media', [
                             'image_url' =>'https://pinkad.pk/portal/public/storage/'.$offer['banner'],
                             'caption' => $insta_message,
                             'access_token' => $access_token,
                         ]); 
                         $creation_id=$inst_container['id'];
                 
-                        $inst_posting = Http::post('https://graph.facebook.com/v18.0/17841459132604500/media_publish', [
+                        $inst_posting = Http::post('https://graph.facebook.com/v18.0/17841450398544936/media_publish', [
                             'creation_id' => $creation_id,
                             'access_token' => $access_token,
                         ]); 
