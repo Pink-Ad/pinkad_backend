@@ -39,8 +39,8 @@ class PostController extends Controller
     public function index()
 {
     $posts = [];
-
-    
+// 
+    // cd
     
     Post::select('id', 'title', 'description', 'status', 'banner', 'shop_id')
         ->with('shop') // Assuming 'shop' is a relationship
