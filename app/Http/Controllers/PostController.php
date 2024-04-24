@@ -37,20 +37,48 @@ class PostController extends Controller
     //     return response()->json(['predictions' => $predictions]);
     // }
     public function index()
-    {
-    $post = Post::select('post.id', 'post.title', 'post.description', 'post.status', 'post.banner', 'post.shop_id')
+{
+    $posts = [];
+    
+    Post::select('id', 'title', 'description', 'status', 'banner', 'shop_id')
+        ->with('shop') // Assuming 'shop' is a relationship
+        ->orderByDesc('created_at')
+        ->chunk(5000, function ($chunkPosts) use (&$posts) {
+            foreach ($chunkPosts as $post) {
+                // Process each post as needed
+                $processedPost = [
+                    'id' => $post->id,
+                    'shop_name' => $post->shop->name ?? 'N/A',
+                    'banner' => $post->banner,
+                    'status' => $post->status,
+                    'title' => $post->title,
+                    'description' => $post->description,
+                    // Add other fields as required
+                ];
+
+                $posts[] = $processedPost;
+            }
+        });
+        // dd($posts);
+
+            return view('admin.pages.offers.offers.index', compact('posts'));
+
+}
+//     public function index()
+//     {
+//     $post = Post::select('post.id', 'post.title', 'post.description', 'post.status', 'post.banner', 'post.shop_id')
    
-    ->leftJoin('offer_insights', 'post.id', '=', 'offer_insights.offer_id')
-    ->orderByDesc('post.created_at')
-    ->get();
+//     ->leftJoin('offer_insights', 'post.id', '=', 'offer_insights.offer_id')
+//     ->orderByDesc('post.created_at')
+//     ->get();
 
 
-// ..
+// // ..
 
 
-        // dd($post);
-        return view('admin.pages.offers.offers.index', compact('post'));
-    }
+//         // dd($post);
+//         return view('admin.pages.offers.offers.index', compact('post'));
+//     }
     public function destroy($id)
     {
         $post = Post::find($id);
