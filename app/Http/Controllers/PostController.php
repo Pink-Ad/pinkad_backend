@@ -316,7 +316,7 @@ class PostController extends Controller
                             'grant_type' => 'fb_exchange_token',
                             'client_id' => '891955272493237',
                             'client_secret' => 'f7d90606830a650135e5a00e9a92cc48',
-                            'fb_exchange_token' => 'EAAMrOoUsKLUBOZCKvmKMoFVRPI1ZCXAQ9lQz7AqdACjsZCMcKS3bcLISFFXOHwH9h1IhYMU8RLBRwI69wtqAKKdeZCCZAvo70IC3XsNnWMGXq5uZADc4qkbHmZAUdGbNpYDDE6ZBFxyRlGYIaxGwZCV2nyV82Tsa9zOL800xg1e9ramXa3mch12GVr6Fy',
+                            'fb_exchange_token' => 'EAAMrOoUsKLUBO9CKJBqmKY99Xhs4zUY9i85JMuAUX0kZANz2iVfVGZCpl0Wp7VNcM9nojn8sg3ZBK9ZAE5ShNNin0tHSbD3BwQbxVx2dcsDNKxzkgQOw4pBXnZC59RUC3rgJtZAtegRBiTb4CP9dg8gGZClXzlQKXPpPHGBD99IiqjnIzofiwlrIOnP',
                         ]);
                 
                         $access_token=$long_live_access_token['access_token'];

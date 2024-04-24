@@ -137,7 +137,7 @@ public function post_banner($image)
         $img = Image::make($image);
 
         // Set the desired width and height for mobile display (adjust as needed)
-        $width = 800;
+        $width = 400;
         $height = 600;
 
         // Resize the image while maintaining aspect ratio
@@ -147,7 +147,7 @@ public function post_banner($image)
         });
 
         // Compress the image with a quality level of 80 (adjust as needed)
-        $img->encode(null, 60);
+        $img->encode(null, 30);
 
         // Generate a unique filename with extension
         $filename = 'compressed_' . uniqid() . '.jpg'; // Use a unique filename with the JPEG extension
