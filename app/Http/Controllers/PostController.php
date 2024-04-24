@@ -316,7 +316,7 @@ class PostController extends Controller
                             'grant_type' => 'fb_exchange_token',
                             'client_id' => '891955272493237',
                             'client_secret' => 'f7d90606830a650135e5a00e9a92cc48',
-                            'fb_exchange_token' => 'EAAMrOoUsKLUBO5hggGcTnRdqy350yesPe8zYquYJRTKmlP3qbS3NhWziwK8K4x9ZAQtBZAbwLU72ZAkl8Cv4A986ly1sslt3a4l8OpB3Fzp5jj1I1s8U6nQXMmqWlsEn5KxOh7GCGzDnKhgJfSC19ZB9yy7WR4p68OTAvVjWUCZABlFuFDRpShMKYhQZDZD',
+                            'fb_exchange_token' => 'EAAMrOoUsKLUBOZCKvmKMoFVRPI1ZCXAQ9lQz7AqdACjsZCMcKS3bcLISFFXOHwH9h1IhYMU8RLBRwI69wtqAKKdeZCCZAvo70IC3XsNnWMGXq5uZADc4qkbHmZAUdGbNpYDDE6ZBFxyRlGYIaxGwZCV2nyV82Tsa9zOL800xg1e9ramXa3mch12GVr6Fy',
                         ]);
                 
                         $access_token=$long_live_access_token['access_token'];
@@ -327,7 +327,6 @@ class PostController extends Controller
                             'access_token' => $access_token,
                         ]);
                 
-                        // $inst_container = Http::post('https://graph.facebook.com/v18.0/17841459132604500/media', [
                         $inst_container = Http::post('https://graph.facebook.com/v18.0/17841450398544936/media', [
                             'image_url' =>'https://pinkad.pk/portal/public/storage/'.$offer['banner'],
                             'caption' => $insta_message,
