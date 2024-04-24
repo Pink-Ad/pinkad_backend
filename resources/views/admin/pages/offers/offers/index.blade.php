@@ -47,7 +47,7 @@
                                             <input type="text" class="search-term form-control" name="search-term"
                                                 id="search-term" placeholder="Search Offer" style="float:right">
                                             <button class="btn btn-default" type="submit"><i
-                                                    class="bx bx-search"></i></button>
+                                                    class="bx bx-search "></i></button>
                                         </div>
                                     </div>
                                 </div>
