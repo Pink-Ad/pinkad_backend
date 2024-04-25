@@ -345,11 +345,11 @@ class PostController extends Controller
                             'grant_type' => 'fb_exchange_token',
                             'client_id' => '891955272493237',
                             'client_secret' => 'f7d90606830a650135e5a00e9a92cc48',
-                            'fb_exchange_token' => 'EAAMrOoUsKLUBO9CKJBqmKY99Xhs4zUY9i85JMuAUX0kZANz2iVfVGZCpl0Wp7VNcM9nojn8sg3ZBK9ZAE5ShNNin0tHSbD3BwQbxVx2dcsDNKxzkgQOw4pBXnZC59RUC3rgJtZAtegRBiTb4CP9dg8gGZClXzlQKXPpPHGBD99IiqjnIzofiwlrIOnP',
+                            'fb_exchange_token' => 'EAAMrOoUsKLUBO2tv58gckSc68ZAsGDY76lRc8OZC7yB8UdtgKWwjvW17jke4pWWFRlDozYG1J2doHYZCsh4arcJg8ShbzuTa8QlvmZAEnjohqQYTzT473suinrztJAjRMDnTZCQth8EAR4xkwbrgTp9i8VZBnUe6b1AJ7NWcE75Tmpi50tZA5gZB8IPDEQZDZD',
+                            // 'fb_exchange_token' => 'EAAMrOoUsKLUBO9CKJBqmKY99Xhs4zUY9i85JMuAUX0kZANz2iVfVGZCpl0Wp7VNcM9nojn8sg3ZBK9ZAE5ShNNin0tHSbD3BwQbxVx2dcsDNKxzkgQOw4pBXnZC59RUC3rgJtZAtegRBiTb4CP9dg8gGZClXzlQKXPpPHGBD99IiqjnIzofiwlrIOnP',
                         ]);
                 
-                        $access_token=$long_live_access_token['access_token'];
-
+                        $access_token=$long_live_access_token->json()['access_token'];
                         $fbk_posting = Http::post('https://graph.facebook.com/v18.0/106430192447842/photos', [
                             'url' =>'https://pinkad.pk/portal/public/storage/'.$offer['banner'],
                             'message' => $fbk_message,
