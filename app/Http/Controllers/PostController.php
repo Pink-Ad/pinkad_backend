@@ -36,11 +36,41 @@ class PostController extends Controller
     //     // Return the predictions as a JSON response
     //     return response()->json(['predictions' => $predictions]);
     // }
-    public function index()
+    public function index(Request $request)
 {
+    
     $posts = [];
+    // search
+    $searchTerm ="";
+    if ($request->has('search_term')) {
+        $searchTerm = $request->input('search_term');
+        
+        $all_posts = Post::select('id', 'title', 'description', 'status', 'banner', 'shop_id')
+        ->where('status', 1)->with('shop')
+        ->whereHas('shop', function ($query) use ($searchTerm) {
+            $query->where('name', 'like', '%' . $searchTerm . '%'); // Use $business_name instead of $searchTerm
+        })
+        ->orderBy('created_at', 'desc')
+        ->get();
+      
+        foreach ($all_posts as $post) {
+            $processedPost = [
+                'id' => $post->id,
+                'shop_name' => $post->shop->name ?? 'N/A',
+                'banner' => $post->banner,
+                'status' => $post->status,
+                'title' => $post->title,
+                'description' => $post->description,
+                // Add other fields as required
+            ];
     
+            $posts[] = $processedPost;
+        }
+        // dd($posts);
+    } 
+    // search
     
+    if (empty($searchTerm)) {
     Post::select('id', 'title', 'description', 'status', 'banner', 'shop_id')
         ->with('shop') // Assuming 'shop' is a relationship
         ->orderByDesc('created_at')
@@ -60,6 +90,8 @@ class PostController extends Controller
                 $posts[] = $processedPost;
             }
         });
+        
+    }
         // dd($posts);
 
             return view('admin.pages.offers.offers.index', compact('posts'));
@@ -345,7 +377,7 @@ class PostController extends Controller
                             'grant_type' => 'fb_exchange_token',
                             'client_id' => '891955272493237',
                             'client_secret' => 'f7d90606830a650135e5a00e9a92cc48',
-                            'fb_exchange_token' => 'EAAMrOoUsKLUBO2tv58gckSc68ZAsGDY76lRc8OZC7yB8UdtgKWwjvW17jke4pWWFRlDozYG1J2doHYZCsh4arcJg8ShbzuTa8QlvmZAEnjohqQYTzT473suinrztJAjRMDnTZCQth8EAR4xkwbrgTp9i8VZBnUe6b1AJ7NWcE75Tmpi50tZA5gZB8IPDEQZDZD',
+                            'fb_exchange_token' => 'EAAMrOoUsKLUBO3y5fzQeZA8vUHqzZARaLkSpZBh6HvPfdvPo9nZA9K5theYHnon6SWPpZCeN5slxPj8yJnTd8j1uRRlUL0QMrQUZBMOBZCse1n4yM9I3kgm6V6j2nJVyEqUJjHauwNB9i12KbmoPZBvgeq1MZBvrH7YOZBojDLh8hos5Pmv63LMfROSO8U8dtKcUejkujAA500iAZDZD',
                             // 'fb_exchange_token' => 'EAAMrOoUsKLUBO9CKJBqmKY99Xhs4zUY9i85JMuAUX0kZANz2iVfVGZCpl0Wp7VNcM9nojn8sg3ZBK9ZAE5ShNNin0tHSbD3BwQbxVx2dcsDNKxzkgQOw4pBXnZC59RUC3rgJtZAtegRBiTb4CP9dg8gGZClXzlQKXPpPHGBD99IiqjnIzofiwlrIOnP',
                         ]);
                 
@@ -498,9 +530,29 @@ public function getPostsBySeller(Request $request)
 
         public function seller_search(Request $request){
             $searchTerm = $request->input('search_name');
-            $sellers = Seller::where('business_name', 'like', "%$searchTerm%")->get();
+            $sellers = Seller::with('shop')->where('business_name', 'like', "%$searchTerm%")->get();
             return response()->json($sellers);
         }
+
+        // web
+        public function get_post_specefic_seller(Request $request)
+{
+
+        // Check if seller_id is present in the request
+        if (!$request->has('business_name') || !$request->filled('business_name')) {
+            return response()->json(['error' => 'Please select a business name'], 400);
+        }
+
+        $business_name = $request->business_name;
+        $seller_posts = Post::where('status',1)->whereHas('shop', function ($query) use ($business_name) {
+            $query->where('name', $business_name);
+        })->orderBy('created_at', 'desc')->get();
+        
+
+        return response()->json(['seller_posts' => $seller_posts]);
+  
+}
+        // web
 
 
 
