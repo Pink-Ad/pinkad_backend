@@ -37,7 +37,7 @@ class SellerController extends Controller
         return $valid;
     }
 
-    public function index()
+    public function index(Request $request)
 {
     // dd('abc');
     $seller = null;
@@ -67,10 +67,25 @@ class SellerController extends Controller
 
         // dd('asas');
         // $seller = Seller::all();
+        $searchTerm ="";
+        if ($request->has('search_term')) {
+            $searchTerm = $request->input('search_term');
+            $seller = Seller::select('id', 'SELL_ID', 'user_id', 'coverimage', 'phone', 'status')
+            ->whereHas('user', function ($query) use ($searchTerm) {
+                $query->where('name', 'like', '%' . $searchTerm . '%');
+            })
+            ->with('user:id,name,email')
+            ->orderByDesc('created_at')
+            ->get();
+        
+
+        }
+        if (empty($searchTerm)) {
         $seller = Seller::select('id', 'SELL_ID', 'user_id', 'coverimage', 'phone', 'status')
         ->with('user:id,name,email')
         ->orderByDesc('created_at')
         ->get();
+        }
     
     
     
@@ -392,7 +407,7 @@ class SellerController extends Controller
                 }
                 if($request->has('area_id'))
                 {
-                    $data['area'] = $request->area_id;
+                    $data['area'] = '785';
                 }
                 if($request->has('branch_name'))
                 {

@@ -46,8 +46,7 @@ class PostController extends Controller
         $searchTerm = $request->input('search_term');
         
         $all_posts = Post::select('id', 'title', 'description', 'status', 'banner', 'shop_id')
-        ->where('title', 'like', '%' . $searchTerm . '%')
-        ->where('status', 1)->with('shop')
+        ->where('title', 'like', '%' . $searchTerm . '%')->with('shop')
         // ->whereHas('shop', function ($query) use ($searchTerm) {
         //     $query->where('name', 'like', '%' . $searchTerm . '%'); // Use $business_name instead of $searchTerm
         // })
@@ -259,6 +258,16 @@ class PostController extends Controller
     {
         $post = Post::with('shop', 'shop.seller')->where('status', 1)->OrderBy('id', 'DESC')->paginate(30);
         // $post = Post::with('shop', 'shop.seller')->where('status', 1)->OrderBy('id', 'DESC')->get();
+    //     $postChunks = Post::with('shop', 'shop.seller')
+    // ->where('status', 1)
+    // ->orderBy('id', 'DESC')
+    // ->chunk(60, function ($posts) {
+    //     foreach ($posts as $post) {
+    //         // Process each chunk of 60 records here
+    //         // You can access individual $post objects inside this loop
+    //     }
+    // });
+
         return $post;
     }
     public function featured_offer_list()
@@ -389,17 +398,17 @@ class PostController extends Controller
                             'access_token' => $access_token,
                         ]);
                 
-                        $inst_container = Http::post('https://graph.facebook.com/v18.0/17841450398544936/media', [
-                            'image_url' =>'https://pinkad.pk/portal/public/storage/'.$offer['banner'],
-                            'caption' => $insta_message,
-                            'access_token' => $access_token,
-                        ]); 
-                        $creation_id=$inst_container['id'];
+                        // $inst_container = Http::post('https://graph.facebook.com/v18.0/17841450398544936/media', [
+                        //     'image_url' =>'https://pinkad.pk/portal/public/storage/'.$offer['banner'],
+                        //     'caption' => $insta_message,
+                        //     'access_token' => $access_token,
+                        // ]); 
+                        // $creation_id=$inst_container['id'];
                 
-                        $inst_posting = Http::post('https://graph.facebook.com/v18.0/17841450398544936/media_publish', [
-                            'creation_id' => $creation_id,
-                            'access_token' => $access_token,
-                        ]); 
+                        // $inst_posting = Http::post('https://graph.facebook.com/v18.0/17841450398544936/media_publish', [
+                        //     'creation_id' => $creation_id,
+                        //     'access_token' => $access_token,
+                        // ]); 
                     }
                 }
             }

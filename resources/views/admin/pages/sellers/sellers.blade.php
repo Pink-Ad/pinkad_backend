@@ -64,14 +64,20 @@
                         <?php endif; ?>
                         </div>
 
-                        <div class="col-12 col-lg-auto ps-lg-1">
-                            <div class="search search-style-1 search-style-1-lg mx-lg-auto">
-                                <div class="input-group">
-                                    <input type="text" class="search-term form-control" name="search-term" id="search-term" placeholder="Search Seller" style="border-radius:0px">
-                                    <button class="btn btn-default" type="submit" style="border-radius:0px"><i class="bx bx-search"></i></button>
+                          <!--  -->
+                          <div class="col-4 col-lg-auto ps-lg-1" >
+                                    <div class="search search-style-1 search-style-1-lg mx-lg-auto">
+                                    <form action="{{ route('seller-management.index') }}" method="GET">
+                                        <div class="input-group" >
+                                            <input type="text" class="search-term form-control" name="search_term"
+                                                id="search-term" placeholder="Search Offer" style="float:right">
+                                            <button class="btn btn-default" type="submit"><i
+                                                    class="bx bx-search "></i></button>
+                                        </div>
+                                </form>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
+                            <!--  -->
                     </div>
                 </div>
                 <!-- <form action="{{ route('admin.change.seller_action') }}" method="POST" id="action-form">
