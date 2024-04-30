@@ -46,10 +46,10 @@ class PostController extends Controller
         $searchTerm = $request->input('search_term');
         
         $all_posts = Post::select('id', 'title', 'description', 'status', 'banner', 'shop_id')
-        ->where('title', 'like', '%' . $searchTerm . '%')->with('shop')
-        // ->whereHas('shop', function ($query) use ($searchTerm) {
-        //     $query->where('name', 'like', '%' . $searchTerm . '%'); // Use $business_name instead of $searchTerm
-        // })
+        ->with('shop')
+        ->whereHas('shop', function ($query) use ($searchTerm) {
+            $query->where('name', 'like', '%' . $searchTerm . '%'); // Use $business_name instead of $searchTerm
+        })
         ->orderBy('created_at', 'desc')
         ->get();
       
