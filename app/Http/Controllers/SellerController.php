@@ -176,10 +176,11 @@ class SellerController extends Controller
                             'grant_type' => 'fb_exchange_token',
                             'client_id' => '891955272493237',
                             'client_secret' => 'f7d90606830a650135e5a00e9a92cc48',
-                            'fb_exchange_token' => 'EAAMrOoUsKLUBO5hggGcTnRdqy350yesPe8zYquYJRTKmlP3qbS3NhWziwK8K4x9ZAQtBZAbwLU72ZAkl8Cv4A986ly1sslt3a4l8OpB3Fzp5jj1I1s8U6nQXMmqWlsEn5KxOh7GCGzDnKhgJfSC19ZB9yy7WR4p68OTAvVjWUCZABlFuFDRpShMKYhQZDZD',
+                            'fb_exchange_token' => 'EAAMrOoUsKLUBO3y5fzQeZA8vUHqzZARaLkSpZBh6HvPfdvPo9nZA9K5theYHnon6SWPpZCeN5slxPj8yJnTd8j1uRRlUL0QMrQUZBMOBZCse1n4yM9I3kgm6V6j2nJVyEqUJjHauwNB9i12KbmoPZBvgeq1MZBvrH7YOZBojDLh8hos5Pmv63LMfROSO8U8dtKcUejkujAA500iAZDZD',
+                            // 'fb_exchange_token' => 'EAAMrOoUsKLUBO9CKJBqmKY99Xhs4zUY9i85JMuAUX0kZANz2iVfVGZCpl0Wp7VNcM9nojn8sg3ZBK9ZAE5ShNNin0tHSbD3BwQbxVx2dcsDNKxzkgQOw4pBXnZC59RUC3rgJtZAtegRBiTb4CP9dg8gGZClXzlQKXPpPHGBD99IiqjnIzofiwlrIOnP',
                         ]);
                 
-                        $access_token=$long_live_access_token['access_token'];
+                        $access_token=$long_live_access_token->json()['access_token'];
 
                         $fbk_posting = Http::post('https://graph.facebook.com/v18.0/106430192447842/photos', [
                             'url' =>'https://pinkad.pk/portal/public/storage/'.$seller['coverimage'],
@@ -187,17 +188,17 @@ class SellerController extends Controller
                             'access_token' => $access_token,
                         ]);
                 
-                        $inst_container = Http::post('https://graph.facebook.com/v18.0/17841459132604500/media', [
-                            'image_url' =>'https://pinkad.pk/portal/public/storage/'.$seller['coverimage'],
-                            'caption' => $insta_message,
-                            'access_token' => $access_token,
-                        ]); 
-                        $creation_id=$inst_container['id'];
+                        // $inst_container = Http::post('https://graph.facebook.com/v18.0/17841459132604500/media', [
+                        //     'image_url' =>'https://pinkad.pk/portal/public/storage/'.$seller['coverimage'],
+                        //     'caption' => $insta_message,
+                        //     'access_token' => $access_token,
+                        // ]); 
+                        // $creation_id=$inst_container['id'];
                 
-                        $inst_posting = Http::post('https://graph.facebook.com/v18.0/17841459132604500/media_publish', [
-                            'creation_id' => $creation_id,
-                            'access_token' => $access_token,
-                        ]); 
+                        // $inst_posting = Http::post('https://graph.facebook.com/v18.0/17841459132604500/media_publish', [
+                        //     'creation_id' => $creation_id,
+                        //     'access_token' => $access_token,
+                        // ]); 
                     }
                 }
             }
