@@ -256,7 +256,7 @@ class PostController extends Controller
     }
     public function top_offerList()
     {
-        $post = Post::with('shop', 'shop.seller')->where('status', 1)->OrderBy('id', 'DESC')->paginate(60);
+        $post = Post::with('shop', 'shop.seller')->where('status', 1)->OrderBy('id', 'DESC')->paginate(100);
         // $post = Post::with('shop', 'shop.seller')->where('status', 1)->OrderBy('id', 'DESC')->get();
     //     $postChunks = Post::with('shop', 'shop.seller')
     // ->where('status', 1)

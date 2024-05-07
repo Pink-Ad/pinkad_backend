@@ -147,7 +147,7 @@ public function post_banner($image)
         });
 
         // Compress the image with a quality level of 80 (adjust as needed)
-        $img->encode(null, 15);
+        $img->encode(null, 8);
 
         // Generate a unique filename with extension
         $filename = 'compressed_' . uniqid() . '.jpg'; // Use a unique filename with the JPEG extension
