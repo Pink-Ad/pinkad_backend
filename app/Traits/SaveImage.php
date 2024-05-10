@@ -101,33 +101,69 @@ trait SaveImage
     //     return $filenamepath;
 
     // }
-    public function post_banner($image)
+    // newww 
+//     public function post_banner($image)
+// {
+//     try {
+//         $img = $image;
+//         $number = rand(1, 999);
+//         $numb = $number / 7;
+//         $extension = $img->extension();
+//         $filenamenew = date('Y-m-d') . "_." . $numb . "_." . $extension;
+
+//         // Set the desired width and height
+//         $width = 1080; // Replace with your desired width
+//         $height = 1080; // Replace with your desired height
+
+//         // Resize the image
+//         $resizedImage = Image::make($img)->resize($width, $height);
+
+//         // Save the resized image to the destination
+//         $filenamepath = 'image' . '/' . 'offer/image/' . $filenamenew;
+//         $resizedImage->save(public_path('storage/' . $filenamepath));
+
+//         return $filenamepath;
+
+//     } catch (\Exception $e) {
+//         // Handle any exceptions that may occur during the process
+//         return response()->json(['error' => $e->getMessage()], 500);
+//     }
+// }
+
+public function post_banner($image)
 {
     try {
-        $img = $image;
-        $number = rand(1, 999);
-        $numb = $number / 7;
-        $extension = $img->extension();
-        $filenamenew = date('Y-m-d') . "_." . $numb . "_." . $extension;
+        // Convert the image data from bytes to an Intervention Image instance
+        $img = Image::make($image);
 
-        // Set the desired width and height
-        $width = 1080; // Replace with your desired width
-        $height = 1080; // Replace with your desired height
+        // Set the desired width and height for mobile display (adjust as needed)
+        $width = 400;
+        $height = 600;
 
-        // Resize the image
-        $resizedImage = Image::make($img)->resize($width, $height);
+        // Resize the image while maintaining aspect ratio
+        $img->resize($width, $height, function ($constraint) {
+            $constraint->aspectRatio();
+            $constraint->upsize();
+        });
 
-        // Save the resized image to the destination
-        $filenamepath = 'image' . '/' . 'offer/image/' . $filenamenew;
-        $resizedImage->save(public_path('storage/' . $filenamepath));
+        // Compress the image with a quality level of 80 (adjust as needed)
+        $img->encode(null, 8);
 
-        return $filenamepath;
+        // Generate a unique filename with extension
+        $filename = 'compressed_' . uniqid() . '.jpg'; // Use a unique filename with the JPEG extension
+
+        // Save the resized and compressed image to the destination
+        $filePath = 'image/offer/image/' . $filename; // Change the path as needed
+        $img->save(public_path('storage/' . $filePath));
+
+        return $filePath; // Return the file path for reference
 
     } catch (\Exception $e) {
         // Handle any exceptions that may occur during the process
         return response()->json(['error' => $e->getMessage()], 500);
     }
 }
+
     public function serviceImage($image)
     {
         $img = $image;

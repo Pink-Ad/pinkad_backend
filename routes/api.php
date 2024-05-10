@@ -66,8 +66,13 @@ Route::get('/featured-offer', [PostController::class, 'featured_offer_list']);
  // 
  Route::get('/categories', [CategoryController::class, 'getCategories']);
  Route::get('/categories/{category}/subcategories', [CategoryController::class, 'getSubcategories']);
+//  
+Route::get('usermail/email_verified/{email}', [CategoryController::class, 'verifyEmail']);
+
  
  // 
+ Route::get('/offer-search', [PostController::class, 'offer_search']);
+ Route::get('/seller-search', [PostController::class, 'seller_search']);
 // 
 
 

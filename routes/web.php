@@ -184,6 +184,7 @@ Route::prefix('/admin')->group(function () {
         Route::get('/offer/delete/{id}', [PostController::class,'destroy'])->name('delete.offer');
         Route::get('/offer/change-status', [PostController::class, 'change_status'])->name('admin.offer.status');
         Route::post('/offer/action', [PostController::class, 'perform_action'])->name('admin.change.action');
+        Route::post('/post_specefic_seller', [PostController::class, 'get_post_specefic_seller'])->name('admin.get_post_specefic_seller');
 
         Route::resource('/banner-management', BannerController::class);
         Route::get('/banner/delete/{id}', [BannerController::class,'destroy'])->name('delete.banner');

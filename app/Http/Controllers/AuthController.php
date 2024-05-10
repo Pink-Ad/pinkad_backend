@@ -42,6 +42,16 @@ class AuthController extends Controller
             $credentials = $request->only('email', 'password');
             $check = User::where('email', $request->email)->where('role', $request->role)->first();
 
+
+             // email verify code
+            //  if ($check->email_verified_at == null) {
+            //     return response()->json([
+            //         'status' => 'error',
+            //         'message' => "Email not verified. Please verify your email first."
+            //     ], 401);
+            // }
+            // email verify code
+
             if ($check) {
                 $token = auth('api')->attempt($credentials);
                 
@@ -194,12 +204,12 @@ class AuthController extends Controller
                     'role' => 'required|numeric|In:2,3',
                     'phone' => 'required|string',
                     'whatsapp' => 'required|string|unique:seller',
-                    'area_id' => 'required|numeric|exists:area,id',
+                    // 'area_id' => 'required|numeric|exists:area,id',
                 ]);
 
                 $request->validate([
                     'isFeatured' => 'required|string',
-                    'logo' => 'required|image',
+                    // 'logo' => 'required|image',
                     'reference' => 'required|string',
                     // 'shop_name' => 'required|string',
                     // 'branch_name' => 'required|string',
@@ -207,7 +217,7 @@ class AuthController extends Controller
                     'shop_contact_number' => 'required|string',
                     // 'business_name' => 'required|string',
                     'business_address' => 'required|string',
-                    'coverimage' => 'required|image',
+                    // 'coverimage' => 'required|image',
                 ]);
 
                 if ($request->reference == "salesman") {
@@ -317,7 +327,8 @@ class AuthController extends Controller
                 $seller_link= $seller->seller_link;
                 $data['seller_id'] = $seller->id;
                 $data['name'] = $request->name;
-                $data['area'] = $request->area_id;
+                // $data['area'] = $request->area_id;
+                $data['area'] = '785';
                 $data['branch_name'] = 'common';
                 $data['status'] = 1;
                 $data['description'] = $request->description;
@@ -334,7 +345,7 @@ class AuthController extends Controller
 
 
                            // Fetch area data
-                $area_data = Area::where('id', $request->area_id)->first();
+                $area_data = Area::where('id', '785')->first();
                 
                 if (!$area_data) {
                     return response()->json(['status' => 'error', 'message' => 'Area data not found'], 404);

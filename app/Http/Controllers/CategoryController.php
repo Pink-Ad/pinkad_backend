@@ -44,7 +44,7 @@ class CategoryController extends Controller
         $category = Category::where('status',1)->get();
         return $category;
     }
-        // for web
+        /// for web
         public function getCategories()
         {
             // dd('asas');
@@ -58,6 +58,27 @@ class CategoryController extends Controller
             $subcategories = $category->subcategories;
             return response()->json($subcategories);
         }
-        // for web
+        // for email verify
+
+    
+
+        public function verifyEmail($email)
+        {
+
+            $encodedEmail = urldecode($email);
+
+            $user = User::where('email', $encodedEmail)->first();
+
+        
+                // Update the user's email_verified_at and updated_at columns
+                $user->email_verified_at = now();
+                // $user->updated_at = now();
+                $user->save();
+        
+                // Redirect or show success message
+                return redirect('https://app.pinkad.pk/email-verified');
+           
+        }
+        
 
 }

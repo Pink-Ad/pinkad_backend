@@ -41,16 +41,20 @@
                                         </form>
                                     </div>
                                 </div>
+                                <!--  -->
                                 <div class="col-4 col-lg-auto ps-lg-1" >
                                     <div class="search search-style-1 search-style-1-lg mx-lg-auto">
+                                    <form action="{{ route('offer-management.index') }}" method="GET">
                                         <div class="input-group" >
-                                            <input type="text" class="search-term form-control" name="search-term"
+                                            <input type="text" class="search-term form-control" name="search_term"
                                                 id="search-term" placeholder="Search Offer" style="float:right">
                                             <button class="btn btn-default" type="submit"><i
-                                                    class="bx bx-search"></i></button>
+                                                    class="bx bx-search "></i></button>
                                         </div>
+                                </form>
                                     </div>
                                 </div>
+                            <!--  -->
                             </div>
                         </div>
                         <form action="{{ route('admin.change.action') }}" method="POST" id="action-form">
@@ -62,51 +66,54 @@
                                         <th><input type="checkbox" name="select_all" class="select-all checkbox-style-1 p-relative top-2" value="" required/></th>
                                         <th>Shop</th>
                                         <th>Image</th>
+                                          <th>Status</th>
                                         <th>Status</th>
                                         <th>Title</th>
                                         <th>Description</th>
-                                        <th>Status</th>
+                                     
                                         <th style="text-align: center">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                  @foreach ($post as $key => $row)
-    <tr>
-        <td><input type="checkbox" name="offers[]" class="checkbox-style-1 p-relative top-2"
-                value="{{ $row->id }}" /></td>
-        {{-- <td>{{ ++$key }}</td> --}}
-        <td>{{ $row->shop->name ?? 'N/A' }}</td>
-        <td>
-            @if ($row->banner)
-                <img src="{{ asset('/public/storage/' . $row->banner) }}"
-                    style="width:150px; height:150px;" />
-            @else
-                No Image
-            @endif
-        </td>
-        <td>{{ $row->status }}</td>
-        <td><strong>{{ $row->title }}</strong></td>
-        <td>{{ $row->description }}</td>
-        <td>
-            <select id="status_change-{{ $row->id }}" class="form-control"
-                data-id="{{ $row->id }}" onchange="status({{ $row->id }})">
-                <option @if ($row->status == 1) selected @endif value="1">
-                    Active</option>
-                <option @if ($row->status == 0) selected @endif value="0">
-                    InActive</option>
-                <option @if ($row->status == 2) selected @endif value="2">
-                    Rejected</option>
-            </select>
-        </td>
-        <td style="text-align: center">
-            {{-- Your modal and action buttons --}}
-            <button class="btn btn-danger" onclick="openDeleteModal({{ $row->id }})"
-                    style="padding: 6px 8px;font-size: 14px;"><i class="fas fa-times"></i></button>
-            <button class="btn btn-primary" onclick="openViewModal({{ $row->id }})"
-                    style="padding: 6px 8px;font-size: 14px;"><i class="fas fa-eye"></i></button>
-        </td>
-    </tr>
-@endforeach
+                                @foreach ($posts as $key => $row)
+                                  
+                                  <tr>
+                                      <td><input type="checkbox" name="offers[]" class="checkbox-style-1 p-relative top-2"
+                                              value="{{ $row['id'] }}" /></td>
+                                      {{-- <td>{{ ++$key }}</td> --}}
+                                      <td>{{ $row['shop_name'] ?? 'N/A' }}</td>
+                                      <td>
+                                          @if ($row['banner'])
+                                              <img src="{{ asset('/public/storage/' . $row['banner']) }}"
+                                                  style="width:150px; height:150px;" />
+                                          @else
+                                              No Image
+                                          @endif
+                                      </td>
+                                       <td>
+                                          <select id="status_change-{{ $row['id'] }}" class="form-control"
+                                              data-id="{{ $row['id'] }}" onchange="status({{ $row['id']}})">
+                                              <option @if ($row['status'] == 1) selected @endif value="1">
+                                                  Active</option>
+                                              <option @if ($row['status'] == 0) selected @endif value="0">
+                                                  InActive</option>
+                                              <option @if ($row['status'] == 2) selected @endif value="2">
+                                                  Rejected</option>
+                                          </select>
+                                      </td>
+                                      <td>{{ $row['status'] }}</td>
+                                      <td><strong>{{ $row['title'] }}</strong></td>
+                                      <td>{{$row['description'] }}</td>
+                                     
+                                      <td style="text-align: center">
+                                          {{-- Your modal and action buttons --}}
+                                          <button class="btn btn-danger" onclick="openDeleteModal({{ $row['id'] }})"
+                                                  style="padding: 6px 8px;font-size: 14px;"><i class="fas fa-times"></i></button>
+                                          <button class="btn btn-primary" onclick="openViewModal({{ $row['id'] }})"
+                                                  style="padding: 6px 8px;font-size: 14px;"><i class="fas fa-eye"></i></button>
+                                      </td>
+                                  </tr>
+                              @endforeach
 
                                 </tbody>
                                 {{-- </table> --}}

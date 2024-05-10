@@ -36,21 +36,82 @@ class PostController extends Controller
     //     // Return the predictions as a JSON response
     //     return response()->json(['predictions' => $predictions]);
     // }
-    public function index()
-    {
-    $post = Post::select('post.id', 'post.title', 'post.description', 'post.status', 'post.banner', 'post.shop_id')
-   
-    ->leftJoin('offer_insights', 'post.id', '=', 'offer_insights.offer_id')
-    ->orderByDesc('post.created_at')
-    ->get();
+    public function index(Request $request)
+{
+    
+    $posts = [];
+    // search
+    $searchTerm ="";
+    if ($request->has('search_term')) {
+        $searchTerm = $request->input('search_term');
+        
+        $all_posts = Post::select('id', 'title', 'description', 'status', 'banner', 'shop_id')
+        ->with('shop')
+        ->whereHas('shop', function ($query) use ($searchTerm) {
+            $query->where('name', 'like', '%' . $searchTerm . '%'); // Use $business_name instead of $searchTerm
+        })
+        ->orderBy('created_at', 'desc')
+        ->get();
+      
+        foreach ($all_posts as $post) {
+            $processedPost = [
+                'id' => $post->id,
+                'shop_name' => $post->shop->name ?? 'N/A',
+                'banner' => $post->banner,
+                'status' => $post->status,
+                'title' => $post->title,
+                'description' => $post->description,
+                // Add other fields as required
+            ];
+    
+            $posts[] = $processedPost;
+        }
+        // dd($posts);
+    } 
+    // search
+    
+    if (empty($searchTerm)) {
+    Post::select('id', 'title', 'description', 'status', 'banner', 'shop_id')
+        ->with('shop') // Assuming 'shop' is a relationship
+        ->orderByDesc('created_at')
+        ->chunk(5000, function ($chunkPosts) use (&$posts) {
+            foreach ($chunkPosts as $post) {
+                // Process each post as needed
+                $processedPost = [
+                    'id' => $post->id,
+                    'shop_name' => $post->shop->name ?? 'N/A',
+                    'banner' => $post->banner,
+                    'status' => $post->status,
+                    'title' => $post->title,
+                    'description' => $post->description,
+                    // Add other fields as required
+                ];
 
-
-// ..
-
-
-        // dd($post);
-        return view('admin.pages.offers.offers.index', compact('post'));
+                $posts[] = $processedPost;
+            }
+        });
+        
     }
+        // dd($posts);
+
+            return view('admin.pages.offers.offers.index', compact('posts'));
+
+}
+//     public function index()
+//     {
+//     $post = Post::select('post.id', 'post.title', 'post.description', 'post.status', 'post.banner', 'post.shop_id')
+   
+//     ->leftJoin('offer_insights', 'post.id', '=', 'offer_insights.offer_id')
+//     ->orderByDesc('post.created_at')
+//     ->get();
+
+
+// // ..
+
+
+//         // dd($post);
+//         return view('admin.pages.offers.offers.index', compact('post'));
+//     }
     public function destroy($id)
     {
         $post = Post::find($id);
@@ -98,10 +159,9 @@ class PostController extends Controller
                     $data['shop_id'] = $row;
                     // $data['status'] = 2;
                     $offer = Post::create($data);
-                    $offer->post_link =  'https://www.pinkad.pk/offer?id='.$offer->id;
-                    $offer->area = 785; // Assuming 'area' is a valid attribute for the Post model
-                    $offer->save(); // This line is optional if you're creating a new post; create() already saves it
-                    
+                    $offer->post_link = 'https://www.pinkad.pk/offer?id='.$offer->id;
+                    $offer->area = 785;
+                    $offer->save();
                   
                     // 
                     if ($request->has('subcat_id')) {
@@ -196,8 +256,18 @@ class PostController extends Controller
     }
     public function top_offerList()
     {
-        $post = Post::with('shop', 'shop.seller')->where('status', 1)->OrderBy('id', 'DESC')->paginate(30);
+        $post = Post::with('shop', 'shop.seller')->where('status', 1)->OrderBy('id', 'DESC')->paginate(100);
         // $post = Post::with('shop', 'shop.seller')->where('status', 1)->OrderBy('id', 'DESC')->get();
+    //     $postChunks = Post::with('shop', 'shop.seller')
+    // ->where('status', 1)
+    // ->orderBy('id', 'DESC')
+    // ->chunk(60, function ($posts) {
+    //     foreach ($posts as $post) {
+    //         // Process each chunk of 60 records here
+    //         // You can access individual $post objects inside this loop
+    //     }
+    // });
+
         return $post;
     }
     public function featured_offer_list()
@@ -206,26 +276,32 @@ class PostController extends Controller
         $post = Post::with('shop', 'shop.seller', 'category', 'subcategory')
         ->where('status', 1)
         ->where('IsFeature', 1)
-        ->OrderBy('id', 'DESC')->paginate(30);
-        // $post = Post::with(['shop', 'shop.seller', 'category', 'subcategory'])
-        // ->where('status', 1)
-        // ->where('IsFeature', 1)
-        // ->orderBy('id', 'DESC')
-        // ->get();
+        ->OrderBy('id', 'DESC')->paginate(300);
+        // foreach ($post as $posts) {
+        //     // Check if the post has a banner image
+        //     if ($posts->banner) {
+        //         // Get the path to the banner image
+        //         $imagePath = public_path($posts->banner);
+                
+        //         // Compress the image using Intervention Image library
+        //         Image::make($imagePath)->encode('jpg', 50)->save($imagePath); // Adjust quality (50) as needed
+        //     }
+        // }
         return $post;
     
     // return response()->json($post);
     }
-    public function check_offers()
-    {
-        $post = Post::with(['shop', 'shop.seller', 'category', 'subcategory'])
-        ->where('status', 1)
-        ->orderBy('id', 'DESC')
-        ->get();
-        return $post;
+    // public function check_offers()
+    // {
+    //     $post = Post::with(['shop', 'shop.seller', 'category', 'subcategory'])
+    //     ->where('status', 1)
+    //     ->where('IsFeature', 1)
+    //     ->orderBy('id', 'DESC')
+    //     ->get();
+    //     return $post;
     
-    // return response()->json($post);
-    }
+    // // return response()->json($post);
+    // }
 
     public function insights(Request $request)
     {
@@ -311,28 +387,28 @@ class PostController extends Controller
                             'grant_type' => 'fb_exchange_token',
                             'client_id' => '891955272493237',
                             'client_secret' => 'f7d90606830a650135e5a00e9a92cc48',
-                            'fb_exchange_token' => 'EAAMrOoUsKLUBO5hggGcTnRdqy350yesPe8zYquYJRTKmlP3qbS3NhWziwK8K4x9ZAQtBZAbwLU72ZAkl8Cv4A986ly1sslt3a4l8OpB3Fzp5jj1I1s8U6nQXMmqWlsEn5KxOh7GCGzDnKhgJfSC19ZB9yy7WR4p68OTAvVjWUCZABlFuFDRpShMKYhQZDZD',
+                            'fb_exchange_token' => 'EAAMrOoUsKLUBO3y5fzQeZA8vUHqzZARaLkSpZBh6HvPfdvPo9nZA9K5theYHnon6SWPpZCeN5slxPj8yJnTd8j1uRRlUL0QMrQUZBMOBZCse1n4yM9I3kgm6V6j2nJVyEqUJjHauwNB9i12KbmoPZBvgeq1MZBvrH7YOZBojDLh8hos5Pmv63LMfROSO8U8dtKcUejkujAA500iAZDZD',
+                            // 'fb_exchange_token' => 'EAAMrOoUsKLUBO9CKJBqmKY99Xhs4zUY9i85JMuAUX0kZANz2iVfVGZCpl0Wp7VNcM9nojn8sg3ZBK9ZAE5ShNNin0tHSbD3BwQbxVx2dcsDNKxzkgQOw4pBXnZC59RUC3rgJtZAtegRBiTb4CP9dg8gGZClXzlQKXPpPHGBD99IiqjnIzofiwlrIOnP',
                         ]);
                 
-                        $access_token=$long_live_access_token['access_token'];
-
+                        $access_token=$long_live_access_token->json()['access_token'];
                         $fbk_posting = Http::post('https://graph.facebook.com/v18.0/106430192447842/photos', [
                             'url' =>'https://pinkad.pk/portal/public/storage/'.$offer['banner'],
                             'message' => $fbk_message,
                             'access_token' => $access_token,
                         ]);
                 
-                        $inst_container = Http::post('https://graph.facebook.com/v18.0/17841459132604500/media', [
-                            'image_url' =>'https://pinkad.pk/portal/public/storage/'.$offer['banner'],
-                            'caption' => $insta_message,
-                            'access_token' => $access_token,
-                        ]); 
-                        $creation_id=$inst_container['id'];
+                        // $inst_container = Http::post('https://graph.facebook.com/v18.0/17841450398544936/media', [
+                        //     'image_url' =>'https://pinkad.pk/portal/public/storage/'.$offer['banner'],
+                        //     'caption' => $insta_message,
+                        //     'access_token' => $access_token,
+                        // ]); 
+                        // $creation_id=$inst_container['id'];
                 
-                        $inst_posting = Http::post('https://graph.facebook.com/v18.0/17841459132604500/media_publish', [
-                            'creation_id' => $creation_id,
-                            'access_token' => $access_token,
-                        ]); 
+                        // $inst_posting = Http::post('https://graph.facebook.com/v18.0/17841450398544936/media_publish', [
+                        //     'creation_id' => $creation_id,
+                        //     'access_token' => $access_token,
+                        // ]); 
                     }
                 }
             }
@@ -454,6 +530,39 @@ public function getPostsBySeller(Request $request)
         return response()->json(['error' => $ex->getMessage()], 500);
     }
 }
+
+        public function offer_search(Request $request){
+
+            $searchTerm = $request->input('search_name');
+            $posts = Post::where('title', 'like', "%$searchTerm%")->get();
+            return response()->json($posts);
+        }
+
+        public function seller_search(Request $request){
+            $searchTerm = $request->input('search_name');
+            $sellers = Seller::with('shop')->where('business_name', 'like', "%$searchTerm%")->get();
+            return response()->json($sellers);
+        }
+
+        // web
+        public function get_post_specefic_seller(Request $request)
+{
+
+        // Check if seller_id is present in the request
+        if (!$request->has('business_name') || !$request->filled('business_name')) {
+            return response()->json(['error' => 'Please select a business name'], 400);
+        }
+
+        $business_name = $request->business_name;
+        $seller_posts = Post::where('status',1)->whereHas('shop', function ($query) use ($business_name) {
+            $query->where('name', $business_name);
+        })->orderBy('created_at', 'desc')->get();
+        
+
+        return response()->json(['seller_posts' => $seller_posts]);
+  
+}
+        // web
 
 
 
