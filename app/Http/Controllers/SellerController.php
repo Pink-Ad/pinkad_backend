@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-
 use App\Models\Seller;
 use App\Models\SaleMan;
 use App\Models\User;
@@ -11,6 +10,7 @@ use App\Models\DeletedUser;
 use App\Models\Shop;
 use App\Models\Area;
 use App\Models\City;
+use App\Models\Premium_Seller;
 use Illuminate\Http\Request;
 use App\Traits\SaveImage;
 use Illuminate\Support\Facades\Validator;
@@ -145,6 +145,24 @@ class SellerController extends Controller
 
         if($request->has('bulk_action'))
         {
+
+            // premium_seller_features
+            if($request->bulk_action == "premium" || $request->bulk_action == "ordinary"){
+            $sellers = Seller::whereIn('id', $request->sellers)->get();
+
+            foreach ($sellers as $seller) {
+                if ($request->bulk_action == "premium") {
+                    // Create or update the premium seller status
+                    $premiumSeller = Premium_Seller::firstOrNew(['seller_id' => $seller->id]);
+                    $premiumSeller->extra_feature = 'accepted';
+                    $premiumSeller->save();
+                } elseif ($request->bulk_action == "ordinary") {
+                    // Delete the premium seller status if it exists
+                    Premium_Seller::where('seller_id', $seller->id)->delete();
+                }
+            }
+        }
+            // premium_seller_features
             if($request->bulk_action == "promote")
             {
                 if($request->has('sellers'))

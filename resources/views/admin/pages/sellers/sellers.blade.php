@@ -260,6 +260,8 @@
                                                 <option value="" selected>Bulk Actions</option>
                                                 <option value="delete">Delete</option>
                                                 <option value="promote">Promote</option>
+                                                <option value="ordinary">Ordinary Seller</option>
+                                                <option value="premium">Premium Seller</option>
                                             </select>
                                             <button type="button" onclick="openActionModal()"
                                             class="bulk-action-apply btn btn-light btn-px-4 py-3 border font-weight-semibold text-color-dark text-3">Apply</button>                                        </div>
