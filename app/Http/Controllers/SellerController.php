@@ -156,9 +156,19 @@ class SellerController extends Controller
                     $premiumSeller = Premium_Seller::firstOrNew(['seller_id' => $seller->id]);
                     $premiumSeller->extra_feature = 'accepted';
                     $premiumSeller->save();
+                    // 
+                    $premium_seller = Seller::find($seller->id);
+                    $premium_seller->seller_status = 1;
+                    $premium_seller->save();
+                    // 
                 } elseif ($request->bulk_action == "ordinary") {
                     // Delete the premium seller status if it exists
                     Premium_Seller::where('seller_id', $seller->id)->delete();
+                      // 
+                      $ordinary_seller = Seller::find($seller->id);
+                      $ordinary_seller->seller_status = 0;
+                      $ordinary_seller->save();
+                      // 
                 }
             }
         }

@@ -87,6 +87,7 @@
                     <tr>
                         <th width="3%"><input type="checkbox" name="select-all" class="select-all checkbox-style-1 p-relative top-2" value="" /></th>
                         <th width="8%">ID</th>
+                        <th width="8%">Seller Status</th>
                         <th width="15%">Cover Image</th>
                         <th width="12%">Name</th>
                         <th width="20%">Email</th>
@@ -100,6 +101,7 @@
                             <tr>
                                 <td width="30"><input type="checkbox" name="sellers[]" value="{{ $row->id }}"class="checkbox-style-1 p-relative top-2" /></td>
                                 <td>{{ $row->SELL_ID }}</td>
+                                <td>{{ $row->seller_status == 1 ? 'Premium' : 'Ordinary' }}</td>
                                 <td><img src="{{ asset('/public/storage/'.$row->coverimage) }}" style="width:100px; height:100px; border-radius:50%;"></td>
                                 <td><a href="#"><strong>{{ $row->user->name }}</strong></a></td>
                                 <td>{{ $row->user->email }}</td>
@@ -260,8 +262,8 @@
                                                 <option value="" selected>Bulk Actions</option>
                                                 <option value="delete">Delete</option>
                                                 <option value="promote">Promote</option>
-                                                <option value="ordinary">Ordinary Seller</option>
                                                 <option value="premium">Premium Seller</option>
+                                                <option value="ordinary">Ordinary Seller</option>
                                             </select>
                                             <button type="button" onclick="openActionModal()"
                                             class="bulk-action-apply btn btn-light btn-px-4 py-3 border font-weight-semibold text-color-dark text-3">Apply</button>                                        </div>
