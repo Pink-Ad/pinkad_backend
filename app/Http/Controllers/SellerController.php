@@ -70,7 +70,7 @@ class SellerController extends Controller
         $searchTerm ="";
         if ($request->has('search_term')) {
             $searchTerm = $request->input('search_term');
-            $seller = Seller::select('id', 'SELL_ID', 'user_id', 'coverimage', 'phone', 'status')
+            $seller = Seller::select('id', 'SELL_ID', 'user_id', 'coverimage', 'phone', 'status','seller_status')
             ->whereHas('user', function ($query) use ($searchTerm) {
                 $query->where('name', 'like', '%' . $searchTerm . '%');
             })
@@ -81,7 +81,7 @@ class SellerController extends Controller
 
         }
         if (empty($searchTerm)) {
-        $seller = Seller::select('id', 'SELL_ID', 'user_id', 'coverimage', 'phone', 'status')
+        $seller = Seller::select('id', 'SELL_ID', 'user_id', 'coverimage', 'phone', 'status','seller_status')
         ->with('user:id,name,email')
         ->orderByDesc('created_at')
         ->get();
