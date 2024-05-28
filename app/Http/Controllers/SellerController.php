@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-
 use App\Models\Seller;
 use App\Models\SaleMan;
 use App\Models\User;
@@ -11,6 +10,7 @@ use App\Models\DeletedUser;
 use App\Models\Shop;
 use App\Models\Area;
 use App\Models\City;
+use App\Models\Premium_Seller;
 use Illuminate\Http\Request;
 use App\Traits\SaveImage;
 use Illuminate\Support\Facades\Validator;
@@ -70,7 +70,7 @@ class SellerController extends Controller
         $searchTerm ="";
         if ($request->has('search_term')) {
             $searchTerm = $request->input('search_term');
-            $seller = Seller::select('id', 'SELL_ID', 'user_id', 'coverimage', 'phone', 'status')
+            $seller = Seller::select('id', 'SELL_ID', 'user_id', 'coverimage', 'phone', 'status','seller_status')
             ->whereHas('user', function ($query) use ($searchTerm) {
                 $query->where('name', 'like', '%' . $searchTerm . '%');
             })
@@ -81,7 +81,7 @@ class SellerController extends Controller
 
         }
         if (empty($searchTerm)) {
-        $seller = Seller::select('id', 'SELL_ID', 'user_id', 'coverimage', 'phone', 'status')
+        $seller = Seller::select('id', 'SELL_ID', 'user_id', 'coverimage', 'phone', 'status','seller_status')
         ->with('user:id,name,email')
         ->orderByDesc('created_at')
         ->get();
@@ -145,6 +145,34 @@ class SellerController extends Controller
 
         if($request->has('bulk_action'))
         {
+
+            // premium_seller_features
+            if($request->bulk_action == "premium" || $request->bulk_action == "ordinary"){
+            $sellers = Seller::whereIn('id', $request->sellers)->get();
+
+            foreach ($sellers as $seller) {
+                if ($request->bulk_action == "premium") {
+                    // Create or update the premium seller status
+                    $premiumSeller = Premium_Seller::firstOrNew(['seller_id' => $seller->id]);
+                    $premiumSeller->extra_feature = 'accepted';
+                    $premiumSeller->save();
+                    // 
+                    $premium_seller = Seller::find($seller->id);
+                    $premium_seller->seller_status = 1;
+                    $premium_seller->save();
+                    // 
+                } elseif ($request->bulk_action == "ordinary") {
+                    // Delete the premium seller status if it exists
+                    Premium_Seller::where('seller_id', $seller->id)->delete();
+                      // 
+                      $ordinary_seller = Seller::find($seller->id);
+                      $ordinary_seller->seller_status = 0;
+                      $ordinary_seller->save();
+                      // 
+                }
+            }
+        }
+            // premium_seller_features
             if($request->bulk_action == "promote")
             {
                 if($request->has('sellers'))

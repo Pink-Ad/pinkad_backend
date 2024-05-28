@@ -385,14 +385,14 @@ class PostController extends Controller
                         // SM Integration
                         $long_live_access_token= Http::post('https://graph.facebook.com/oauth/access_token', [
                             'grant_type' => 'fb_exchange_token',
-                            'client_id' => '891955272493237',
-                            'client_secret' => 'f7d90606830a650135e5a00e9a92cc48',
-                            'fb_exchange_token' => 'EAAMrOoUsKLUBO3y5fzQeZA8vUHqzZARaLkSpZBh6HvPfdvPo9nZA9K5theYHnon6SWPpZCeN5slxPj8yJnTd8j1uRRlUL0QMrQUZBMOBZCse1n4yM9I3kgm6V6j2nJVyEqUJjHauwNB9i12KbmoPZBvgeq1MZBvrH7YOZBojDLh8hos5Pmv63LMfROSO8U8dtKcUejkujAA500iAZDZD',
+                            'client_id' => '1099961361102872',
+                            'client_secret' => '540e1661a469db1e28cfe6e40bb3ca91',
+                            'fb_exchange_token' => 'EAAPoaLYxZBBgBO39iA4vHiwbSssRr9iWwfZBBlysLqckUjirqxoLJleOxU8m76sIYbAgUZApS81SVeLrLLnyrqgVJZB2PpuEedp1DALbLOubaLKXrg6h4N6eO9P2Cn5STJs2jOiZBjwiPb9KLfap5qn560WCZArS71QOiWFyzosGjZAW55FZCmCkineEmYjFWj0hD8H3jZBLHgwZDZD',
                             // 'fb_exchange_token' => 'EAAMrOoUsKLUBO9CKJBqmKY99Xhs4zUY9i85JMuAUX0kZANz2iVfVGZCpl0Wp7VNcM9nojn8sg3ZBK9ZAE5ShNNin0tHSbD3BwQbxVx2dcsDNKxzkgQOw4pBXnZC59RUC3rgJtZAtegRBiTb4CP9dg8gGZClXzlQKXPpPHGBD99IiqjnIzofiwlrIOnP',
                         ]);
                 
                         $access_token=$long_live_access_token->json()['access_token'];
-                        $fbk_posting = Http::post('https://graph.facebook.com/v18.0/106430192447842/photos', [
+                        $fbk_posting = Http::post('https://graph.facebook.com/v19.0/106430192447842/photos', [
                             'url' =>'https://pinkad.pk/portal/public/storage/'.$offer['banner'],
                             'message' => $fbk_message,
                             'access_token' => $access_token,
