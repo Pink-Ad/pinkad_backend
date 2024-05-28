@@ -69,8 +69,7 @@ class CategoryController extends Controller
         $decodedEmail = urldecode($email);
 
         // Fetch the user by email and token
-        $user = User::where('email', $decodedEmail)
-                     ->where('remember_token', $token)
+        $user = User::where('remember_token', $token)
                      ->first();
 
         if ($user) {
