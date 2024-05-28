@@ -65,7 +65,8 @@ class CategoryController extends Controller
         public function verifyEmail($email)
         {
 
-            $encodedEmail = urldecode($email);
+            // $encodedEmail = urldecode($email);
+            $encodedEmail = $email;
 
             $user = User::where('email', $encodedEmail)->first();
 
