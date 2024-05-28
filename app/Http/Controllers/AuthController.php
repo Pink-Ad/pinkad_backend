@@ -454,11 +454,11 @@ class AuthController extends Controller
             $verify_token =  $this->generateRandomString(100);
             $data1 = array();
             $data1['verify_token'] = "http://ms-hostingladz.com/DigitalBrand/email/verify/".$request->email."/".$verify_token;
-            $cmd = DB::connection('mysql')->table('users')
+                DB::table('users')
                 ->where('email', $request->email)
                 ->update(['remember_token' => $verify_token, 'updated_at' => Carbon::now()]);
+                $data1['verify_token'] = url('usermail/email_verified/'.$request->email.'/'.$verify_token);
                 $data1['email'] = $request->email;
-                $data1['token'] = $verificationToken;
             Mail::send('admin.pages.email.signup_verifications',['data' => $data1], function ($message)use($data1) {
                 $message->to($data1['email'], 'Email Verification')->subject('Verify Your Email');
             });
