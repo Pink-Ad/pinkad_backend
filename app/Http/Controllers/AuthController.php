@@ -787,7 +787,7 @@ class AuthController extends Controller
                 ->where('email', $request->email)
                 ->update(['remember_token' => $verify_token, 'updated_at' => Carbon::now()]);
                 // 
-            $data1['verify_token'] = 'https://qa.pinkad.pk/api/usermail/email_verified/' . $encodedEmail.'/'.$verify_token;
+            $data1['verify_token_email'] = 'https://qa.pinkad.pk/api/usermail/email_verified/' . $encodedEmail.'/'.$verify_token;
                 // 
             $data1['email'] = $request->email;
             Mail::send('admin.pages.email.signup_verifications',['data' => $data1], function ($message)use($data1) {
