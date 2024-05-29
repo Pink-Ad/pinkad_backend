@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Models\User;
+
 
 class CategoryController extends Controller
 {
@@ -62,29 +64,31 @@ class CategoryController extends Controller
 
     
 
-        public function verifyEmail($email, $token)
-        {
+    //    email verification linked open
+    public function verifyEmail($email, $token)
+    {
 
-          // Decode the email
-        $decodedEmail = urldecode($email);
+      // Decode the email
+    $decodedEmail = urldecode($email);
 
-        // Fetch the user by email and token
-        $user = User::where('remember_token', $token)
-                     ->first();
+    // Fetch the user by email and token
+  $user = User::where('email', $decodedEmail)
+                 ->where('remember_token', $token)
+                 ->first();
+    if ($user) {
+        // Update the user's email_verified_at
+        $user->email_verified_at = now();
+        $user->remember_token = null; // Clear the token
+        $user->save();
 
-        if ($user) {
-            // Update the user's email_verified_at
-            $user->email_verified_at = now();
-            $user->remember_token = null; // Clear the token
-            $user->save();
-
-            // Redirect or show success message
-            return redirect('https://app.pinkad.pk/email-verified');
-            
-        } else {
-            return redirect('/')->with('error', 'Invalid verification link.');
-        }
+        // Redirect or show success message
+        return redirect('https://app.pinkad.pk/email-verified');
+        
+    } else {
+        return redirect('/')->with('error', 'Invalid verification link.');
     }
+}
+    //    email verification linked open
                
         
 
