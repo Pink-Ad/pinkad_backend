@@ -72,7 +72,8 @@ class SellerController extends Controller
             $searchTerm = $request->input('search_term');
             $seller = Seller::select('id', 'SELL_ID', 'user_id', 'coverimage', 'phone', 'status','seller_status')
             ->whereHas('user', function ($query) use ($searchTerm) {
-                $query->where('name', 'like', '%' . $searchTerm . '%');
+                $query->where('name', 'like', '%' . $searchTerm . '%')
+                ->orWhere('email', 'like', '%' . $searchTerm . '%');
             })
             ->with('user:id,name,email')
             ->orderByDesc('created_at')
