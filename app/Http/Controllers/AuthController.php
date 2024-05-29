@@ -449,22 +449,27 @@ class AuthController extends Controller
                 $customer->save();
                 $seller_link= 'guest_link';
             }
-
-  if ($request->role == 2) {
-            $verify_token =  $this->generateRandomString(100);
-            $data1 = array();
-            $data1['verify_token'] = "http://ms-hostingladz.com/DigitalBrand/email/verify/".$request->email."/".$verify_token;
-                DB::table('users')
-                ->where('email', $request->email)
-                ->update(['remember_token' => $verify_token, 'updated_at' => Carbon::now()]);
-                $data1['verify_token'] = url('usermail/email_verified/'.$request->email.'/'.$verify_token);
+            if ($request->role == 2) {
+                $verify_token =  $this->generateRandomString(100);
+                $data1 = array();
+                 // URL-encode the email
+                 $encodedEmail = urlencode($request->email);
+                 // 
+                // $data1['verify_token'] = "http://ms-hostingladz.com/DigitalBrand/email/verify/".$request->email."/".$verify_token;
+                $cmd = DB::connection('mysql')->table('users')
+                    ->where('email', $request->email)
+                    ->update(['remember_token' => $verify_token, 'updated_at' => Carbon::now()]);
+                    // 
+                $data1['verify_token'] = 'https://qa.pinkad.pk/api/usermail/email_verified/' . $encodedEmail.'/'.$verify_token;
+                    // 
                 $data1['email'] = $request->email;
-            Mail::send('admin.pages.email.signup_verifications',['data' => $data1], function ($message)use($data1) {
-                $message->to($data1['email'], 'Email Verification')->subject('Verify Your Email');
-            });
+                Mail::send('admin.pages.email.signup_verifications',['data' => $data1], function ($message)use($data1) {
+                    $message->to($data1['email'], 'Email Verification')->subject('Verify Your Email');
+                });
             
-
-        }
+                        
+            
+                    }
 
 
             return response()->json([
@@ -779,16 +784,10 @@ class AuthController extends Controller
   if ($request->role == 2) {
             $verify_token =  $this->generateRandomString(100);
             $data1 = array();
-             // URL-encode the email
-             $encodedEmail = urlencode($request->email);
-             // 
-            // $data1['verify_token'] = "http://ms-hostingladz.com/DigitalBrand/email/verify/".$request->email."/".$verify_token;
+            $data1['verify_token'] = "http://ms-hostingladz.com/DigitalBrand/email/verify/".$request->email."/".$verify_token;
             $cmd = DB::connection('mysql')->table('users')
                 ->where('email', $request->email)
                 ->update(['remember_token' => $verify_token, 'updated_at' => Carbon::now()]);
-                // 
-            $data1['verify_token'] = 'https://qa.pinkad.pk/api/usermail/email_verified/' . $encodedEmail.'/'.$verify_token;
-                // 
             $data1['email'] = $request->email;
             Mail::send('admin.pages.email.signup_verifications',['data' => $data1], function ($message)use($data1) {
                 $message->to($data1['email'], 'Email Verification')->subject('Verify Your Email');
