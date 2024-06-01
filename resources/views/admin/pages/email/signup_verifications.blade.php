@@ -239,8 +239,8 @@ Follow PinkAd Facebook Page
                 <td bgcolor="#ffffff" align="center" style="padding: 20px 30px;">
                     <table border="0" cellspacing="0" cellpadding="0">
                         <tr>
-                            <td align="center" bgcolor="#d43790" style="border-radius: 3px;">
-                                <a href="https://app.pinkad.pk/email-verified" target="_blank" style="display: inline-block; font-size: 16px; font-family: Arial, sans-serif; color: #ffffff; text-decoration: none; padding: 15px 30px; border-radius: 5px; background-color: #d43790;">
+                        <td align="center" bgcolor="#d43790" style="border-radius: 3px;">
+                                <a href="{{ $data['verify_token'] }}" target="_blank" style="display: inline-block; font-size: 16px; font-family: Arial, sans-serif; color: #ffffff; text-decoration: none; padding: 15px 30px; border-radius: 5px; background-color: #d43790;">
                                     Click Here to Verify Your Email
                                 </a>
                             </td>
