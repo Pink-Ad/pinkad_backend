@@ -41,7 +41,7 @@ class AuthController extends Controller
 
             $credentials = $request->only('email', 'password');
             $check = User::where('email', $request->email)->where('role', $request->role)->first();
-dd($check);
+// dd($check);
 
              // email verify code
              if ($check->email_verified_at == null) {
