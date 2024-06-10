@@ -41,13 +41,13 @@ class AuthController extends Controller
 
             $credentials = $request->only('email', 'password');
             $check = User::where('email', $request->email)->where('role', $request->role)->first();
-
+dd($check);
 
              // email verify code
              if ($check->email_verified_at == null) {
                 return response()->json([
                     'status' => 'error',
-                    'message' => "Email not verified. Please verify your email first."
+                    'message' => "Your Email is not verified. Kindly Please verify your email first.(check spam or junk folder, If not received in inbox.)"
                 ], 401);
             }
             // email verify code
