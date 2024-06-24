@@ -546,6 +546,14 @@ class SellerController extends Controller
         // $seller = Seller::with('user', 'shop')->orderBy('business_name')->get();
         return $seller;
     }
+
+    public function premium_seller_list()
+    {
+        $premium_seller = Premium_Seller::with('seller','seller.user','seller.shop')
+        ->Orderby('id','DESC')->get();
+        return $premium_seller;
+    }
+    
     
     public function filter_seller(Request $request){
         $seller= null;

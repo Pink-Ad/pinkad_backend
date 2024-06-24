@@ -254,6 +254,36 @@ class PostController extends Controller
         $post = $post->orderByDesc('id')->get();
         return $post;
     }
+        // new web
+   
+
+public function web_offer_filter(Request $request)
+{
+   $posts = DB::table('post')
+            ->join('shop', 'post.shop_id', '=', 'shop.id')
+            ->join('seller', 'shop.seller_id', '=', 'seller.id')
+            ->select(
+                'post.id as post_id',
+                'post.banner as banner',
+                'post.description as description',
+                'post.title as title',
+                'shop.id as shop_id',
+                'shop.name as shop_name',
+                'seller.id as seller_id',
+                'seller.business_name as seller_name',
+                'seller.logo as seller_logo',
+                'seller.whatsapp as whatsapp'
+            )
+            ->where('post.status', 1)
+            ->orderByDesc('post.id')
+            ->get();
+
+
+       return $posts;
+
+}
+
+    // new  web
     public function top_offerList()
     {
         $post = Post::with('shop', 'shop.seller')->where('status', 1)->OrderBy('id', 'DESC')->paginate(100);

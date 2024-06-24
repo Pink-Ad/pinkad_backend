@@ -15,5 +15,11 @@ class Premium_Seller extends Model
         'seller_id', // Add seller_id here
         'extra_feature', // Add other attributes as needed
     ];
+
+    public function seller()
+    {
+        return $this->hasOne(Seller::class,'id','seller_id');
+
+    }
   
 }

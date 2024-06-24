@@ -58,7 +58,8 @@ Route::get('list/banner', [BannerController::class, 'bannerApi']);
 Route::get('shop-detail/{id}', [ShopController::class, 'shop_details']);
 Route::get('offer-detail/{id}', [PostController::class, 'offer_detail']);
 
-Route::get('/offer-filter', [PostController::class, 'offer_filter']);
+Route::get('/sha', [PostController::class, 'offer_filter']);
+Route::get('/web-offer-filter', [PostController::class, 'web_offer_filter']);
 Route::get('/top-offer', [PostController::class, 'top_offerList']);
 Route::get('/check_offers', [PostController::class, 'check_offers']);
 Route::get('/featured-offer', [PostController::class, 'featured_offer_list']);
@@ -79,6 +80,7 @@ Route::get('/usermail/email_verified/{email}/{token}', [CategoryController::clas
 Route::get('featured-selller-list', [SellerController::class, 'featured_selller_list']);
 Route::get('top-selller-list', [SellerController::class, 'top_selller_list']);
 Route::get('all-selller-list', [SellerController::class, 'all_selller_list']);
+Route::get('premium-seller-list', [SellerController::class, 'premium_seller_list']);
 Route::get('all/shop/list', [ShopController::class, 'all_shop_list']);
 Route::get('seller/shop/list', [ShopController::class, 'seller_shop']);
 
