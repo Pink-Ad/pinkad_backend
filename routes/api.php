@@ -58,7 +58,7 @@ Route::get('list/banner', [BannerController::class, 'bannerApi']);
 Route::get('shop-detail/{id}', [ShopController::class, 'shop_details']);
 Route::get('offer-detail/{id}', [PostController::class, 'offer_detail']);
 
-Route::get('/sha', [PostController::class, 'offer_filter']);
+Route::get('/offer-filter', [PostController::class, 'offer_filter']);
 Route::get('/web-offer-filter', [PostController::class, 'web_offer_filter']);
 Route::get('/top-offer', [PostController::class, 'top_offerList']);
 Route::get('/check_offers', [PostController::class, 'check_offers']);
