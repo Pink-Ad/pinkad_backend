@@ -121,87 +121,7 @@ class PostController extends Controller
         $post->delete();
         return redirect()->back();
     }
-    public function create_offer_api(Request $request)
-    {
-        try {
-            // dd($request->all());
-            $this->validate($request, [
-                'banner' => 'required|image|mimes:jpg,bmp,png,webp|max:2048',
-                'title' => 'required',
-                'description' => 'required',
-                // 'hash_tag' => 'required',
-                'shop_id' => 'required|array',
-                'shop_id.*' => 'exists:shop,id',
-                'category_id' => 'required|numeric',
-                'subcat_id' => 'array',
-                'subcat_id.*' => 'exists:sub_category,id',
-
-                // // 'IsFeature' => 'required|In:0,1',
-                // 'area' => 'required|numeric|exists:area,id',
-                // 'multiple_area' => 'array',
-            ]);
-            if (auth('api')->user()->seller->shop != null) {
-                $banner = $this->post_banner($request->banner);
-                // // $shop_id = auth('api')->user()->seller->shop->id;
-                $data = $request->all();
-                $data['banner'] = $banner;
-                $data['status'] = 1;
-                if($request->has('gender'))
-                {
-                    $data['gender'] = $request->gender;
-                    if($request->gender=="male"){
-                        $data['status'] = 1;
-                    }
-                    else if($request->gender=="female"){
-                        $data['status'] = 2;
-                    }
-                }
-
-                foreach ($request->shop_id as $row) {
-                    $data['shop_id'] = $row;
-                    // $data['status'] = 2;
-                    $offer = Post::create($data);
-                    $offer->post_link = 'https://www.pinkad.pk/offer?id='.$offer->id;
-                    $offer->area = 785;
-                    $offer->save();
-                  
-                    // 
-                    if ($request->has('subcat_id')) {
-                        foreach ($request->subcat_id as $item) {
-                            $offer_data['offer_id'] = $offer->id;
-                            $offer_data['subcat_id'] = $item;
-                            OfferSubcatPivot::create($offer_data);
-                        }
-                    }
-                    if ($request->has('multiple_area')) {
-                        foreach ($request->multiple_area as $items) {
-                            $offer_area['offer_id'] = $offer->id;
-                            $offer_area['area_id'] = $items;
-                            OfferareaPivot::create($offer_area);
-                        }
-                    }
-                }
-                // $fb = new Facebook([
-                //     'app_id' => config('app.facebook_app_id'),
-                //     'app_secret' => config('app.facebook_app_secret'),
-                //     'default_graph_version' => 'v17.0',
-                // ]);
-                // $pageAccessToken = config('app.facebook_default_access_token');
-
-                // $fb->setDefaultAccessToken($pageAccessToken);
-                // $message = 'Your hard-coded message';
-                // $response = $fb->post('/pinkad.pk/feed', ['message' => $message]);
-                // $graphNode = $response->getGraphNode();
-                // dd($graphNode);
-
-                return response()->json(['message' => 'Offer created successfully', 'offer_link' => $offer->post_link]);
-            } else {
-                return response()->json(['error' => "You've to make the shop first..."]);
-            }
-        } catch (Exception $ex) {
-            return response()->json(['error' => $ex->getMessage()],500);
-        }
-    }
+   
     public function offer_detail($id)
     {
         // $offer = Post::with('shop', 'shop.seller', 'category', 'subcategory')->where('status', 1)->find($id);
@@ -545,16 +465,21 @@ public function filterpostsbanner(Request $request)
 
 public function getPostsBySeller(Request $request)
 {
+    // 
+    // GET SHOPP
     try {
+        
         // Check if seller_id is present in the request
+        // Check if seller_id is present in the TABLE
+        // Check if seller_id is present in the DATABASE
         if (!$request->has('seller_id') || !$request->filled('seller_id')) {
             return response()->json(['error' => 'Please select a seller'], 400);
         }
 
         $seller_id = $request->seller_id;
-        $seller_posts = Post::where('status',1)->whereHas('shop', function ($query) use ($seller_id) {
+        $seller_posts = Post::where('status',1)->with('shop.seller')->whereHas('shop', function ($query) use ($seller_id) {
             $query->where('seller_id', $seller_id);
-        })->orderBy('created_at', 'desc')->get();
+        })->orderBy('created_at', 'desc')->first();
         
 
         return response()->json(['seller_posts' => $seller_posts]);
@@ -562,13 +487,153 @@ public function getPostsBySeller(Request $request)
         return response()->json(['error' => $ex->getMessage()], 500);
     }
 }
-
-        public function offer_search(Request $request){
-
-            $searchTerm = $request->input('search_name');
-            $posts = Post::where('title', 'like', "%$searchTerm%")->get();
+        public function offer_search(Request $request)
+        {
+            $searchTerm = trim($request->input('search_name'));
+            $posts = Post::where('title', $searchTerm)->get();
             return response()->json($posts);
         }
+        
+
+        public function offer_daily_limit(Request $request){
+
+            try {
+                // Check if seller_id is present in the request
+                if (!$request->has('seller_id') || !$request->filled('seller_id')) {
+                    return response()->json(['error' => 'Please select a seller'], 400);
+                }
+        
+                $seller_id = $request->seller_id;
+                $seller_posts = Post::where('status',1)->whereHas('shop', function ($query) use ($seller_id) {
+                    $query->where('seller_id', $seller_id);
+                })->orderBy('created_at', 'desc')->get();
+                
+        
+                return response()->json(['seller_posts' => $seller_posts]);
+            } catch (\Exception $ex) {
+                return response()->json(['error' => $ex->getMessage()], 500);
+            }
+        }
+
+
+        public function delete_offers($id)
+        {
+            $post = Post::find($id);
+            // dd($post->toArray());
+            $post->delete();
+            return response()->json(['message' => "offers deleted successfully..."], 200);
+    
+    
+    
+        }
+
+        public function create_offer_api(Request $request)
+        {
+            try {
+                // dd($request->all());
+                $this->validate($request, [
+                    'banner' => 'required|image|mimes:jpg,bmp,png,webp|max:2048',
+                    'title' => 'required',
+                    'description' => 'required',
+                    // 'hash_tag' => 'required',
+                    'shop_id' => 'required|array',
+                    'shop_id.*' => 'exists:shop,id',
+                    'category_id' => 'required|numeric',
+                    'subcat_id' => 'array',
+                    'subcat_id.*' => 'exists:sub_category,id',
+    
+                    // // 'IsFeature' => 'required|In:0,1',
+                    // 'area' => 'required|numeric|exists:area,id',
+                    // 'multiple_area' => 'array',
+                ]);
+                if (auth('api')->user()->seller->shop != null) {
+                    // 
+    
+                    $sellersIds = auth('api')->user()->seller->id;
+                    $today = Carbon::today();
+        
+                    // Count the number of offers created by the seller today
+                    $dailyOfferCount = Post::whereHas('shop', function ($query) use ($sellersIds) {
+                        $query->where('seller_id', $sellersIds);
+                    })
+                    ->whereDate('created_at', $today)
+                    ->count();
+        
+                    if ($dailyOfferCount >= 4) {
+                        return response()->json(['error' => 'Sorry, you can create a maximum of 4 offers daily.'], 400);
+                    }
+        
+                     // Count the total number of active offers by the seller
+                    $totalOfferCount = Post::whereHas('shop', function ($query) use ($sellersIds) {
+                        $query->where('seller_id', $sellersIds);
+                    })
+                    ->count();
+                    if ($totalOfferCount >= 50) {
+                        return response()->json(['error' => 'Sorry, you can have a maximum of 50 active offers. Please delete some offers to create new ones.'], 400);
+                    }
+                    //seller
+                    $banner = $this->post_banner($request->banner);
+                    // // $shop_id = auth('api')->user()->seller->shop->id;
+                    $data = $request->all();
+                    $data['banner'] = $banner;
+                    $data['status'] = 1;
+                    if($request->has('gender'))
+                    {
+                        $data['gender'] = $request->gender;
+                        if($request->gender=="male"){
+                            $data['status'] = 1;
+                        }
+                        else if($request->gender=="female"){
+                            $data['status'] = 2;
+                        }
+                    }
+    
+                    foreach ($request->shop_id as $row) {
+                        $data['shop_id'] = $row;
+                        // $data['status'] = 2;
+                        $offer = Post::create($data);
+                        $offer->post_link = 'https://www.pinkad.pk/offer?id='.$offer->id;
+                        $offer->area = 785;
+                        $offer->save();
+                      
+                        // 
+                        if ($request->has('subcat_id')) {
+                            foreach ($request->subcat_id as $item) {
+                                $offer_data['offer_id'] = $offer->id;
+                                $offer_data['subcat_id'] = $item;
+                                OfferSubcatPivot::create($offer_data);
+                            }
+                        }
+                        if ($request->has('multiple_area')) {
+                            foreach ($request->multiple_area as $items) {
+                                $offer_area['offer_id'] = $offer->id;
+                                $offer_area['area_id'] = $items;
+                                OfferareaPivot::create($offer_area);
+                            }
+                        }
+                    }
+                    // $fb = new Facebook([
+                    //     'app_id' => config('app.facebook_app_id'),
+                    //     'app_secret' => config('app.facebook_app_secret'),
+                    //     'default_graph_version' => 'v17.0',
+                    // ]);
+                    // $pageAccessToken = config('app.facebook_default_access_token');
+    
+                    // $fb->setDefaultAccessToken($pageAccessToken);
+                    // $message = 'Your hard-coded message';
+                    // $response = $fb->post('/pinkad.pk/feed', ['message' => $message]);
+                    // $graphNode = $response->getGraphNode();
+                    // dd($graphNode);
+    
+                    return response()->json(['message' => 'Offer created successfully', 'offer_link' => $offer->post_link]);
+                } else {
+                    return response()->json(['error' => "You've to make the shop first..."]);
+                }
+            } catch (Exception $ex) {
+                return response()->json(['error' => $ex->getMessage()],500);
+            }
+        }
+       
 
         public function seller_search(Request $request){
             $searchTerm = $request->input('search_name');
