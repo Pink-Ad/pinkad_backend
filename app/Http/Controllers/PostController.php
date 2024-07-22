@@ -197,8 +197,12 @@ public function web_offer_filter(Request $request)
                 'seller.logo as seller_logo',
                 'seller.whatsapp as whatsapp'
             )
+            // ->where('post.status', 1)
+            // ->orderByDesc('post.id')
+            // ->get();
             ->where('post.status', 1)
-            ->orderByDesc('post.id')
+            ->inRandomOrder() // Fetch posts in random order
+            ->limit(500) // Limit the result to 500 posts
             ->get();
 
 
@@ -209,7 +213,7 @@ public function web_offer_filter(Request $request)
     // new  web
     public function top_offerList()
     {
-        $post = Post::with('shop', 'shop.seller')->where('status', 1)->OrderBy('id', 'DESC')->paginate(100);
+        $post = Post::with('shop', 'shop.seller')->where('status', 1)->OrderBy('id', 'DESC')->paginate(150);
         // $post = Post::with('shop', 'shop.seller')->where('status', 1)->OrderBy('id', 'DESC')->get();
     //     $postChunks = Post::with('shop', 'shop.seller')
     // ->where('status', 1)
