@@ -227,6 +227,7 @@ public function web_offer_filter(Request $request)
 
         return $post;
     }
+    
     public function featured_offer_list()
     {
 
@@ -564,9 +565,9 @@ public function getPostsBySeller(Request $request)
                     ->whereDate('created_at', $today)
                     ->count();
         
-                    if ($dailyOfferCount >= 4) {
-                        return response()->json(['error' => 'Sorry, you can create a maximum of 4 offers daily.'], 400);
-                    }
+                    // if ($dailyOfferCount >= 4) {
+                    //     return response()->json(['error' => 'Sorry, you can create a maximum of 4 offers daily.'], 400);
+                    // }
         
                      // Count the total number of active offers by the seller
                     $totalOfferCount = Post::whereHas('shop', function ($query) use ($sellersIds) {
