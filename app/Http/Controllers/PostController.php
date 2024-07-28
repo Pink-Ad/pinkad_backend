@@ -577,16 +577,18 @@ public function offer_search(Request $request)
                         $query->where('seller_id', $sellersIds);
                     })
                     ->whereDate('created_at', $today)
+                    ->where('status', '!=', 2) // Exclude posts with status 2
                     ->count();
         
-                    // if ($dailyOfferCount >= 4) {
-                    //     return response()->json(['error' => 'Sorry, you can create a maximum of 4 offers daily.'], 400);
-                    // }
+                    if ($dailyOfferCount >= 4) {
+                        return response()->json(['error' => 'Sorry, you can create a maximum of 4 offers daily.'], 400);
+                    }
         
                      // Count the total number of active offers by the seller
                     $totalOfferCount = Post::whereHas('shop', function ($query) use ($sellersIds) {
                         $query->where('seller_id', $sellersIds);
                     })
+                    ->where('status', '!=', 2) // Exclude posts with status 2
                     ->count();
                     if ($totalOfferCount >= 50) {
                         return response()->json(['error' => 'Sorry, you can have a maximum of 50 active offers. Please delete some offers to create new ones.'], 400);
