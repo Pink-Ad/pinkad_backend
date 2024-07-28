@@ -410,22 +410,45 @@ public function web_offer_filter(Request $request)
         return redirect()->back();
     }
 
-    public function filter_offer_status(Request $request){
-        $post= null;
-        if($request->filter_id=="1"){
-            $post = Post::where('status',1)->get();
+    public function filter_offer_status(Request $request)
+{
+    $posts = [];
+    $filterId = $request->input('filter_id');
+
+    // Initialize the base query
+    $query = Post::select('id', 'title', 'description', 'status', 'banner', 'shop_id')
+        ->with('shop')
+        ->orderByDesc('created_at');
+
+    // Apply filter based on status if provided
+    if ($filterId == "1") {
+        $query->where('status', 1);
+    } else if ($filterId == "2") {
+        $query->where('status', 2);
+    } else if ($filterId == "0") {
+        $query->where('status', 0);
+    } // No need to add condition for filterId == "4", as it means no filter
+
+    // Fetch the posts in chunks to avoid memory issues
+    $query->chunk(5000, function ($chunkPosts) use (&$posts) {
+        foreach ($chunkPosts as $post) {
+            $processedPost = [
+                'id' => $post->id,
+                'shop_name' => $post->shop->name ?? 'N/A',
+                'banner' => $post->banner,
+                'status' => $post->status,
+                'title' => $post->title,
+                'description' => $post->description,
+                // Add other fields as required
+            ];
+
+            $posts[] = $processedPost;
         }
-        else if($request->filter_id=="2"){
-            $post = Post::where('status',2)->get();
-        }
-        else if($request->filter_id=="0"){
-            $post = Post::where('status',0)->get();
-        }
-        else if($request->filter_id=="4"){
-            $post = Post::all();       
-        }
-        return view('admin.pages.offers.offers.index', compact('post'));
-    }
+    });
+
+    return view('admin.pages.offers.offers.index', compact('posts'));
+}
+
 
 //     public function filterpostsbanner(Request $request)
 // {
