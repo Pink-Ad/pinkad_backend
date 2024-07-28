@@ -493,12 +493,26 @@ public function getPostsBySeller(Request $request)
         return response()->json(['error' => $ex->getMessage()], 500);
     }
 }
-        public function offer_search(Request $request)
-        {
-            $searchTerm = trim($request->input('search_name'));
-            $posts = Post::where('title', $searchTerm)->get();
-            return response()->json($posts);
-        }
+public function offer_search(Request $request)
+{
+    $searchTerm = trim($request->input('search_name'));
+
+    // Split the search term into words
+    $words = explode(' ', $searchTerm);
+
+    // Initialize the query builder
+    $query = Post::query();
+
+    // Add a where clause for each word
+    foreach ($words as $word) {
+        $query->orWhere('title', 'LIKE', "%{$word}%");
+    }
+
+    // Get the results
+    $posts = $query->get();
+
+    return response()->json($posts);
+}
         
 
         public function offer_daily_limit(Request $request){
