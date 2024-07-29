@@ -63,7 +63,7 @@ Route::get('/web-offer-filter', [PostController::class, 'web_offer_filter']);
 Route::get('/top-offer', [PostController::class, 'top_offerList']);
 Route::get('/check_offers', [PostController::class, 'check_offers']);
 Route::get('/featured-offer', [PostController::class, 'featured_offer_list']);
-Route::get('/delete-offer', [PostController::class, 'delete_offers']);
+Route::get('/delete-offer/{id}', [PostController::class, 'delete_offers']);
 Route::get('/offer_daily_limit', [PostController::class, 'offer_daily_limit']);
 // 
  // 
