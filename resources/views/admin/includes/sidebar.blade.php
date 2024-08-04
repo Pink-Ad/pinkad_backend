@@ -55,6 +55,12 @@
                             <span>Salesman</span>
                         </a>
                     </li>
+                    <li>
+                        <a class="nav-link" href="{{ route('all-user.index') }}">
+                            <i class="bx bx-user" aria-hidden="true"></i>
+                            <span> Users Email Verified List</span>
+                        </a>
+                    </li>
 
                     <li class="nav-group-label">Visitors</li>
                     <li>

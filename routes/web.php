@@ -14,6 +14,7 @@ use App\Http\Controllers\VideoController;
 use App\Http\Controllers\FeedBackController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\EmailTemplateController;
+use App\Http\Controllers\UserManagementController;
 
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
@@ -50,7 +51,6 @@ Route::get('/forgot-password', function () {
     return view('admin/pages/forgot-password');
 });
 
-// Users & User Role
 Route::get('/users', function () {  
     return view('admin/pages/users/users');
 });
@@ -160,6 +160,10 @@ Route::prefix('/admin')->group(function () {
         // Salesman
         Route::resource('/shop-management', ShopController::class);
 
+        Route::get('/users', function () {  
+            return view('admin/pages/users/users');
+        });
+
         Route::resource('/video-management', VideoController::class);
         Route::resource('/feedback-management', FeedBackController::class);
 
@@ -170,6 +174,7 @@ Route::prefix('/admin')->group(function () {
 
 
         Route::resource('/seller-management', SellerController::class);
+        Route::resource('/all-user', UserManagementController::class);
         Route::get('/seller/delete/{id}', [SellerController::class,'destroy'])->name('delete.seller');
         Route::resource('/offer-categories', CategoryController::class);
         Route::get('/category/delete/{id}', [CategoryController::class,'destroy'])->name('delete.category');
