@@ -31,9 +31,16 @@ class UserManagementController extends Controller
             $seller = User::
              select('id','name','email','email_verified_at')
             ->where('name', 'like', '%' . $searchTerm . '%')
-            ->orWhere('email', 'like', '%' . $searchTerm . '%')  
+            ->orWhere('email', 'like', '%' . $searchTerm . '%')   
             ->orderByDesc('created_at')
             ->get();
+        }
+        if ($searchTerm == 'null') {
+            $seller = User::
+            select('id','name','email','email_verified_at')
+            ->whereNull('email_verified_at') 
+           ->orderByDesc('created_at')
+          ->get();
         }
         if (empty($searchTerm)) {
             $seller = User::
