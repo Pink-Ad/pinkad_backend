@@ -31,6 +31,11 @@
                                     All Users
                                 </a>
                             </li>
+                            <li>
+                                <a class="nav-link" href="{{ route('all-user.index') }}">
+                                Users Email Verified List
+                                </a>
+                            </li>
                         </ul>
                     </li>
                     <li class="">
