@@ -82,7 +82,7 @@ class CategoryController extends Controller
                 return redirect('https://app.pinkad.pk/email-verified');
                 
             } else {
-                return redirect('/')->with('error', 'Invalid verification link.');
+                return redirect('https://app.pinkad.pk/email-verified');
             }
 }
  // email verification linked open
