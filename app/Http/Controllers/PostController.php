@@ -136,26 +136,26 @@ public function offer_showing_limit(Request $request)
     // search
     
     if (empty($searchTerm)) {
-    Post::select('id', 'title', 'description', 'status', 'shop_id')
-        ->with('shop') // Assuming 'shop' is a relationship
-        ->orderByDesc('created_at')
-        ->limit(200, function ($chunkPosts) use (&$posts) {
-            foreach ($chunkPosts as $post) {
-                // Process each post as needed
-                $processedPost = [
-                    'id' => $post->id,
-                    'shop_name' => $post->shop->name ?? 'N/A',
-                    'status' => $post->status,
-                    'title' => $post->title,
-                    'description' => $post->description,
-                    // Add other fields as required
-                ];
-
-                $posts[] = $processedPost;
-            }
-        });
-        
+        $all_posts = Post::select('id', 'title', 'description', 'status', 'shop_id')
+            ->with('shop') // Assuming 'shop' is a relationship
+            ->orderByDesc('created_at')
+            ->limit(200) // Fetch only the latest 200 entries
+            ->get();
+    
+        foreach ($all_posts as $post) {
+            $processedPost = [
+                'id' => $post->id,
+                'shop_name' => $post->shop->name ?? 'N/A',
+                'status' => $post->status,
+                'title' => $post->title,
+                'description' => $post->description,
+                // Add other fields as required
+            ];
+    
+            $posts[] = $processedPost;
+        }
     }
+    
         // dd($posts);
 
             return view('admin.pages.offers_showing.index', compact('posts'));
