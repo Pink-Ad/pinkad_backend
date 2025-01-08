@@ -61,6 +61,12 @@
                             <span> Users Email Verified List</span>
                         </a>
                     </li>
+                    <li>
+                        <a class="nav-link" href="{{ route('offer-showing-limit.show') }}">
+                            <i class="bx bx-user" aria-hidden="true"></i>
+                            <span>  Offer Showing 200 List</span>
+                        </a>
+                    </li>
 
                     <li class="nav-group-label">Visitors</li>
                     <li>

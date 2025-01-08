@@ -100,6 +100,67 @@ class PostController extends Controller
             return view('admin.pages.offers.offers.index', compact('posts'));
 
 }
+
+public function offer_showing_limit(Request $request)
+{
+    
+    $posts = [];
+    // search
+    $searchTerm ="";
+    if ($request->has('search_term')) {
+        $searchTerm = $request->input('search_term');
+        
+        $all_posts = Post::select('id', 'title', 'description', 'status', 'shop_id')
+        ->with('shop')
+        ->whereHas('shop', function ($query) use ($searchTerm) {
+            $query->where('name', 'like', '%' . $searchTerm . '%'); // Use $business_name instead of $searchTerm
+        })
+        ->orderByDesc('created_at')
+        ->limit(200) // Fetch only the latest 200 entries
+        ->get();
+      
+        foreach ($all_posts as $post) {
+            $processedPost = [
+                'id' => $post->id,
+                'shop_name' => $post->shop->name ?? 'N/A',
+                'status' => $post->status,
+                'title' => $post->title,
+                'description' => $post->description,
+                // Add other fields as required
+            ];
+    
+            $posts[] = $processedPost;
+        }
+        // dd($posts);
+    } 
+    // search
+    
+    if (empty($searchTerm)) {
+    Post::select('id', 'title', 'description', 'status', 'shop_id')
+        ->with('shop') // Assuming 'shop' is a relationship
+        ->orderByDesc('created_at')
+        ->limit(200, function ($chunkPosts) use (&$posts) {
+            foreach ($chunkPosts as $post) {
+                // Process each post as needed
+                $processedPost = [
+                    'id' => $post->id,
+                    'shop_name' => $post->shop->name ?? 'N/A',
+                    'status' => $post->status,
+                    'title' => $post->title,
+                    'description' => $post->description,
+                    // Add other fields as required
+                ];
+
+                $posts[] = $processedPost;
+            }
+        });
+        
+    }
+        // dd($posts);
+
+            return view('admin.pages.offers_showing.index', compact('posts'));
+
+}
 //     public function index()
 //     {
 //     $post = Post::select('post.id', 'post.title', 'post.description', 'post.status', 'post.banner', 'post.shop_id')

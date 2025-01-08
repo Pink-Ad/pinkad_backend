@@ -184,7 +184,9 @@ Route::prefix('/admin')->group(function () {
 
         Route::resource('/offer-sub-categories', SubCatogoryController::class);
         Route::get('/sub-category/delete/{id}', [SubCatogoryController::class,'destroy'])->name('delete.subcategory');
-
+        // ofeers for 200 show
+        Route::get('/offer-showing-limit', [PostController::class,'offer_showing_limit'])->name('offer-showing-limit.show');
+        // ofeers for 200 show
         Route::resource('/offer-management', PostController::class);
         Route::get('/offer/delete/{id}', [PostController::class,'destroy'])->name('delete.offer');
         Route::get('/offer/change-status', [PostController::class, 'change_status'])->name('admin.offer.status');
